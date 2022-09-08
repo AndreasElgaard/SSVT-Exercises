@@ -26,4 +26,9 @@ reversedPrimes = map reversal primes
 reversibleStream :: [Integer]
 reversibleStream = filter isPrime reversedPrimes
 
+-- Test ideas :
+--      - fetch a random element from the list and check if the reversal exists in the list
+--      - Iterate over all the list and make sure each number is a prime
+--      
+-- 
 -- I would test this function by ____

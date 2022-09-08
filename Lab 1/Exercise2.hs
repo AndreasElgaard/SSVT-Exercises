@@ -2,17 +2,16 @@ module Exercise2 where
 import Test.QuickCheck
 import Data.List ( subsequences )
 
-
 genSmallRange :: Gen Integer
 genSmallRange = (arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 10) && (x>0))
 
 -- Creates a generator which provides a range from 1 to 25, this is done due to the time required for larger numbers
 -- 25 is used as a maximum range as anything larger could take substancially longer to test
 genMediumRange :: Gen Integer
-genMediumRange = (arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 25) && (x>0))
+genMediumRange = (arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 25) && (x>10))
 
 genLongRange :: Gen Integer
-genLongRange = (arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 35) && (x>0))
+genLongRange = (arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 35) && (x>25))
 
 -- Assuming the property [1..n], only positive numbers are being calcualated
 finiteSet :: Integer -> Int
@@ -56,11 +55,11 @@ main :: IO ()
 main = do
     putStrLn "\n=== Testing a base case of 10, not very insightful but makes sure the function works ===\n"
     quickCheckResult proofEquality
-    putStrLn "\n=== Testing a range of 1 to 10, tastes a short amount of time to complete ===\n"
+    putStrLn "\n=== Testing a range of 1 to 10, takes a short amount of time to complete ===\n"
     quickCheck $ forAll genSmallRange proofEqualityRange
-    putStrLn "\n=== Testing a range of 1 to 25, tastes a bit longer amount of time ===\n"
+    putStrLn "\n=== Testing a range of 11 to 25, takes a bit longer amount of time ===\n"
     quickCheck $ forAll genMediumRange proofEqualityRange
-    putStrLn "\n=== Testing a range of 1 to 35, usually takes much longer to complete ===\n"
+    putStrLn "\n=== Testing a range of 26 to 35, usually takes much longer to complete ===\n"
     quickCheck $ forAll genMediumRange proofEqualityRange
 
 
