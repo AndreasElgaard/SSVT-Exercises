@@ -20,7 +20,7 @@ lucky 7 = "LUCKY NUMBER SEVEN!"
 lucky x = "Sorry, you're out of luck, pal!"  
 
 sayMe :: (Integral a) => a -> String  
-sayMe 1 = "One!"  
+sa7yMe 1 = "Onehhhh!"  
 sayMe 2 = "Two!"  
 sayMe 3 = "Three!"  
 sayMe 4 = "Four!"  
@@ -35,12 +35,12 @@ sayMe x = "Not between 1 and 5"
 --     | otherwise   = "You're a whale, congratulations!"  
 
 bmiTell :: Float -> Float -> String  
-bmiTell weight height  
+bmiTell weight height    
+    | bmi <= normal = "You're supposedly normal. Pffft, I bet you're ugly!"
     | bmi <= skinny = "You're underweight, you emo, you!"  
-    | bmi <= normal = "You're supposedly normal. Pffft, I bet you're ugly!"  
     | bmi <= fat    = "You're fat! Lose some weight, fatty!"  
     | otherwise     = "You're a whale, congratulations!"  
-    where bmi = weight / height ^ 2  
+    where bmi = weight / height ^ 2
           skinny = 18.5  
           normal = 25.0  
           fat = 30.0  
@@ -57,8 +57,8 @@ bmiTell' weight height
           fat = 30.0  
 
 initials :: String -> String -> String  
-initials firstname lastname = [f] ++ ". " ++ [l] ++ "."  
-    where (f:_) = firstname  
+initials firstname lastname = [f] ++ ". " ++ tail1 ++ ". " ++ [l]
+    where (f:tail1) = firstname  
           (l:_) = lastname  
 
 initials' :: [Char] -> [Char] -> String 
@@ -120,5 +120,3 @@ divideByTen = (/10)
 prop_commutativeAdd :: Integer -> Integer -> Bool
 prop_commutativeAdd n m = n + m == m + n
 
-reversal :: Integer -> [Char]
-reversal = reverse . show
