@@ -11,4 +11,5 @@ rightPart n = n*(n+1)*(2*n+1) `div` 6
 exercise1:: Integer -> Bool
 exercise1 n = leftPart n == rightPart n
 
-testExercise1:: Integer -> 
+testExercise1:: Integer -> Property
+testExercise1 n = n > 0 ==> leftPart n == rightPart n
