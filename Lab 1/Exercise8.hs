@@ -29,7 +29,9 @@ matthewStatement = not (Matthew `accuses` Carl || Matthew `accuses` Matthew) --D
 peterStatement = Peter `accuses` Matthew || Peter `accuses` Jack
 jackStatement = Jack `accuses` Matthew && Jack `accuses` Peter
 arnoldStatement = Arnold `accuses` Matthew /= Arnold `accuses` Peter
-carlStatement = (Carl `accuses` Arnold)
+carlStatement = Carl `accuses` Arnold
+
+
 
 -- honest ::  [Boy]
 -- honest = matthewStatement && peterStatement 
