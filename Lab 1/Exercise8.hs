@@ -27,10 +27,18 @@ accusers Carl = []
 
 matthewStatement = not (Matthew `accuses` Carl || Matthew `accuses` Matthew) --DeMorgan's law
 peterStatement = Peter `accuses` Matthew || Peter `accuses` Jack
-jackStatement = Jack `accuses` Matthew && Jack `accuses` Peter
-arnoldStatement = Arnold `accuses` Matthew /= Arnold `accuses` Peter
-carlStatement = Carl `accuses` Arnold
+jackStatement = not matthewStatement && not peterStatement
+arnoldStatement = matthewStatement /= peterStatement
+carlStatement = not arnoldStatement
 
+-- Assuming that the statements provided by Jack and Arnold
+-- have contradictions within, we can deduct that their statements
+-- are false and hence Jack and Arnold prove to be not honest.
+
+statements :: [(Boy, Bool)]
+statements = [(Matthew, matthewStatement), (Peter, peterStatement), (Jack, jackStatement), (Arnold, arnoldStatement), (Carl, carlStatement)]
+
+-- guilty, honest ::  [Boy]
 
 
 -- honest ::  [Boy]
