@@ -49,3 +49,8 @@ counterexamples ::  [([Integer], Integer)]
 counterexamples = checkLengthOfResult [] lengthOfPrimesArr constLengthOfFinalArr
     where lengthOfPrimesArr = 1
           constLengthOfFinalArr = 4
+
+
+
+-- Time Spent:
+--      5 hours amongst all the participants of the group (1 hour working together counts as 1 hour)
