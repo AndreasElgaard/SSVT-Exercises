@@ -25,9 +25,16 @@ reversal = read . reverse . show
 reversedPrimes :: [Integer]
 reversedPrimes = map reversal primes
 
--- Returns all prime numbers in a list
+-- Returns all prime numbers, which have a reversal, in a list
 reversibleStream :: [Integer]
 reversibleStream = filter isPrime reversedPrimes
+
+-- You could also use a list comprehension, the code below:
+-- We chose the other design because it splits the functions better
+-- A difference is with this way, the list of primes look more organized.
+
+reversibleStreamOtherWay :: [Integer]
+reversibleStreamOtherWay = [ x | x <- [1..10000], isPrime x && isPrime(reversal x) ]
 
 -- Q: How would you test this function, by the way?
 -- A: The function should be tested to asssure that:
@@ -35,10 +42,10 @@ reversibleStream = filter isPrime reversedPrimes
 --      A random element from the list and check if the reversal exists in the list
 
 -- Time Spent:
---      2 hours 
+--      4 hours, since we had to understand how to proprely work with filter map and so on
 
 -- Tests
--- Checks if all numbers in the list is prime numbers
+-- Checks if all numbers in the list are prime numbers
 prop_ListConsistOfPrimes :: Bool
 prop_ListConsistOfPrimes = all isPrime reversibleStream
 
