@@ -24,7 +24,7 @@ doubledDigitsArr (x:xs) = luhnDouble x : xs
 -- Source: https://paramsingh.dev/blog/b67/ 
 -- This function doubles a digit, if the result is above 9 it will subtract 9 from the result.
 luhnDouble :: Integer -> Integer
-luhnDouble n 
+luhnDouble n
     | (n * 2) > 9 = (n * 2) - 9
     | otherwise = n * 2
 
@@ -33,7 +33,13 @@ sumOfList :: Integer -> Integer
 sumOfList n = sum (doubledDigitsArr (digitsToArr n))
 
 -- This function cheks whether an input number satisfies the Luhn formula.
-luhn ::  Integer -> Bool 
+-- We were a bit confused about the luhn formula since it was described in different ways. 
+-- We chose to use the formula found here: https://www.dcode.fr/luhn-algorithm
+luhn ::  Integer -> Bool
 luhn n = (sumOfList n `mod` 10) == 0
 
--- isAmericanExpress, isMaster, isVisa ::  Integer -> Bool 
+-- Checks whether an input number is a valid American Express Card, Master Card, or Visa Card number.
+isAmericanExpress, isMaster, isVisa ::  Integer -> Bool 
+isAmericanExpress n = head (digitsToArr n) == 3 && length (digitsToArr n) == 15
+isMaster n = head (digitsToArr n) == 5 && length (digitsToArr n) == 16
+isVisa n = head (digitsToArr n) == 4 && length (digitsToArr n) == 16
