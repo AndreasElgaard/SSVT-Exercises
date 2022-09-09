@@ -10,12 +10,14 @@ boys = [Matthew, Peter, Jack, Arnold, Carl]
 accuses ::  Boy -> Boy -> Bool
 Peter `accuses` Matthew = True
 Peter `accuses` Jack = True
+Matthew `accuses` Matthew = False
+Matthew `accuses` Carl = False
 _ `accuses` _ = False
 
 accusers ::  Boy -> [Boy]
 accusers Matthew = [Peter, Jack, Arnold]
-accusers Jack = [Peter]
 accusers Peter = [Jack]
+accusers Jack = [Peter]
 accusers Arnold = [Carl]
 accusers Carl = []
 
@@ -28,13 +30,10 @@ statement Carl = not (statement Arnold)
 
 statementWBoy :: Boy -> (Boy, Bool)
 statementWBoy b = (b, statement b)
+
 -- Assuming that the statements provided by Jack and Arnold
 -- have contradictions within, we can deduct that their statements
 -- are false and hence Jack and Arnold prove to be not honest.
-
--- statements :: [(Boy, Bool)]
--- statements = [(Matthew, matthewStatement), (Peter, peterStatement), (Jack, jackStatement), (Arnold, arnoldStatement), (Carl, carlStatement)]
-
 
 isHonest :: [(a, Bool)] -> [a] -> [a]
 isHonest [] outputArray = outputArray 
@@ -45,13 +44,10 @@ honest ::  [Boy]
 honest = isHonest tuplesArr []
     where tuplesArr = map statementWBoy boys 
 
-
 guilty :: [Boy]
 guilty = boys 
 -- We know that the honest boys -> [Carl,Peter,Matthew]
--- Therefor the liars are -> [Arnold, Jack]
--- By checking the statements we see that Jack accusses Mathew and Peters statement, but they are telling the truth
+-- Therefore the liars are -> [Arnold, Jack]
+-- By checking the statements we see that Jack accuses Matthew's and Peter's statement, but they are telling the truth
 --      Matthews statement says that it was neither Matthew nor Carl
---      Peters statement says it was either Matthew or Jack, by the premise that Matthews' statement is honest, Jack is the thief
--- honest ::  [Boy]
--- honest = matthewStatement && peterStatement 
+--      Peters statement says it was either Matthew or Jack, by the premise that Matthew's statement is honest, Jack is the thief
