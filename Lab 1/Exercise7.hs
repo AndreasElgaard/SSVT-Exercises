@@ -102,4 +102,4 @@ main = do
     quickCheckResult prop_numberIsNotVisa
 
 -- Time Spent:
---      3,5 hours 
+--      8 hours amongst all the participants of the group (1 hour working together counts as 1 hour)

@@ -42,7 +42,7 @@ reversibleStreamOtherWay = [ x | x <- [1..10000], isPrime x && isPrime(reversal 
 --      A random element from the list and check if the reversal exists in the list
 
 -- Time Spent:
---      4 hours, since we had to understand how to proprely work with filter map and so on
+--      4 hours, since we had to understand how to properly work with filter map and so on
 
 -- Tests
 -- Checks if all numbers in the list are prime numbers

@@ -1,15 +1,19 @@
 module Exercise1 where
 import Test.QuickCheck ( (==>), quickCheck, Property )
 
+--this calculates the left side of the equation of exercise 2
 squaredNumberSequenceLhs :: (Num a, Enum a) => a -> a
 squaredNumberSequenceLhs n = foldr ((+) . (^2)) 0 [1..n]
 
+--this calculates the left side of the equation of exercise 3
 cubedNumberSequenceLhs :: (Num a, Enum a) => a -> a
 cubedNumberSequenceLhs n = foldr ((+) . (^3)) 0 [1..n]
 
+--this calculates the right side of the equation of exercise 2
 squaredNumberSequenceRhs :: Integral a => a -> a
 squaredNumberSequenceRhs n = n * (n + 1) * ((n*2) + 1) `div` 6
 
+--this calculates the right side of the equation of exercise 3
 cubedNumberSequenceRhs :: Integral a => a -> a
 cubedNumberSequenceRhs n = (n * (n + 1) `div` 2) ^ 2
 
@@ -57,4 +61,4 @@ main = do
     quickCheck prop_cubedFormulaValidation
     putStrLn "\nDone :D"
 
--- Time Spent: Rough 1hr (incl: getting to grips with Haskell and QuickCheck)
+-- Time Spent: Rough 1.30hr (incl: getting to grips with Haskell and QuickCheck)

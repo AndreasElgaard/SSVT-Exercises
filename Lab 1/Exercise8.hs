@@ -89,4 +89,4 @@ guilty = accussWithBoy honestLiarTupleArr []
 --          Matthews statement says that it was neither Matthew nor Carl
 --          Peters statement says it was either Matthew or Jack, by the premise that Matthew's statement is honest, Jack is the thief
 
--- Time Spent: 6+ hours (lol)
+-- Time Spent: 6+ hours (without individual hours, only together)

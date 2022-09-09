@@ -44,8 +44,8 @@ consecutive101Prime = sumOfPrimes
 --          - Is the summation of the prime array the actual output
 
 -- Indication of Time Spent:
---      2 hours -> First day was spent understanding the problem and getting acquisited with haskell
---                  Second day the solution was created via discussion
+--      3 hours -> First day was spent understanding the problem and getting acquisited with haskell
+--      2 hours -> Second day the solution was created via discussion
 
 -- Tests
 --  Didnt need to do tests, but wanted to verify code

@@ -67,7 +67,7 @@ main = do
     -- quickCheck prop_NegativeNumbersDontWork
 
 
--- Indiction of Time Spent: 50 minutes -> mainly took long as we over complocated it in the begiining + haskell beginner confusion
+-- Indiction of Time Spent: 50 minutes -> mainly took long as we over complocated it in the beginning + haskell beginner confusion
 
 -- Note: tests only consider numbers greater then 0. Negative numbers are not allowed.
 -- Reason being: Permuations for n numbers = n!
