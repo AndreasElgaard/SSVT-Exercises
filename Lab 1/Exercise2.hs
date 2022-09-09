@@ -1,7 +1,5 @@
 module Exercise2 where
-import System.Exit
 import Test.QuickCheck
-import Test.QuickCheck.Monadic
 import Data.List ( subsequences )
 
 -- The Generators have been given ranges that portray how long the tests will take
