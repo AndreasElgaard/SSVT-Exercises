@@ -62,9 +62,14 @@ main = do
     putStrLn "\n=== Testing a range of 26 to 35, usually takes much longer to complete ===\n"
     quickCheck $ forAll genMediumRange proofEqualityRange
 
-
 -- Indiction of Time Spent: 50 minutes -> mainly took long as we over complocated it in the begiining + haskell beginner confusion
---TODO State why negative numbers dont work with this function.. there is a mathematical reason
+
+-- Note: tests only consider numbers greater then 0. Negative numbers are not allowed.
+-- Reason being: Permuations for n numbers = n!
+-- But, factorials of negative integers are NOT defined.
+-- Contradiction: 0 . (0 - 1) ! = 0!, but 0! = 1, hence 0 != 0!
+-- Ref. to: https://math.stackexchange.com/questions/927382/what-does-the-factorial-of-a-negative-number-signify
 
 
 
+ 

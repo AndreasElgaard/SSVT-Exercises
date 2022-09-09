@@ -1,5 +1,5 @@
 module Exercise1 where
-import Test.QuickCheck
+import Test.QuickCheck ( (==>), quickCheck, Property )
 
 squaredNumberSequenceLhs :: (Num a, Enum a) => a -> a
 squaredNumberSequenceLhs n = foldr ((+) . (^2)) 0 [1..n]
@@ -28,19 +28,31 @@ cubedNumberFormulaDefinition n x =
 -- numbers, the Left Hand Side of the hypothesis (series of squared/cubed numbers up to n)
 -- is equivalent to the Right Hand Side of the hypothesis (formula resulting from mathematical induction).
 
-proof_squareFormula :: Integral a => a -> Property
+proof_squareFormula :: Integer -> Property
 proof_squareFormula n = n > 0 ==> squaredNumberSequenceLhs n == squaredNumberSequenceRhs n
 
-proof_cubedFormula :: Integral a => a -> Property
+proof_cubedFormula :: Integer -> Property
 proof_cubedFormula n = n > 0 ==> cubedNumberSequenceLhs n == cubedNumberSequenceRhs n
 
 -- The additional proofs below further substatntiate that, by using the formula definitions
 -- for (a + b)^2 and (a + b)^3, we can confirm that the sequence equations provided in 
 -- Workshop 1 exercises 2 and 3 equate to the summation of squared/cubed values from 1 to n
 
-proof_squareFormulaValidation :: Integral a => a -> a -> Property
+proof_squareFormulaValidation :: Integer -> Integer -> Property
 proof_squareFormulaValidation n x = n > 0 && x > 0 ==> squaredNumberFormulaDefinition n x == squaredNumberSequenceRhs n
 
-proof_cubedFormulaValidation :: Integral a => a -> a -> Property
-proof_cubedFormulaValidation n x = n > 0 && x > 0 ==> squaredNumberFormulaDefinition n x== cubedNumberSequenceRhs n
+proof_cubedFormulaValidation :: Integer -> Integer -> Property
+proof_cubedFormulaValidation n x = n > 0 && x > 0 ==> cubedNumberFormulaDefinition n x== cubedNumberSequenceRhs n
 
+-- Test Report 
+main :: IO ()
+main = do
+    putStrLn "\n=== Testing LHS = RHS for Square Number Sequence ===\n"
+    quickCheck proof_squareFormula
+    putStrLn "\n=== Testing LHS = RHS for Cubed Number Sequence ===\n"
+    quickCheck proof_cubedFormula
+    putStrLn "\n=== Testing RHS = Squared Number sequence according to formula definition ===\n"
+    quickCheck proof_squareFormulaValidation
+    putStrLn "\n=== Testing RHS = Cubed Number sequence according to formula definition ===\n"
+    quickCheck proof_cubedFormulaValidation
+    putStrLn "\nDone :D"
