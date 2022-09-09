@@ -56,3 +56,5 @@ main = do
     putStrLn "\n=== Testing RHS = Cubed Number sequence according to formula definition ===\n"
     quickCheck prop_cubedFormulaValidation
     putStrLn "\nDone :D"
+
+-- Time Spent: Rough 1hr (incl: getting to grips with Haskell and QuickCheck)
