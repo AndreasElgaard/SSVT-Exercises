@@ -10,11 +10,6 @@ boys = [Matthew, Peter, Jack, Arnold, Carl]
 accuses ::  Boy -> Boy -> Bool
 Peter `accuses` Matthew = True
 Peter `accuses` Jack = True
-Jack `accuses` Matthew = True
-Jack `accuses` Peter = True
-Arnold `accuses` Matthew = True
-Arnold `accuses` Peter = True
-Carl `accuses` Arnold = True
 _ `accuses` _ = False
 
 accusers ::  Boy -> [Boy]
@@ -43,8 +38,8 @@ statementWBoy b = (b, statement b)
 
 isHonest :: [(a, Bool)] -> [a] -> [a]
 isHonest [] outputArray = outputArray 
-isHonest ((boy, True):xs) outputArray  = isHonest xs (boy : outputArray)
-isHonest ((_, False):xs) outputArray  = isHonest xs outputArray 
+isHonest ((boy, True):xs) outputArray = isHonest xs (boy : outputArray)
+isHonest ((_, False):xs)  outputArray = isHonest xs outputArray 
 
 honest ::  [Boy]
 honest = isHonest tuplesArr []
