@@ -43,33 +43,32 @@ consecutive101Prime = sumOfPrimes
 --          - Is the length of the array constantly 101 through iterations?
 --          - Is the summation of the prime array the actual output
 
--- Time Spent:
+-- Indication of Time Spent:
 --      2 hours -> First day was spent understanding the problem and getting acquisited with haskell
 --                  Second day the solution was created via discussion
-
 
 -- Tests
 --  Didnt need to do tests, but wanted to verify code
 
 -- Checks output is prime
-proofIsOutputPrime :: Bool
-proofIsOutputPrime = isPrime consecutive101Prime
+prop_IsOutputPrime :: Bool
+prop_IsOutputPrime = isPrime consecutive101Prime
 
 -- Check length of Prime Arr == 101
-proofLengthOfPrimeArr :: Bool
-proofLengthOfPrimeArr = length(take101Primes 2) == 101
+prop_LengthOfPrimeArr :: Bool
+prop_LengthOfPrimeArr = length(take101Primes 2) == 101
 
 -- Checks if output is the sum of the prime array of primes
-proofOfSumPrimes :: Bool
-proofOfSumPrimes = sum arrOfPrimes == sumOfPrimes
+prop_OfSumPrimes :: Bool
+prop_OfSumPrimes = sum arrOfPrimes == sumOfPrimes
     where (sumOfPrimes, arrOfPrimes) = checkSumPrimesIsPrime (take101Primes 2)
 
 -- Test Report 
 main :: IO Result
 main = do
     putStrLn "\n=== Testing if output is Prime===\n"
-    quickCheckResult proofIsOutputPrime
+    quickCheckResult prop_IsOutputPrime
     putStrLn "\n=== Testing length of array == 101 ===\n"
-    quickCheckResult proofLengthOfPrimeArr
+    quickCheckResult prop_LengthOfPrimeArr
     putStrLn "\n=== Testing the sum of the primes is valid ===\n"
-    quickCheckResult proofOfSumPrimes
+    quickCheckResult prop_OfSumPrimes

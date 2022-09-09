@@ -39,12 +39,12 @@ reversibleStream = filter isPrime reversedPrimes
 
 -- Tests
 -- Checks if all numbers in the list is prime numbers
-proofListConsistOfPrimes :: Bool
-proofListConsistOfPrimes = all isPrime reversibleStream
+prop_ListConsistOfPrimes :: Bool
+prop_ListConsistOfPrimes = all isPrime reversibleStream
 
 -- Check if the reversal of a prime number exists in the list
-proofReverseInList :: Bool
-proofReverseInList = all (isReverseInList reversibleStream) reversibleStream
+prop_ReverseInList :: Bool
+prop_ReverseInList = all (isReverseInList reversibleStream) reversibleStream
 
 isReverseInList :: [Integer] -> Integer -> Bool
 isReverseInList [] _ = False
@@ -54,6 +54,6 @@ isReverseInList list first = reversal first `elem` list
 main :: IO Result
 main = do
     putStrLn "\n=== Testing if list consist of only prime numbers ===\n"
-    quickCheckResult proofListConsistOfPrimes
+    quickCheckResult prop_ListConsistOfPrimes
     putStrLn "\n=== Testing if the reversal of each number exists in the list ===\n"
-    quickCheckResult proofReverseInList
+    quickCheckResult prop_ReverseInList
