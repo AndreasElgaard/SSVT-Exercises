@@ -38,7 +38,7 @@ consecutive101Prime = sumOfPrimes
 
 -- A:  Yes, the function should be tested to asssure that:
 --      a. The output is a prime number
---      b. The methodoldy used is valid:
+--      b. The methodology used is valid:
 --          - Does the array consist of only primes numbers
 --          - Is the length of the array constantly 101 through iterations?
 --          - Is the summation of the prime array the actual output
