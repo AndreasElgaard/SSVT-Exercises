@@ -1,4 +1,7 @@
 module Exercise4 where
+
+import Test.QuickCheck
+
 -- #### DESCRIPTION OF PROCESS ####
 -- Write a function to identify a prime number
 -- Loop through all numbers from 2 to 10000 and save all the prime numbers
@@ -6,13 +9,13 @@ module Exercise4 where
 -- Filter all the prime numbers and print to screen
 
 -- First a function is declared that return true if an integer is a prime
--- Write source link here_______
-isPrime :: Integral a => a -> Bool
-isPrime k = length [x | x <- [2 .. k], k `mod` x == 0] == 1
+isPrime :: Integer -> Bool
+isPrime n = n > 1 && all (\ x -> rem n x /= 0) xs
+  where xs = takeWhile (\ y -> y^2 <= n) primes
 
 -- All prime numbers are found between 2 and 10000 using the filter function
 primes :: [Integer]
-primes = filter isPrime [2 .. 10000]
+primes = 2 : filter isPrime [3..10000]
 
 -- A function to reverse an integer
 reversal :: Integer -> Integer
@@ -26,9 +29,31 @@ reversedPrimes = map reversal primes
 reversibleStream :: [Integer]
 reversibleStream = filter isPrime reversedPrimes
 
--- Test ideas :
---      - fetch a random element from the list and check if the reversal exists in the list
---      - Iterate over all the list and make sure each number is a prime
---      
--- 
--- I would test this function by ____
+-- Q: How would you test this function, by the way?
+-- A: The function should be tested to asssure that:
+--      All numbers in the list are prime numbers
+--      A random element from the list and check if the reversal exists in the list
+
+-- Time Spent:
+--      2 hours 
+
+-- Tests
+-- Checks if all numbers in the list is prime numbers
+proofListConsistOfPrimes :: Bool
+proofListConsistOfPrimes = all isPrime reversibleStream
+
+-- Check if the reversal of a prime number exists in the list
+proofReverseInList :: Bool
+proofReverseInList = all (isReverseInList reversibleStream) reversibleStream
+
+isReverseInList :: [Integer] -> Integer -> Bool
+isReverseInList [] _ = False
+isReverseInList list first = reversal first `elem` list
+
+-- Test Report 
+main :: IO Result
+main = do
+    putStrLn "\n=== Testing if list consist of only prime numbers ===\n"
+    quickCheckResult proofListConsistOfPrimes
+    putStrLn "\n=== Testing if the reversal of each number exists in the list ===\n"
+    quickCheckResult proofReverseInList
