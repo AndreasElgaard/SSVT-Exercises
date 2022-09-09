@@ -1,12 +1,14 @@
 module Exercise2 where
+import System.Exit
 import Test.QuickCheck
+import Test.QuickCheck.Monadic
 import Data.List ( subsequences )
 
+-- The Generators have been given ranges that portray how long the tests will take
+-- this has been done for ease of testing and showing the issue with exponential numbers
 genSmallRange :: Gen Integer
 genSmallRange = (arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 10) && (x>0))
 
--- Creates a generator which provides a range from 1 to 25, this is done due to the time required for larger numbers
--- 25 is used as a maximum range as anything larger could take substancially longer to test
 genMediumRange :: Gen Integer
 genMediumRange = (arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 25) && (x>10))
 
@@ -20,14 +22,14 @@ finiteSet x
     | otherwise = 0
 
 -- Makes sure the function works as expected, not too useful but good to have
-proofEquality :: Bool
-proofEquality = 2^10 == finiteSet 10
+prop_TestEquality :: Bool
+prop_TestEquality = 2^10 == finiteSet 10
 
 -- Tests the function with a limited range, if a large range of number is used 
 -- test will hang for a long time
 -- !IMP Please use the genSmallRange Generator
-proofEqualityRange :: Integer -> Bool
-proofEqualityRange x = 2^x == finiteSet x
+prop_EqualityRange :: Integer -> Bool
+prop_EqualityRange x = 2^x == finiteSet x
 
 -- Questions:
 -- Q: Is the property hard to test? If you find that it is, can you given a reason why?
@@ -54,13 +56,16 @@ proofEqualityRange x = 2^x == finiteSet x
 main :: IO ()
 main = do
     putStrLn "\n=== Testing a base case of 10, not very insightful but makes sure the function works ===\n"
-    quickCheckResult proofEquality
+    quickCheckResult prop_TestEquality
     putStrLn "\n=== Testing a range of 1 to 10, takes a short amount of time to complete ===\n"
-    quickCheck $ forAll genSmallRange proofEqualityRange
+    quickCheck $ forAll genSmallRange prop_EqualityRange
     putStrLn "\n=== Testing a range of 11 to 25, takes a bit longer amount of time ===\n"
-    quickCheck $ forAll genMediumRange proofEqualityRange
+    quickCheck $ forAll genMediumRange prop_EqualityRange
     putStrLn "\n=== Testing a range of 26 to 35, usually takes much longer to complete ===\n"
-    quickCheck $ forAll genMediumRange proofEqualityRange
+    quickCheck $ forAll genMediumRange prop_EqualityRange
+    -- putStrLn "\n=== Testing a range of negative numbers, showing the function only works with natural numbers ===\n"
+    -- quickCheck prop_NegativeNumbersDontWork
+
 
 -- Indiction of Time Spent: 50 minutes -> mainly took long as we over complocated it in the begiining + haskell beginner confusion
 
@@ -71,5 +76,9 @@ main = do
 -- Ref. to: https://math.stackexchange.com/questions/927382/what-does-the-factorial-of-a-negative-number-signify
 
 
-
+-- Extra Test Concepts
+-- prop_NegativeNumbersDontWork :: Integer -> Property
+-- prop_NegativeNumbersDontWork n = n < 0 && n > (-20) ==> 2^n /= finiteSet n
+--  To test the above negative number rule a test was created to show that 2^ of a negative
+--  number will raise a "Negative Exponent" excpetion, didnt get it working proplery with Monads though. 
  

@@ -28,31 +28,31 @@ cubedNumberFormulaDefinition n x =
 -- numbers, the Left Hand Side of the hypothesis (series of squared/cubed numbers up to n)
 -- is equivalent to the Right Hand Side of the hypothesis (formula resulting from mathematical induction).
 
-proof_squareFormula :: Integer -> Property
-proof_squareFormula n = n > 0 ==> squaredNumberSequenceLhs n == squaredNumberSequenceRhs n
+prop_squareFormula :: Integer -> Property
+prop_squareFormula n = n > 0 ==> squaredNumberSequenceLhs n == squaredNumberSequenceRhs n
 
-proof_cubedFormula :: Integer -> Property
-proof_cubedFormula n = n > 0 ==> cubedNumberSequenceLhs n == cubedNumberSequenceRhs n
+prop_cubedFormula :: Integer -> Property
+prop_cubedFormula n = n > 0 ==> cubedNumberSequenceLhs n == cubedNumberSequenceRhs n
 
 -- The additional proofs below further substatntiate that, by using the formula definitions
 -- for (a + b)^2 and (a + b)^3, we can confirm that the sequence equations provided in 
 -- Workshop 1 exercises 2 and 3 equate to the summation of squared/cubed values from 1 to n
 
-proof_squareFormulaValidation :: Integer -> Integer -> Property
-proof_squareFormulaValidation n x = n > 0 && x > 0 ==> squaredNumberFormulaDefinition n x == squaredNumberSequenceRhs n
+prop_squareFormulaValidation :: Integer -> Integer -> Property
+prop_squareFormulaValidation n x = n > 0 && x > 0 ==> squaredNumberFormulaDefinition n x == squaredNumberSequenceRhs n
 
-proof_cubedFormulaValidation :: Integer -> Integer -> Property
-proof_cubedFormulaValidation n x = n > 0 && x > 0 ==> cubedNumberFormulaDefinition n x== cubedNumberSequenceRhs n
+prop_cubedFormulaValidation :: Integer -> Integer -> Property
+prop_cubedFormulaValidation n x = n > 0 && x > 0 ==> cubedNumberFormulaDefinition n x== cubedNumberSequenceRhs n
 
 -- Test Report 
 main :: IO ()
 main = do
     putStrLn "\n=== Testing LHS = RHS for Square Number Sequence ===\n"
-    quickCheck proof_squareFormula
+    quickCheck prop_squareFormula
     putStrLn "\n=== Testing LHS = RHS for Cubed Number Sequence ===\n"
-    quickCheck proof_cubedFormula
+    quickCheck prop_cubedFormula
     putStrLn "\n=== Testing RHS = Squared Number sequence according to formula definition ===\n"
-    quickCheck proof_squareFormulaValidation
+    quickCheck prop_squareFormulaValidation
     putStrLn "\n=== Testing RHS = Cubed Number sequence according to formula definition ===\n"
-    quickCheck proof_cubedFormulaValidation
+    quickCheck prop_cubedFormulaValidation
     putStrLn "\nDone :D"
