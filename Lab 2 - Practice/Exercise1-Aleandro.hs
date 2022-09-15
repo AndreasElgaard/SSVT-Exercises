@@ -23,6 +23,7 @@ probs n = do
 --     | otherwise = error "Invalid Input"
 
 -- Simple List comprehension on the output of the list, not sure if this is the best approach
+prop_testProbs :: IO (Int, Int, Int, Int)
 prop_testProbs = do
     qs <- probs 10000
     return (getLengthOfFilter qs (\x -> x >= 0 && x <= 0.25), 

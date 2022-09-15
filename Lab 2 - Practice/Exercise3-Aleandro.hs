@@ -1,11 +1,14 @@
 module Exercise3 where
 import Data.List
 import Data.Char
--- import System.Random
+import System.Random
 import Test.QuickCheck
 
 (-->) :: Bool -> Bool -> Bool
 p --> q = not p || q
+
+forall :: [a] -> (a -> Bool) -> Bool
+forall = flip all
 
 -- The stronger function doesnt work for me yet.. forall isnt found and i cant find which package its imported from
 stronger, weaker :: [a] -> (a -> Bool) -> (a -> Bool) -> Bool
@@ -17,7 +20,7 @@ weaker   xs p q = stronger xs q p
 
 -- Each proposition was split into the left and right side to be able to test their strength / weakness independantly 
 prop_oneL :: Int -> Bool
-prop_oneL x =  even x && x > 3 || even x
+prop_oneL x =  even x && x > 3 
 
 prop_oneR :: Int -> Bool
 prop_oneR = even
@@ -26,7 +29,7 @@ prop_oneR = even
 -- prop_two x = (even x || x > 3)  || even x
 
 prop_twoL :: Int -> Bool
-prop_twoL x = (even x || x > 3)  || even x
+prop_twoL x = even x || x > 3
 
 prop_twoR :: Int -> Bool
 prop_twoR = even
