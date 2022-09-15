@@ -2,13 +2,13 @@ module Exercise7 where
 import Test.QuickCheck
 import Data.Char
 
-convertCharsToIntsIban = map(\x -> ord x - 55) 
-replaceLettersWithDigits :: [Char] -> Int
-replaceLettersWithDigits n = listToInteger (map letterToDigits n)
+mod97Algorithm ibanInInt = (read ibanInInt) `mod` 97
+
+convertCharsToIntsIban iban = concatMap show (map letterToDigits iban)
 
 moveInitCharsToEndIban iban = amendedIban
-    where 
-        amendedIban = shorterIban ++ firstFour 
+    where
+        amendedIban = shorterIban ++ firstFour
         shorterIban = drop 4 iban
         firstFour = take 4 iban
 
@@ -125,6 +125,6 @@ stateIbanCharacters state = case state of
     "VG" -> 24
 
 iban :: String -> Bool
-iban val 
+iban val
     | not (stateIbanCharacters (take 2 val) == length val) = False
     | otherwise = True
