@@ -40,9 +40,28 @@ goOver n (x:xs)
 prop_LengthDerangement:: Eq a => [a] -> [a] -> Bool
 prop_LengthDerangement l1 l2 = length l1 == length l2
 
---NOT FINISHEEEEED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-prop_sameNumbers:: Eq a => [a] -> [a] -> Bool
-prop_sameNumbers l1 l2 = undefined
+--NOT FINISHEEEEED!!!!!!!!!!!!!! ERROR ON TYPE OF X !
+-- if the length of our first list is the same as the second derangement, they both have the same numbers. This is because I am filtering the second list by if they have the number in the first list. If some number is not found, the second filtered list will be shorter. 
+    
+--prop_sameNumbers:: Eq a => [a] -> [a] -> Bool
+--prop_sameNumbers l1 l2 = length l1 == length [x | x <- l1, anotherRecursion x l2]
+
+-- this one is True when we have found  a number x in the other list.
+anotherRecursion:: [Int] ->[[Int]] -> Bool
+anotherRecursion  _ [] = False
+anotherRecursion firstLoopNumber (x:xs)
+    | firstLoopNumber == x =  True
+    | otherwise = anotherRecursion firstLoopNumber xs
+
+-- this checks that every derangement of [0..3] (deran 4) is actually a derangement.
+prop_deranDerangement:: Bool
+prop_deranDerangement = recursion [0..3] (deran 4) 
+
+recursion:: [Int] -> [[Int]] -> Bool
+recursion  _ [] = False
+recursion interval (x:xs)
+    | isDerangement interval x = True
+    | otherwise = anotherRecursion interval xs
 
 -- Test isDerangement with a well-chosen integer lists:
 prop_isNotDerangement::Bool
@@ -61,25 +80,26 @@ prop_isDerangement = isDerangement [1,2,3,4] [4,1,2,3]
 -- 2: We check the derangements obtained are part of the whole permutations list
 -- 3: We check for each index there is no derangement group that have the same number as the [0..n-1] list.
 
--- The stronger function doesnt work for me yet.. forall isnt found and i cant find which package its imported from
+
+
 stronger :: [a] -> (a -> Bool) -> (a -> Bool) -> Bool
 stronger xs p q = forall xs (\ x -> p x --> q x)
 
 weaker :: [a] -> (a -> Bool) -> (a -> Bool) -> Bool
 weaker   xs p q = stronger xs q p
 
-getFunctionStrength :: (a, Int -> Bool) -> (a, Int)
-getFunctionStrength (functionName, leftProp) = (functionName, trueVals) where
+--getFunctionStrength :: (a, Int -> Bool) -> (a, Int)
+--getFunctionStrength (functionName, leftProp) = (functionName, trueVals) where
     -- Since we are checking if it is stronger than itself we reduce one point
-    trueVals = length (filter (== True) arrOfBools) - 1 
+  --  trueVals = length (filter (== True) arrOfBools) - 1 
     -- Check if the left prop is stronger to or equal to the right prop
-    arrOfBools =  map  (\(funcName, rightProp) -> (stronger [(-10)..10] leftProp rightProp) || isEqual leftProp rightProp) arrOfProps
+    --arrOfBools =  map  (\(funcName, rightProp) -> (stronger [(-10)..10] leftProp rightProp) || isEqual leftProp rightProp) arrOfProps
 
-isEqual :: (Num a, Enum a) => (a -> Bool) -> (a -> Bool) -> Bool
-isEqual leftProp rightProp = (stronger [(-10)..10] leftProp rightProp) && (stronger [(-10)..10] rightProp leftProp)
+--isEqual :: (Num a, Enum a) => (a -> Bool) -> (a -> Bool) -> Bool
+--isEqual leftProp rightProp = (stronger JO[(-10)..10] leftProp rightProp) && (stronger [(-10)..10] rightProp leftProp)
 
-arrOfProps :: [([Char], Int -> Bool)]
-arrOfProps = [("Prop One", prop_LengthDerangement), ("Prop Two", prop_sameNumbers)]
+--arrOfProps :: [([Char], Int -> Bool)]
+--arrOfProps = [("Prop One", prop_isDerangement), ("Prop Two", prop_isNotDerangement)]
 
 
 
