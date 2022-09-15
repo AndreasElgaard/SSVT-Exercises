@@ -26,10 +26,10 @@ probs n = do
 prop_testProbs :: IO (Int, Int, Int, Int)
 prop_testProbs = do
     qs <- probs 10000
-    return (getLengthOfFilter qs (\x -> x >= 0 && x <= 0.25), 
-        getLengthOfFilter qs (\x -> x >= 0.25 && x <= 0.5), 
-        getLengthOfFilter qs (\x -> x >= 0.5 && x <= 0.75), 
-        getLengthOfFilter qs (\x ->  x >= 0.75 && x <= 1))
+    return (getLengthOfFilter qs (\x -> x > 0 && x < 0.25), 
+        getLengthOfFilter qs (\x -> x >= 0.25 && x < 0.5), 
+        getLengthOfFilter qs (\x -> x >= 0.5 && x < 0.75), 
+        getLengthOfFilter qs (\x ->  x >= 0.75 && x < 1))
 
 
 getLengthOfFilter :: [a] -> (a -> Bool) -> Int

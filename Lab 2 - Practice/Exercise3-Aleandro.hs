@@ -8,7 +8,7 @@ import Test.QuickCheck
 p --> q = not p || q
 
 forall :: [a] -> (a -> Bool) -> Bool
-forall = flip all
+forall = flip all 
 
 -- The stronger function doesnt work for me yet.. forall isnt found and i cant find which package its imported from
 stronger, weaker :: [a] -> (a -> Bool) -> (a -> Bool) -> Bool
