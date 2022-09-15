@@ -1,19 +1,26 @@
 module Exercise2 where
+-- TODO
+--  - Add reasoning for the props used
+--  - Time spent
+--  - Are there more tests we can make?
 import Test.QuickCheck
 
 data Shape = NoTriangle | Equilateral | Isosceles  | Rectangular | Other deriving (Eq,Show)
 
-checkTriangle :: (Int, Int, Int) -> IO ()
-checkTriangle (a, b, c) = 
-    putStrLn (outputTriangleInfo shape)
-    where shape = triangle a b c
+-- Commented Out as it is not a requirement of the assignemtn, still good to keep tho
+-- Used
+-- checkTriangle :: (Int, Int, Int) -> IO ()
+-- checkTriangle (a, b, c) = 
+--     putStrLn (outputTriangleInfo shape)
+--     where shape = triangle a b c
 
-outputTriangleInfo shape = case shape of
-    NoTriangle ->  "Not a triangle (Geen driehoek)"
-    Equilateral ->  "Equilateral (Gelijkzijdig)"
-    Isosceles ->  "Isosceles (Gelijkbenig)"
-    Other ->  "Other (Anders)"
-    Rectangular -> "Rectangular (Rechthoekig)"
+-- outputTriangleInfo :: Shape -> [Char]
+-- outputTriangleInfo shape = case shape of
+--     NoTriangle ->  "Not a triangle (Geen driehoek)"
+--     Equilateral ->  "Equilateral (Gelijkzijdig)"
+--     Isosceles ->  "Isosceles (Gelijkbenig)"
+--     Other ->  "Other (Anders)"
+--     Rectangular -> "Rectangular (Rechthoekig)"
 
 triangle :: Int -> Int -> Int -> Shape
 triangle x y z

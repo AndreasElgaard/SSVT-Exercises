@@ -17,9 +17,6 @@ probs n = do
              ps <- probs (n-1)
              return (p:ps)
 
-probs' n = do
-             getStdRandom random
-
 -- Simple List comprehension on the output of the list
 -- Explanation of the function:
 --      1. Run the 'probs' function with the inputted number
@@ -61,7 +58,7 @@ main = do
     putStrLn "\n=== Testing probs with a range of 10000===\n"
     prop_testProbs 10000
 
--- Observation:
+-- Observations:
 --      Running 'prop_testProbs 10000' outputs similiar to the following '(2562,2509,2454,2475)'. 
 --      On every re-run this function outputs similiar values that differ by roughly 80 up and down.
 --      It was also observed that if 'prop_testProbs 100000' is executed a similiar pattern is observed,

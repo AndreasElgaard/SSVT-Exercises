@@ -23,3 +23,11 @@ isPermElems x [] = True
 isPermElems xs (x: xsPerm) 
     | x `elem` xs = isPermElems xs xsPerm
     | otherwise = False
+
+
+prop_baseCaseSame :: Eq a => [a] -> Bool
+prop_baseCaseSame x =  isPermutation x x
+
+prop_baseCaseDifferent :: Eq a => [a] -> [a] -> Bool
+prop_baseCaseDifferent x y =  isPermutation x y
+
