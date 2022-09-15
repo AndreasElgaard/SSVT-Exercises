@@ -6,7 +6,6 @@ import Data.Char
 import Test.QuickCheck
 import System.Random
 
-
 probs :: Int -> IO [Float]
 probs 0 = return []
 probs n = do
@@ -24,9 +23,9 @@ probs n = do
 --     | otherwise = error "Invalid Input"
 
 -- Simple List comprehension on the output of the list, not sure if this is the best approach
-prop_testProbs :: IO (Int, Int, Int, Int)
-prop_testProbs = do
-    qs <- probs 10000
+prop_testProbs :: Int -> IO (Int, Int, Int, Int)
+prop_testProbs numberOfProbs = do
+    qs <- probs numberOfProbs
     return (getLengthOfFilter qs (\x -> x > 0 && x < 0.25), 
         getLengthOfFilter qs (\x -> x >= 0.25 && x < 0.5), 
         getLengthOfFilter qs (\x -> x >= 0.5 && x < 0.75), 
@@ -37,8 +36,8 @@ getLengthOfFilter :: [a] -> (a -> Bool) -> Int
 getLengthOfFilter xs filter = length ([ x | x <- xs, filter x ])
 
 --no quickcheck apparently wtf
-prop_testDifferenceQ12 :: Int -> Property
-prop_testDifferenceQ12 n =  differenceQ12 n
+-- prop_testDifferenceQ12 :: Int -> Property
+-- prop_testDifferenceQ12 n =  differenceQ12 n
 
 differenceQ12 :: Int -> IO Bool
 differenceQ12 n = do
@@ -61,12 +60,13 @@ prop_testDifferenceQ34 n = do
        
 
 -- Test Report 
-main :: IO ()
-main = do
-    putStrLn "\n=== Testing quartile 1 and 2 if their difference is higher than 100 ===\n"
-    --quickCheck prop_testDifferenceQ12
-    putStrLn "\n=== Testing quartile 2 and 3 if their difference is higher than 100 ===\n"
-    --quickCheck prop_testDifferenceQ23
-    putStrLn "\n=== Testing quartile 3 and 4 if their difference is higher than 100 ===\n"
-    --quickCheck prop_testDifferenceQ34
 
+main = do
+    putStrLn "\n=== Testing probs with a range of 10000===\n"
+    prop_testProbs 10000
+    putStrLn "\n=== Testing probs with a range of 100000 ===\n"
+    prop_testProbs 100000
+
+-- TODO - Add comments for all the code
+--      - Add explanation for why the result is as it is IE that the expected result is approx 100 above and 100 below
+--      - Remove the tests which we dont need

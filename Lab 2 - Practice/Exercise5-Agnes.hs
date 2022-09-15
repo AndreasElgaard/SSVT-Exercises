@@ -2,8 +2,6 @@ module Exercise2 where
 import Data.List
 import Test.QuickCheck
 
-
-
 (-->) :: Bool -> Bool -> Bool
 p --> q = not p || q
 

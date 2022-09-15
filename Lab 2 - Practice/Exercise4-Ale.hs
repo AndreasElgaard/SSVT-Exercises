@@ -6,7 +6,7 @@ import Test.QuickCheck
 
 
 isPermutation :: Eq a => [a] -> [a] -> Bool
-isPermutation = isPermutation
+isPermutation  = isPermElems 
 
 -- Assuming that the list can have duplicates, this would probably work best
 isPermSort :: Ord a => [a] -> [a] -> Bool
