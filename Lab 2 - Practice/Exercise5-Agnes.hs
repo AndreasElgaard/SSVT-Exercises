@@ -42,7 +42,7 @@ prop_LengthDerangement l1 l2 = length l1 == length l2
 
 --NOT FINISHEEEEED!!!!!!!!!!!!!! ERROR ON TYPE OF X !
 -- if the length of our first list is the same as the second derangement, they both have the same numbers. This is because I am filtering the second list by if they have the number in the first list. If some number is not found, the second filtered list will be shorter. 
-    
+
 --prop_sameNumbers:: Eq a => [a] -> [a] -> Bool
 --prop_sameNumbers l1 l2 = length l1 == length [x | x <- l1, anotherRecursion x l2]
 
@@ -88,18 +88,19 @@ stronger xs p q = forall xs (\ x -> p x --> q x)
 weaker :: [a] -> (a -> Bool) -> (a -> Bool) -> Bool
 weaker   xs p q = stronger xs q p
 
---getFunctionStrength :: (a, Int -> Bool) -> (a, Int)
---getFunctionStrength (functionName, leftProp) = (functionName, trueVals) where
+getFunctionStrength :: (a, Int -> Bool) -> (a, Int)
+getFunctionStrength (functionName, leftProp) = (functionName, trueVals) where
     -- Since we are checking if it is stronger than itself we reduce one point
-  --  trueVals = length (filter (== True) arrOfBools) - 1 
+    trueVals = length (filter (== True) arrOfBools) - 1 
     -- Check if the left prop is stronger to or equal to the right prop
-    --arrOfBools =  map  (\(funcName, rightProp) -> (stronger [(-10)..10] leftProp rightProp) || isEqual leftProp rightProp) arrOfProps
+    arrOfBools =  map  (\(funcName, rightProp) -> (stronger [(-10)..10] leftProp rightProp) || isEqual leftProp rightProp) arrOfProps
 
---isEqual :: (Num a, Enum a) => (a -> Bool) -> (a -> Bool) -> Bool
---isEqual leftProp rightProp = (stronger JO[(-10)..10] leftProp rightProp) && (stronger [(-10)..10] rightProp leftProp)
+isEqual :: (Num a, Enum a) => (a -> Bool) -> (a -> Bool) -> Bool
+isEqual leftProp rightProp = (stronger JO[(-10)..10] leftProp rightProp) && (stronger [(-10)..10] rightProp leftProp)
 
---arrOfProps :: [([Char], Int -> Bool)]
---arrOfProps = [("Prop One", prop_isDerangement), ("Prop Two", prop_isNotDerangement)]
+-- my prop return bool but you use Int -> Bool for your algorithm. I don't know whether to change your algorithm or you put the integer 
+arrOfProps :: [([Char], Bool)]
+arrOfProps = [("Prop One", prop_deranDerangement), ("Prop Two", prop_isDerangement)]
 
 
 
