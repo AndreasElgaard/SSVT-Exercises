@@ -36,15 +36,15 @@ prop_testProbs = do
 getLengthOfFilter :: [a] -> (a -> Bool) -> Int
 getLengthOfFilter xs filter = length ([ x | x <- xs, filter x ])
 
-
+--no quickcheck apparently wtf
 prop_testDifferenceQ12 :: Int -> Property
-prop_testDifferenceQ12 n = n > 1000 ==> differenceQ12 n ==  True
+prop_testDifferenceQ12 n =  differenceQ12 n
 
-differenceQ12 :: Int -> IO (Bool)
+differenceQ12 :: Int -> IO Bool
 differenceQ12 n = do
     qs <- probs n
     return (100 >= getLengthOfFilter qs (\x -> x > 0 && x < 0.25) - getLengthOfFilter qs (\x -> x >= 0.25 && x < 0.5))
- 
+
          
 -- 100 <= (\x -> head x - x !! 1) prop_testProbs
 
