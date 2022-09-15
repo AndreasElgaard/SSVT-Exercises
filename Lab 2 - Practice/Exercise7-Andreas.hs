@@ -1,45 +1,29 @@
-module Exercise6 where
+module Exercise7 where
 
 import Data.Char
-import Data.Foldable (Foldable (toList))
-import Data.List
-import Data.Maybe
-import Data.Sequence (fromArray, fromList)
-import Data.String (IsString (fromString))
 import Test.QuickCheck
-
--- Q: Can you automate the test process?
--- A:
 
 -- #### DESCRIPTION OF SOLUTION ####
 -- First create structure that holds the length of the IBAN for each country
 --
 
-iban :: String -> Bool
-iban n = checkLength (take 2 n) (length n) && mod97 (replaceLettersWithDigits (headToEnd n)) == 1
-
 checkLength :: [Char] -> Int -> Bool
 checkLength countryCode stringLength = countryList countryCode == fromIntegral stringLength
-
--- replaceCheckDigits :: String -> String
--- replaceCheckDigits n = replaceCharAtIndex 2 '0' (replaceCharAtIndex 3 '0' n)
-
--- replaceCharAtIndex :: Int -> Char -> String -> String
--- replaceCharAtIndex index replacement str = strHead ++ [replacement] ++ drop 1 strAfter
---   where
---     (strHead, strAfter) = splitAt index str
 
 headToEnd :: [Char] -> [Char]
 headToEnd str = drop 4 str ++ take 4 str
 
-replaceLettersWithDigits :: [Char] -> Int
-replaceLettersWithDigits n = listToInteger (map letterToDigits n)
+replaceLettersWithDigits :: [Char] -> [Char]
+replaceLettersWithDigits n = concatMap show (map letterToDigits n)
 
 listToInteger :: [Int] -> Int
 listToInteger = read . concatMap show
 
-mod97 :: Int -> Int
+mod97 :: Integer -> Integer
 mod97 n = n `mod` 97
+
+iban :: String -> Bool
+iban n = checkLength (take 2 n) (length n) && mod97 (read (replaceLettersWithDigits (headToEnd n))) == 1
 
 -- Tests
 -- Checks if the length of the list is correct
@@ -52,6 +36,9 @@ main :: IO Result
 main = do
   putStrLn "\n=== Testing if length of the returned string is equal to 26 ===\n"
   quickCheckResult prop_lengthOfString
+
+-- Q: Can you automate the test process?
+-- A:
 
 -- Time Spent:
 --      ___ hours
@@ -167,3 +154,11 @@ letterToDigits 'X' = 33
 letterToDigits 'Y' = 34
 letterToDigits 'Z' = 35
 letterToDigits code = digitToInt code
+
+-- replaceCheckDigits :: String -> String
+-- replaceCheckDigits n = replaceCharAtIndex 2 '0' (replaceCharAtIndex 3 '0' n)
+
+-- replaceCharAtIndex :: Int -> Char -> String -> String
+-- replaceCharAtIndex index replacement str = strHead ++ [replacement] ++ drop 1 strAfter
+--   where
+--     (strHead, strAfter) = splitAt index str
