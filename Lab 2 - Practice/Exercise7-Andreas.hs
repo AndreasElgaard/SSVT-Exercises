@@ -16,18 +16,18 @@ import Test.QuickCheck
 --
 
 iban :: String -> Bool
-iban n = checkLength (take 2 n) (length n)
+iban n = checkLength (take 2 n) (length n) && mod97 (replaceLettersWithDigits (headToEnd n)) == 1
 
 checkLength :: [Char] -> Int -> Bool
 checkLength countryCode stringLength = countryList countryCode == fromIntegral stringLength
 
-replaceCheckDigits :: String -> String
-replaceCheckDigits n = replaceCharAtIndex 2 '0' (replaceCharAtIndex 3 '0' n)
+-- replaceCheckDigits :: String -> String
+-- replaceCheckDigits n = replaceCharAtIndex 2 '0' (replaceCharAtIndex 3 '0' n)
 
-replaceCharAtIndex :: Int -> Char -> String -> String
-replaceCharAtIndex index replacement str = strHead ++ [replacement] ++ drop 1 strAfter
-  where
-    (strHead, strAfter) = splitAt index str
+-- replaceCharAtIndex :: Int -> Char -> String -> String
+-- replaceCharAtIndex index replacement str = strHead ++ [replacement] ++ drop 1 strAfter
+--   where
+--     (strHead, strAfter) = splitAt index str
 
 headToEnd :: [Char] -> [Char]
 headToEnd str = drop 4 str ++ take 4 str
@@ -38,11 +38,105 @@ replaceLettersWithDigits n = listToInteger (map letterToDigits n)
 listToInteger :: [Int] -> Int
 listToInteger = read . concatMap show
 
+mod97 :: Int -> Int
 mod97 n = n `mod` 97
 
+-- Tests
+-- Checks if the length of the list is correct
+prop_lengthOfString :: Bool
+prop_lengthOfString = undefined
+
+-- Test Report
+-- Test Correct and incorrect examples
+main :: IO Result
+main = do
+  putStrLn "\n=== Testing if length of the returned string is equal to 26 ===\n"
+  quickCheckResult prop_lengthOfString
+
+-- Time Spent:
+--      ___ hours
+
 countryList :: [Char] -> Integer
+countryList "AL" = 28
+countryList "AD" = 24
+countryList "AT" = 20
+countryList "AZ" = 28
+countryList "BH" = 22
+countryList "BY" = 28
+countryList "BE" = 16
+countryList "BA" = 20
+countryList "BR" = 29
+countryList "BG" = 22
+countryList "BI" = 27
+countryList "CR" = 22
+countryList "HR" = 21
+countryList "CY" = 28
+countryList "CZ" = 24
 countryList "DK" = 18
-countryList "GB" = 20
+countryList "DO" = 28
+countryList "EG" = 29
+countryList "SV" = 28
+countryList "EE" = 20
+countryList "FO" = 18
+countryList "FI" = 18
+countryList "FR" = 27
+countryList "GE" = 22
+countryList "DE" = 22
+countryList "GI" = 23
+countryList "GR" = 27
+countryList "GL" = 18
+countryList "GT" = 28
+countryList "VA" = 22
+countryList "HU" = 28
+countryList "IS" = 26
+countryList "IQ" = 23
+countryList "IE" = 22
+countryList "IL" = 23
+countryList "IT" = 27
+countryList "JO" = 30
+countryList "KZ" = 20
+countryList "XK" = 20
+countryList "KW" = 30
+countryList "LV" = 21
+countryList "LB" = 28
+countryList "LY" = 25
+countryList "LI" = 21
+countryList "LT" = 20
+countryList "LU" = 20
+countryList "MT" = 31
+countryList "MR" = 27
+countryList "MU" = 30
+countryList "MD" = 24
+countryList "MC" = 27
+countryList "ME" = 22
+countryList "NL" = 18
+countryList "MK" = 19
+countryList "NO" = 15
+countryList "PK" = 24
+countryList "PS" = 29
+countryList "PL" = 28
+countryList "PT" = 25
+countryList "QA" = 29
+countryList "RO" = 24
+countryList "LC" = 32
+countryList "SM" = 27
+countryList "ST" = 25
+countryList "SA" = 24
+countryList "RS" = 22
+countryList "SC" = 31
+countryList "SK" = 24
+countryList "SI" = 19
+countryList "ES" = 24
+countryList "SD" = 18
+countryList "SE" = 24
+countryList "CH" = 21
+countryList "TL" = 23
+countryList "TN" = 24
+countryList "TR" = 26
+countryList "UA" = 29
+countryList "AE" = 23
+countryList "GB" = 22
+countryList "VG" = 24
 countryList code = error "unhandlded"
 
 letterToDigits :: Char -> Int
@@ -73,18 +167,3 @@ letterToDigits 'X' = 33
 letterToDigits 'Y' = 34
 letterToDigits 'Z' = 35
 letterToDigits code = digitToInt code
-
--- Tests
--- Checks if the length of the list is correct
-prop_lengthOfString :: Bool
-prop_lengthOfString = undefined
-
--- Test Report
--- Test Correct and incorrect examples
-main :: IO Result
-main = do
-  putStrLn "\n=== Testing if length of the returned string is equal to 26 ===\n"
-  quickCheckResult prop_lengthOfString
-
--- Time Spent:
---      ___ hours
