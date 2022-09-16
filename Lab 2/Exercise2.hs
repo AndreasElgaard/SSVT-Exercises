@@ -7,7 +7,7 @@ import Test.QuickCheck
 
 data Shape = NoTriangle | Equilateral | Isosceles  | Rectangular | Other deriving (Eq,Show)
 
--- Commented Out as it is not a requirement of the assignemtn, still good to keep tho
+-- Commented Out as it is not a requirement of the assignement, still good to keep tho
 -- Used
 -- checkTriangle :: (Int, Int, Int) -> IO ()
 -- checkTriangle (a, b, c) = 

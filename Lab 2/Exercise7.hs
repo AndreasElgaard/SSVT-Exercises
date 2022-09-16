@@ -1,9 +1,9 @@
 module Exercise7 where
 import Data.Char ( digitToInt )
--- TODO
---  Add some more comments 
---  Explain if this can be automatically tested
---  Time spent
+
+-- As per https://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN,
+-- A = 10, B = 11, ...
+-- If character not within range A-Z, code simply returns the character back as is.
 letterToDigits :: Char -> Int
 letterToDigits char = case char of
  'A' -> 10
@@ -34,6 +34,7 @@ letterToDigits char = case char of
  'Z' -> 35
  code -> digitToInt code
 
+-- Refer to https://www.iban.com/structure foir country codes and corresponding IBAN length
 stateIbanCharacters :: Num p => [Char] -> p
 stateIbanCharacters state = case state of
     "AL" -> 28
@@ -118,12 +119,16 @@ stateIbanCharacters state = case state of
     "VG" -> 24
     _ ->  0
 
+-- https://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN
+-- Computing remainder for final modification of IBAN from mod 97.
 mod97Algorithm :: (Integral a, Read a) => String -> a
 mod97Algorithm ibanInInt = read ibanInInt `mod` 97
 
+-- For each character within IBAN, we convert to corresponding digit using letterToDigits.
 convertCharsToIntsIban :: [Char] -> [Char]
 convertCharsToIntsIban iban = concatMap show (map letterToDigits iban)
 
+-- Moving first 4 characters of IBAN to end.
 moveInitCharsToEndIban :: [a] -> [a]
 moveInitCharsToEndIban iban = amendedIban
     where
@@ -131,12 +136,14 @@ moveInitCharsToEndIban iban = amendedIban
         shorterIban = drop 4 iban
         firstFour = take 4 iban
 
+-- Checking validity of IBAN
 iban :: String -> Bool
 iban val
     | stateIbanCharacters (take 2 val) /= length val = False
     | checkModulusIban val = True
     | otherwise = False
 
+-- Checking that modified IBAN (acc. to rules) mod 97 == 1
 checkModulusIban :: [Char] -> Bool
 checkModulusIban val = modulus == 1 where 
         modulus = mod97Algorithm convertedToIntIban
@@ -211,3 +218,15 @@ main = do
       print prop_checkInvalidIbansWithIncorrectCountryCode
     
 -- Automated testing:
+-- We have reason to believe Automated Testing cannot be done within such a solution.
+-- RATIONALE: 
+-- 1. IBANs have different length per country
+-- 2. Some IBAN patterns contain not only non-digit characters 
+--    for the country code, but also further within the IBAN.
+-- 3. Only a limited number of all possible 2-character combinations
+--    create a valid country code combination.
+-- 4. Too many invalid combinations generated before generating at least one valid combination,
+--    for a valid country code, with valid no. of characters and of which mod 97 = 1.
+
+
+-- Time Spent: Approx 2 hours (by 2 persons working separately)

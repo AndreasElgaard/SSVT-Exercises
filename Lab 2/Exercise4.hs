@@ -127,7 +127,7 @@ arrOfProps :: [([Char], Int -> Bool)]
 arrOfProps = [("Prop Same Arrs", prop_baseCaseTrue),
               ("Prop Differnet Arrs", prop_baseCaseDifferent),
               ("Prop Valid Permutation", prop_validPerm),
-              ("Prop  Diff Lengths", prop_testDiffGeneratedLists)]
+              ("Prop Diff Lengths", prop_testDiffGeneratedLists)]
 
 isEqual :: (Num a, Enum a) => (a -> Bool) -> (a -> Bool) -> Bool
 isEqual leftProp rightProp = stronger [(-10)..10] leftProp rightProp && stronger [(-10)..10] rightProp leftProp
