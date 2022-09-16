@@ -110,7 +110,7 @@ prop_testFour = stronger [(-10)..10] prop_fourL prop_fourR  && stronger [(-10)..
 
 -- Helper function created to show the rankings
 showResults :: [Char]
-showResults  = concatMap (\(left, right) -> left ++ " (" ++ show right ++ ") ,\n") mapFunctions
+showResults  = concatMap (\(left, right) -> left ++ " (" ++ show right ++ ") \n") mapFunctions
 
 -- Test Report
 main :: IO ()
