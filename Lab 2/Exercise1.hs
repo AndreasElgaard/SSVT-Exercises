@@ -86,16 +86,16 @@ prop_case2 n = do
 
 main :: IO ()
 main = do
-  --putStrLn "\n=== Testing the behaviour of probs function with n = 10000 ===\n"
-  --print prop_testProbs 10000
-  --putStrLn "\n===  Testing the difference between quartile 1 and 2 are following the expected behaviour ===\n"
-  --print prop_testDifferenceQ12 10000
-  --putStrLn "\n===  Testing the difference between quartile 2 and 3 are following the expected behaviour ===\n"
-  --print prop_testDifferenceQ23 10000
-  --putStrLn "\n===  Testing the difference between quartile 3 and 4 are following the expected behaviour ===\n"
-  --print prop_testDifferenceQ34 10000
-  --putStrLn "\n=== Testing the behaviour of probs function with n = 100000 ===\n"
-  --print prop_testProbs 100000
-  --putStrLn "\n=== Testing only one quartile wihtout using difference ===\n"
-  --print prop_case2 10000
+  --For Testing the behaviour of probs function with n = 10000 
+  -- prop_testProbs 10000
+  --For Testing the difference between quartile 1 and 2 are following the expected behaviour
+  -- prop_testDifferenceQ12 10000
+  --For  Testing the difference between quartile 2 and 3 are following the expected behaviour ===\n"
+  --prop_testDifferenceQ23 10000
+  --For "\n===  Testing the difference between quartile 3 and 4 are following the expected behaviour ===\n"
+  --prop_testDifferenceQ34 10000
+  --For "\n=== Testing the behaviour of probs function with n = 100000 ===\n"
+  --prop_testProbs 100000
+  --For "\n=== Testing only one quartile wihtout using difference ===\n"
+  -- prop_case2 10000
   
