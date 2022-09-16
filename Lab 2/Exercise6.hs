@@ -3,6 +3,10 @@ module Exercise6 where
 import Data.Maybe
 import Test.QuickCheck
 
+
+-- Time Spent:
+--      3 hours
+
 -- Q: Give a specification of ROT13.
 -- A: ROT13 is a substitution cipher that replaces a letter with a letter 13 letters after it in the (english) alphabet.
 -- This means that it is its own inverse, which means to decrypt ROT13, the same algorithm is applied and the original value will be visible.
@@ -80,6 +84,3 @@ main = do
 
   putStrLn "\n=== Testing if ROT13 is applied twice the original value will be returned ===\n"
   quickCheckResult prop_applyRot13Twice
-
--- Time Spent:
---      3 hours

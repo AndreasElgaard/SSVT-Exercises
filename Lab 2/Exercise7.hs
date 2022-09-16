@@ -2,6 +2,10 @@ module Exercise7 where
 
 import Data.Char (digitToInt)
 
+
+-- Time Spent: Approx 2 hours (by 2 persons working separately)
+
+
 -- As per https://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN,
 -- A = 10, B = 11, ...
 -- If character not within range A-Z, code simply returns the character back as is.
@@ -237,4 +241,3 @@ main = do
 -- 4. Too many invalid combinations generated before generating at least one valid combination,
 --    for a valid country code, with valid no. of characters and of which mod 97 = 1.
 
--- Time Spent: Approx 2 hours (by 2 persons working separately)

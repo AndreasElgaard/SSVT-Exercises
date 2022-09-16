@@ -32,7 +32,11 @@ goOver n (x : xs)
 -- ########## Tests ##########
 -- Checks to see if the relation is symmetric
 prop_isSymmetrical :: Eq a => [a] -> [a] -> Bool
-prop_isSymmetrical l1 l2 = isDerangement l1 l2 --> isDerangement l2 l1 -- Cant get this one to work in the hs file
+prop_isSymmetrical l1 l2 = isDerangement l1 l2 == isDerangement l2 l1 
+
+-- sort both lists and compare them. if equal, it has the same numbers. if false, something is missing or extra.
+prop_sameNumbers :: [Int] -> [Int] -> Bool
+prop_sameNumbers l1 l2 = sort l1 == sort l2
 
 -- This checks that every derangement of [0..3] (deran 4) is actually a derangement.
 prop_deranDerangement :: Bool
@@ -48,26 +52,20 @@ prop_isDerangement = isDerangement [1, 2, 3, 4] [4, 1, 2, 3]
 
 -- ########## Helper functions for tests ##########
 
+-- this one is used in the prop_deranDerangement, to go over all the combinations of deran 4
 recursion :: [Int] -> [[Int]] -> Bool
 recursion _ [] = False
 recursion interval (x : xs)
   | isDerangement interval x = True
-  | otherwise = anotherRecursion interval xs
+  | otherwise = recursion interval xs
 
--- This one is True when we have found a number x in the other list.
+-- This one is True when we have found a number x in the other list. We don't use it in the end
 anotherRecursion :: [Int] -> [[Int]] -> Bool
 anotherRecursion _ [] = False
 anotherRecursion firstLoopNumber (x : xs)
   | firstLoopNumber == x = True
   | otherwise = anotherRecursion firstLoopNumber xs
 
-infix 1 -->
-
-(-->) :: Bool -> Bool -> Bool
-p --> q = (not p) || q
-
-forall :: [a] -> (a -> Bool) -> Bool
-forall = flip all
 
 -- ########## Test Report ##########
 main :: IO Result
@@ -87,12 +85,6 @@ main = do
 -- Q: Can you automate the test process?
 -- A:
 
--- if the length of our first list is the same as the second derangement, they both have the same numbers.
---This is because I am filtering the second list by if they have the number in the first list.
--- If some number is not found, the second filtered list will be shorter.
--- prop_sameNumbers :: Eq a => [a] -> [a] -> Bool
--- prop_sameNumbers l1 l2 = length l1 == length [x | x <- l1, anotherRecursion x l2]
-
 -- getFunctionStrength :: (a, Int -> Bool) -> (a, Int)
 -- getFunctionStrength (functionName, leftProp) = (functionName, trueVals)
 --   where
@@ -103,6 +95,17 @@ main = do
 -- isEqual leftProp rightProp = (stronger JO [(-10) .. 10] leftProp rightProp) && (stronger [(-10) .. 10] rightProp leftProp)
 
 -- my prop return bool but you use Int -> Bool for your algorithm. I don't know whether to change your algorithm or you put the integer
+
+infix 1 -->
+
+(-->) :: Bool -> Bool -> Bool
+p --> q = (not p) || q
+
+forall :: [a] -> (a -> Bool) -> Bool
+forall = flip all
+
+
+
 arrOfProps :: [([Char], Bool)]
 arrOfProps = [("Prop One", prop_deranDerangement), ("Prop Two", prop_isDerangement)]
 
