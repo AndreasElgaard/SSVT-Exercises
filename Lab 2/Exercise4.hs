@@ -5,6 +5,8 @@ import System.Random ( getStdRandom, Random(randomR) )
 import qualified Control.Monad.IO.Class
 import Data.Function ( on )
 
+-- Time Spent: 4 hours
+
 -- Explanation and thought process
 --     1. First create the function to assure two arrays are a permutation of each other
 --     2. Create props that are relavent to the problem which can take an input for testing
@@ -176,4 +178,3 @@ main = do
 -- Additional props to check
 --      The sum of the lists could have been calcualted and compared, however this is not full proof
 --      as you can have two seperate arrays of the same length and different content with the sum 
--- Time Spent: 4 hours

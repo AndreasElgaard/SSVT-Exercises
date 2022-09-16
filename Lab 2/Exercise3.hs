@@ -3,6 +3,8 @@ import Data.List ( sortBy )
 import Data.Function ( on )
 import System.Posix.Internals (puts)
 
+-- TIME SPENT: Approx 4 hours
+
 (-->) :: Bool -> Bool -> Bool
 p --> q = not p || q
 
@@ -147,4 +149,3 @@ main = do
 --      RHS deals with even numbers greater then 3, or even numbers LHS deals with all even numbers,
 --      hence LHS and RHS are of the same set (i.e. LHS is as strong as RHS).
 
--- TIME SPENT: Approx 4 hours

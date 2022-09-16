@@ -3,6 +3,9 @@ import Test.QuickCheck
 
 data Shape = NoTriangle | Equilateral | Isosceles  | Rectangular | Other deriving (Eq,Show)
 
+-- Time spent: Approx 2 hours
+
+
 -- Commented Out as it is not a requirement of the assignement, still good to keep though
 -- should a further requirement be that we make use of IO to display message for triangle properties.
 
@@ -75,7 +78,7 @@ main = do
     putStrLn "\n=== Testing triangle compliant with Pythagoras' Theorem is Rectangular ===\n"
     quickCheck $ forAll genLength $ \x-> forAll genLength$ \y -> prop_rectangularTriangle x y
 
--- Time spent: Approx 2 hours
+
 
 
 
