@@ -84,8 +84,8 @@ prop_case2 n = do
     return (n `div` 4 + n `div` 100 >= getLengthOfFilter qs (\x -> x > 0 && x < 0.25) && n `div` 4 - n `div` 100 <= getLengthOfFilter qs (\x -> x > 0 && x < 0.25) )
 
 
-main :: IO ()
-main = do
+-- main :: IO ()
+-- main = do
   --For Testing the behaviour of probs function with n = 10000 
   -- prop_testProbs 10000
   --For Testing the difference between quartile 1 and 2 are following the expected behaviour
