@@ -6,7 +6,11 @@ import qualified Control.Monad.IO.Class
 import Data.Function ( on )
 
 -- Explanation and thought process
---     
+--     1. First create the function to assure two arrays are a permutation of each other
+--     2. Create props that are relavent to the problem which can take an input for testing
+--     3. Attempt to make an automated testing function
+--     4. Compare the props from (2.) using the stronger or weaker functions
+
 isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation  = isPermSort
 

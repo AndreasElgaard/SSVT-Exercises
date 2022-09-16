@@ -1,7 +1,9 @@
 module Exercise7 where
-import Test.QuickCheck
-import Data.Char
-
+import Data.Char ( digitToInt )
+-- TODO
+--  Add some more comments 
+--  Explain if this can be automatically tested
+--  Time spent
 letterToDigits :: Char -> Int
 letterToDigits char = case char of
  'A' -> 10
@@ -182,13 +184,30 @@ listOfValidIbans = [
     "VG07ABVI0000000123456789"]
 
 -- Checking that for every valid IBAN, function understands the iban to be valid
+prop_checkValidIbans :: Bool
 prop_checkValidIbans = all (==True) [checkModulusIban x | x <- listOfValidIbans]
 -- Checking that for every invalid IBAN with additional character,
 -- function understands the iban to be invalid
+prop_checkInvalidIbansWithExtraCharacter :: Bool
 prop_checkInvalidIbansWithExtraCharacter = all (==False) [checkModulusIban (x ++ "1") | x <- listOfValidIbans]
 -- Checking that for every invalid IBAN without an initial country code,
 -- function understands the iban to be invalid
+prop_checkInvalidIbansWithoutCountryCode :: Bool
 prop_checkInvalidIbansWithoutCountryCode = all (==False) [checkModulusIban (drop 2 x) | x <- listOfValidIbans]
 -- Checking that for every invalid IBAN with an incorrect country code ("AA")
 -- function understands the iban to be invalid
+prop_checkInvalidIbansWithIncorrectCountryCode :: Bool
 prop_checkInvalidIbansWithIncorrectCountryCode = all (==False) [checkModulusIban ("AA" ++ x) | x <- listOfValidIbans]
+
+main :: IO ()
+main = do 
+      putStrLn "\n=== Testing a valid list of IBANs ===\n"
+      print prop_checkValidIbans
+      putStrLn "\n===  Testing invalid ibans by changing the values of valid IBANs ===\n"
+      print prop_checkInvalidIbansWithExtraCharacter
+      putStrLn "\n=== Testing IBANs with invalid country codes ===\n"
+      print prop_checkInvalidIbansWithoutCountryCode
+      putStrLn "\n=== Testing invalid IBANs with invalid country code ===\n"
+      print prop_checkInvalidIbansWithIncorrectCountryCode
+    
+-- Automated testing:
