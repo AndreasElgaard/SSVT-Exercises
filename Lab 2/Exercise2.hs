@@ -1,8 +1,4 @@
 module Exercise2 where
--- TODO
---  - Add reasoning for the props used
---  - Time spent
---  - Are there more tests we can make?
 import Test.QuickCheck
 
 data Shape = NoTriangle | Equilateral | Isosceles  | Rectangular | Other deriving (Eq,Show)
@@ -43,6 +39,8 @@ triangle x y z
 genLength :: Gen Int 
 genLength = (arbitrary :: Gen Int) `suchThat` (>0)
 
+squareRootInteger x y = round(sqrt(fromIntegral(x^2 + y^2)))
+
 -- Confirming triangle inequality theorem 1 for valid triangle
 prop_triangleSumTwoSideLength :: Int -> Int -> Int -> Property
 prop_triangleSumTwoSideLength x y z =
@@ -52,13 +50,17 @@ prop_triangleSumTwoSideLength x y z =
 prop_equilateralTriangle :: Int -> Property
 prop_equilateralTriangle x = triangle x x x/= NoTriangle ==> triangle x x x == Equilateral
 
--- Confirming triangle is isoscles when same valid value (>0) is passed for 2 arguments
+-- Confirming triangle is isosceles when same valid value (>0) is passed for 2 arguments
 prop_isoscelesTriangle :: Int -> Int -> Property
 prop_isoscelesTriangle x y = (x /= y && triangle x x y/= NoTriangle) ==> triangle x x y == Isosceles
 
--- prop_rectangularTriangle :: Int -> Int -> Property
--- prop_rectangularTriangle x y =
---     (x /= y && triangle x y (sqrt((x^2 + y^2)))/= NoTriangle) ==> triangle x y (x^2 + y^2) == Rectangular
+-- Confirming triangle is rectangular where Pythagorean theorem applies a^2 + b^2 = c^2
+prop_rectangularTriangle :: Int -> Int -> Property
+prop_rectangularTriangle x y =
+    (x /= y && triangle x y (squareRootInteger x y)/= NoTriangle 
+    && triangle x y (squareRootInteger x y)/= Isosceles
+    && triangle x y (squareRootInteger x y)/= Other) ==> 
+    triangle x y (round(sqrt(fromIntegral(x^2 + y^2)))) == Rectangular
 
 -- Test Report 
 main :: IO ()
@@ -70,8 +72,10 @@ main = do
     quickCheck $ forAll genLength prop_equilateralTriangle
     putStrLn "\n=== Testing 2 equal sided triangle is Isosceles ===\n"
     quickCheck $ forAll genLength $ \x-> forAll genLength$ \y -> prop_isoscelesTriangle x y
-    -- putStrLn "\n=== Testing triangle compliant with Pythagoras' Theorem is Rectangular ===\n"
-    -- quickCheck $ forAll genLength $ \x-> forAll genLength$ \y -> prop_rectangularTriangle x y
+    putStrLn "\n=== Testing triangle compliant with Pythagoras' Theorem is Rectangular ===\n"
+    quickCheck $ forAll genLength $ \x-> forAll genLength$ \y -> prop_rectangularTriangle x y
+
+-- Time spent: Approx 2 hours
 
 
 
