@@ -7,8 +7,9 @@ import Test.QuickCheck
 
 data Shape = NoTriangle | Equilateral | Isosceles  | Rectangular | Other deriving (Eq,Show)
 
--- Commented Out as it is not a requirement of the assignement, still good to keep tho
--- Used
+-- Commented Out as it is not a requirement of the assignement, still good to keep though
+-- should a further requirement be that we make use of IO to display message for triangle properties.
+
 -- checkTriangle :: (Int, Int, Int) -> IO ()
 -- checkTriangle (a, b, c) = 
 --     putStrLn (outputTriangleInfo shape)
