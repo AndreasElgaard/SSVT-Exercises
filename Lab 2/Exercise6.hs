@@ -32,7 +32,11 @@ rot13OnChar char = case lookup char (rot13Pairs lowercaseAlphabet) of
 -- The second list is the inverse of the original i.e. "NOPQRSTUVWXYZABCDEFGHIJKLM". To do this it take the last 13 characters in the alphabet and
 -- the first 13 characters in the alphabet and appends the two list together i.e. the first 13 characters in the alphabet will not be the last 13 characters in the string.
 rot13Pairs :: [Char] -> [(Char, Char)]
-rot13Pairs strAlphabet = zip strAlphabet (drop 13 strAlphabet ++ take 13 strAlphabet)
+rot13Pairs strAlphabet = zip strAlphabet listPairs
+  where
+    listPairs = firstHalf ++ secondHalf
+    firstHalf = drop 13 strAlphabet
+    secondHalf = take 13 strAlphabet
 
 -- A function that returns a list consisting of lowercase letters in the english alphabet
 lowercaseAlphabet :: [Char]

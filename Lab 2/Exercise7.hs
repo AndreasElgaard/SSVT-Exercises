@@ -1,123 +1,124 @@
 module Exercise7 where
-import Data.Char ( digitToInt )
+
+import Data.Char (digitToInt)
 
 -- As per https://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN,
 -- A = 10, B = 11, ...
 -- If character not within range A-Z, code simply returns the character back as is.
 letterToDigits :: Char -> Int
 letterToDigits char = case char of
- 'A' -> 10
- 'B' -> 11
- 'C' -> 12
- 'D' -> 13
- 'E' -> 14
- 'F' -> 15
- 'G' -> 16
- 'H' -> 17
- 'I' -> 18
- 'J' -> 19
- 'K' -> 20
- 'L' -> 21
- 'M' -> 22
- 'N' -> 23
- 'O' -> 24
- 'P' -> 25
- 'Q' -> 26
- 'R' -> 27
- 'S' -> 28
- 'T' -> 29
- 'U' -> 30
- 'V' -> 31
- 'W' -> 32
- 'X' -> 33
- 'Y' -> 34
- 'Z' -> 35
- code -> digitToInt code
+  'A' -> 10
+  'B' -> 11
+  'C' -> 12
+  'D' -> 13
+  'E' -> 14
+  'F' -> 15
+  'G' -> 16
+  'H' -> 17
+  'I' -> 18
+  'J' -> 19
+  'K' -> 20
+  'L' -> 21
+  'M' -> 22
+  'N' -> 23
+  'O' -> 24
+  'P' -> 25
+  'Q' -> 26
+  'R' -> 27
+  'S' -> 28
+  'T' -> 29
+  'U' -> 30
+  'V' -> 31
+  'W' -> 32
+  'X' -> 33
+  'Y' -> 34
+  'Z' -> 35
+  code -> digitToInt code
 
 -- Refer to https://www.iban.com/structure foir country codes and corresponding IBAN length
 stateIbanCharacters :: Num p => [Char] -> p
 stateIbanCharacters state = case state of
-    "AL" -> 28
-    "AD" -> 24
-    "AT" -> 20
-    "AZ" -> 28
-    "BH" -> 22
-    "BY" -> 28
-    "BE" -> 16
-    "BA" -> 20
-    "BR" -> 29
-    "BG" -> 22
-    "BI" -> 27
-    "CR" -> 22
-    "HR" -> 21
-    "CY" -> 28
-    "CZ" -> 24
-    "DK" -> 18
-    "DO" -> 28
-    "EG" -> 29
-    "SV" -> 28
-    "EE" -> 20
-    "FO" -> 18
-    "FI" -> 18
-    "FR" -> 27
-    "GE" -> 22
-    "DE" -> 22
-    "GI" -> 23
-    "GR" -> 27
-    "GL" -> 18
-    "GT" -> 28
-    "VA" -> 22
-    "HU" -> 28
-    "IS" -> 26
-    "IQ" -> 23
-    "IE" -> 22
-    "IL" -> 23
-    "IT" -> 27
-    "JO" -> 30
-    "KZ" -> 20
-    "XK" -> 20
-    "KW" -> 30
-    "LV" -> 21
-    "LB" -> 28
-    "LY" -> 25
-    "LI" -> 21
-    "LT" -> 20
-    "LU" -> 20
-    "MT" -> 31
-    "MR" -> 27
-    "MU" -> 30
-    "MD" -> 24
-    "MC" -> 27
-    "ME" -> 22
-    "NL" -> 18
-    "MK" -> 19
-    "NO" -> 15
-    "PK" -> 24
-    "PS" -> 29
-    "PL" -> 28
-    "PT" -> 25
-    "QA" -> 29
-    "RO" -> 24
-    "LC" -> 32
-    "SM" -> 27
-    "ST" -> 25
-    "SA" -> 24
-    "RS" -> 22
-    "SC" -> 31
-    "SK" -> 24
-    "SI" -> 19
-    "ES" -> 24
-    "SD" -> 18
-    "SE" -> 24
-    "CH" -> 21
-    "TL" -> 23
-    "TN" -> 24
-    "TR" -> 26
-    "UA" -> 29
-    "AE" -> 23
-    "GB" -> 22
-    "VG" -> 24
-    _ ->  0
+  "AL" -> 28
+  "AD" -> 24
+  "AT" -> 20
+  "AZ" -> 28
+  "BH" -> 22
+  "BY" -> 28
+  "BE" -> 16
+  "BA" -> 20
+  "BR" -> 29
+  "BG" -> 22
+  "BI" -> 27
+  "CR" -> 22
+  "HR" -> 21
+  "CY" -> 28
+  "CZ" -> 24
+  "DK" -> 18
+  "DO" -> 28
+  "EG" -> 29
+  "SV" -> 28
+  "EE" -> 20
+  "FO" -> 18
+  "FI" -> 18
+  "FR" -> 27
+  "GE" -> 22
+  "DE" -> 22
+  "GI" -> 23
+  "GR" -> 27
+  "GL" -> 18
+  "GT" -> 28
+  "VA" -> 22
+  "HU" -> 28
+  "IS" -> 26
+  "IQ" -> 23
+  "IE" -> 22
+  "IL" -> 23
+  "IT" -> 27
+  "JO" -> 30
+  "KZ" -> 20
+  "XK" -> 20
+  "KW" -> 30
+  "LV" -> 21
+  "LB" -> 28
+  "LY" -> 25
+  "LI" -> 21
+  "LT" -> 20
+  "LU" -> 20
+  "MT" -> 31
+  "MR" -> 27
+  "MU" -> 30
+  "MD" -> 24
+  "MC" -> 27
+  "ME" -> 22
+  "NL" -> 18
+  "MK" -> 19
+  "NO" -> 15
+  "PK" -> 24
+  "PS" -> 29
+  "PL" -> 28
+  "PT" -> 25
+  "QA" -> 29
+  "RO" -> 24
+  "LC" -> 32
+  "SM" -> 27
+  "ST" -> 25
+  "SA" -> 24
+  "RS" -> 22
+  "SC" -> 31
+  "SK" -> 24
+  "SI" -> 19
+  "ES" -> 24
+  "SD" -> 18
+  "SE" -> 24
+  "CH" -> 21
+  "TL" -> 23
+  "TN" -> 24
+  "TR" -> 26
+  "UA" -> 29
+  "AE" -> 23
+  "GB" -> 22
+  "VG" -> 24
+  _ -> 0
 
 -- https://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN
 -- Computing remainder for final modification of IBAN from mod 97.
@@ -131,29 +132,33 @@ convertCharsToIntsIban iban = concatMap show (map letterToDigits iban)
 -- Moving first 4 characters of IBAN to end.
 moveInitCharsToEndIban :: [a] -> [a]
 moveInitCharsToEndIban iban = amendedIban
-    where
-        amendedIban = shorterIban ++ firstFour
-        shorterIban = drop 4 iban
-        firstFour = take 4 iban
+  where
+    amendedIban = shorterIban ++ firstFour
+    shorterIban = drop 4 iban
+    firstFour = take 4 iban
 
 -- Checking validity of IBAN
+-- Function have two validation checks.
+-- First it validates whether or not the length of the number is correct based on the country code.
+-- The second validations checks if the entire IBAN number returns 1 after applying mod 97 on it.
 iban :: String -> Bool
 iban val
-    | stateIbanCharacters (take 2 val) /= length val = False
-    | checkModulusIban val = True
-    | otherwise = False
+  | stateIbanCharacters (take 2 val) /= length val = False
+  | checkModulusIban val = True
+  | otherwise = False
 
 -- Checking that modified IBAN (acc. to rules) mod 97 == 1
 checkModulusIban :: [Char] -> Bool
-checkModulusIban val = modulus == 1 where 
-        modulus = mod97Algorithm convertedToIntIban
-        convertedToIntIban = convertCharsToIntsIban movedCharIban
-        movedCharIban = moveInitCharsToEndIban val 
+checkModulusIban val = modulus == 1
+  where
+    modulus = mod97Algorithm convertedToIntIban
+    convertedToIntIban = convertCharsToIntsIban movedCharIban
+    movedCharIban = moveInitCharsToEndIban val
 
 -- List of valid IBANs from https://www.iban.com/structure
 listOfValidIbans :: [[Char]]
-listOfValidIbans = [
-    "AL35202111090000000001234567",
+listOfValidIbans =
+  [ "AL35202111090000000001234567",
     "AD1400080001001234567890",
     "AT483200000012345864",
     "AZ77VTBA00000000001234567890",
@@ -188,45 +193,48 @@ listOfValidIbans = [
     "UA903052992990004149123456789",
     "AE460090000000123456789",
     "GB33BUKB20201555555555",
-    "VG07ABVI0000000123456789"]
+    "VG07ABVI0000000123456789"
+  ]
 
 -- Checking that for every valid IBAN, function understands the iban to be valid
 prop_checkValidIbans :: Bool
-prop_checkValidIbans = all (==True) [checkModulusIban x | x <- listOfValidIbans]
+prop_checkValidIbans = all (== True) [checkModulusIban x | x <- listOfValidIbans]
+
 -- Checking that for every invalid IBAN with additional character,
 -- function understands the iban to be invalid
 prop_checkInvalidIbansWithExtraCharacter :: Bool
-prop_checkInvalidIbansWithExtraCharacter = all (==False) [checkModulusIban (x ++ "1") | x <- listOfValidIbans]
+prop_checkInvalidIbansWithExtraCharacter = all (== False) [checkModulusIban (x ++ "1") | x <- listOfValidIbans]
+
 -- Checking that for every invalid IBAN without an initial country code,
 -- function understands the iban to be invalid
 prop_checkInvalidIbansWithoutCountryCode :: Bool
-prop_checkInvalidIbansWithoutCountryCode = all (==False) [checkModulusIban (drop 2 x) | x <- listOfValidIbans]
+prop_checkInvalidIbansWithoutCountryCode = all (== False) [checkModulusIban (drop 2 x) | x <- listOfValidIbans]
+
 -- Checking that for every invalid IBAN with an incorrect country code ("AA")
 -- function understands the iban to be invalid
 prop_checkInvalidIbansWithIncorrectCountryCode :: Bool
-prop_checkInvalidIbansWithIncorrectCountryCode = all (==False) [checkModulusIban ("AA" ++ x) | x <- listOfValidIbans]
+prop_checkInvalidIbansWithIncorrectCountryCode = all (== False) [checkModulusIban ("AA" ++ x) | x <- listOfValidIbans]
 
 main :: IO ()
-main = do 
-      putStrLn "\n=== Testing a valid list of IBANs ===\n"
-      print prop_checkValidIbans
-      putStrLn "\n===  Testing invalid ibans by changing the values of valid IBANs ===\n"
-      print prop_checkInvalidIbansWithExtraCharacter
-      putStrLn "\n=== Testing IBANs with invalid country codes ===\n"
-      print prop_checkInvalidIbansWithoutCountryCode
-      putStrLn "\n=== Testing invalid IBANs with invalid country code ===\n"
-      print prop_checkInvalidIbansWithIncorrectCountryCode
-    
+main = do
+  putStrLn "\n=== Testing a valid list of IBANs ===\n"
+  print prop_checkValidIbans
+  putStrLn "\n===  Testing invalid ibans by changing the values of valid IBANs ===\n"
+  print prop_checkInvalidIbansWithExtraCharacter
+  putStrLn "\n=== Testing IBANs with invalid country codes ===\n"
+  print prop_checkInvalidIbansWithoutCountryCode
+  putStrLn "\n=== Testing invalid IBANs with invalid country code ===\n"
+  print prop_checkInvalidIbansWithIncorrectCountryCode
+
 -- Automated testing:
 -- We have reason to believe Automated Testing cannot be done within such a solution.
--- RATIONALE: 
+-- RATIONALE:
 -- 1. IBANs have different length per country
--- 2. Some IBAN patterns contain not only non-digit characters 
+-- 2. Some IBAN patterns contain not only non-digit characters
 --    for the country code, but also further within the IBAN.
 -- 3. Only a limited number of all possible 2-character combinations
 --    create a valid country code combination.
 -- 4. Too many invalid combinations generated before generating at least one valid combination,
 --    for a valid country code, with valid no. of characters and of which mod 97 = 1.
-
 
 -- Time Spent: Approx 2 hours (by 2 persons working separately)
