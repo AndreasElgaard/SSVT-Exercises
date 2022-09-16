@@ -126,6 +126,8 @@ main = do
 -- Q: Can you automate the test process?
 -- A: It is difficult to automate the testing for this function as thoroughly test this function 
 --    requries a lot of resources to test due to the permutations function that embedded within it.
+--      Also generating random integer lists and checking whether they are not deranges of each other
+--      might not be too useful of a test.
 
 
 -- ========== LECTURE BASED FUNCTIONS ============
