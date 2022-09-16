@@ -9,7 +9,7 @@ import Data.Function ( on )
 -- If this is true, it means it is not a derangment. However, in a derangement we will have no numbers returned by this filter, meaning it will return [] empty list.
 -- This was the result of my train of thought [] == filter (\(x,y) -> x == y) (zip l1 l2)
 -- However, my linter recommended me what I wrote now. It does the same thing but cleaner.
--- I know uncurry compares my values in the pair with the arythmetic I said, which is ==. Basically does what (\(x,y) -> x == y) did.
+-- I know uncurry compares my values in the pair with the arithmentic I said, which is ==. Basically does what (\(x,y) -> x == y) did.
 -- The way I think it is now is: did you find ANY pair of numbers which are equal (uncurry). If you find them, true, so we negate it.
 -- Because we don't want any equal pairs, since this means the same number in the same index, aka, not a correct derangement.
 
@@ -124,9 +124,9 @@ main = do
   -- Property: Two Indetical Lists (1) ,
 
 -- Q: Can you automate the test process?
--- A: It is difficult to automate the testing for this function as thoroughly test this function 
---    requries a lot of resources to test due to the permutations function that embedded within it.
---      Also generating random integer lists and checking whether they are not deranges of each other
+-- A: It is difficult to automate the testing for this function, as to thoroughly test this function 
+--    requires a lot of resources for testing due to the permutations function that are embedded within it.
+--      Also generating random integer lists and checking whether they are not derangements of each other
 --      might not be too useful of a test.
 
 
