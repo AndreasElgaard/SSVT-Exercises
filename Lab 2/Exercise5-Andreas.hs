@@ -34,13 +34,9 @@ goOver n (x : xs)
 prop_isSymmetrical :: Eq a => [a] -> [a] -> Bool
 prop_isSymmetrical l1 l2 = isDerangement l1 l2 == isDerangement l2 l1 
 
--- if the length of our first list is the same as the second derangement, they both have the same numbers.
---This is because I am filtering the second list by if they have the number in the first list.
--- If some number is not found, the second filtered list will be shorter.
-
 -- sort both lists and compare them. if equal, it has the same numbers. if false, something is missing or extra.
---prop_sameNumbers :: Eq a => [a] -> [a] -> Bool
---prop_sameNumbers l1 l2 = length l1 == length ([x | x <- l1, anotherRecursion x l2])
+prop_sameNumbers :: [Int] -> [Int] -> Bool
+prop_sameNumbers l1 l2 = sort l1 == sort l2
 
 -- This checks that every derangement of [0..3] (deran 4) is actually a derangement.
 prop_deranDerangement :: Bool
@@ -61,9 +57,9 @@ recursion :: [Int] -> [[Int]] -> Bool
 recursion _ [] = False
 recursion interval (x : xs)
   | isDerangement interval x = True
-  | otherwise = anotherRecursion interval xs
+  | otherwise = recursion interval xs
 
--- This one is True when we have found a number x in the other list.
+-- This one is True when we have found a number x in the other list. We don't use it in the end
 anotherRecursion :: [Int] -> [[Int]] -> Bool
 anotherRecursion _ [] = False
 anotherRecursion firstLoopNumber (x : xs)
