@@ -34,13 +34,14 @@ goOver n (x : xs)
 prop_isSymmetrical :: Eq a => [a] -> [a] -> Bool
 prop_isSymmetrical l1 l2 = isDerangement l1 l2 == isDerangement l2 l1 
 
--- sort both lists and compare them. if equal, it has the same numbers. if false, something is missing or extra.
+-- Checks to see if both lists are the same length
+prop_sameLength :: Eq a => [a] -> [a] -> Bool
+prop_sameLength l1 l2 = length l1 == length l2
+
+-- Checks if they have the same numbers. It sorts both lists and compare them. 
+-- if equal, it has the same numbers. if false, something is missing or is extra.
 prop_sameNumbers :: [Int] -> [Int] -> Bool
 prop_sameNumbers l1 l2 = sort l1 == sort l2
-
--- This checks that every derangement of [0..3] (deran 4) is actually a derangement.
-prop_deranDerangement :: Bool
-prop_deranDerangement = recursion [0 .. 3] (deran 4)
 
 -- Test isDerangement within a well-chosen integer lists return false
 prop_isNotDerangement :: Bool
@@ -50,14 +51,19 @@ prop_isNotDerangement = not (isDerangement [1, 2, 3, 4] [1, 3, 2, 4])
 prop_isDerangement :: Bool
 prop_isDerangement = isDerangement [1, 2, 3, 4] [4, 1, 2, 3]
 
+-- This checks that every derangement of [0..3] (deran 4) is actually a derangement.
+prop_deranDerangement :: Bool
+prop_deranDerangement = recursion [0 .. 3] (deran 4)
+
 -- ########## Helper functions for tests ##########
 
 -- this one is used in the prop_deranDerangement, to go over all the combinations of deran 4
+-- and check for all of them if they are a derangement.
 recursion :: [Int] -> [[Int]] -> Bool
-recursion _ [] = False
+recursion _ [] = True
 recursion interval (x : xs)
-  | isDerangement interval x = True
-  | otherwise = recursion interval xs
+  | isDerangement interval x = recursion interval xs
+  | otherwise = False
 
 -- This one is True when we have found a number x in the other list. We don't use it in the end
 anotherRecursion :: [Int] -> [[Int]] -> Bool
@@ -70,8 +76,6 @@ anotherRecursion firstLoopNumber (x : xs)
 -- ########## Test Report ##########
 main :: IO Result
 main = do
-  putStrLn "\n=== Testing if  ===\n"
-  -- quickCheck prop_LengthDerangement
 
   putStrLn "\n=== Testing if ===\n"
   quickCheckResult prop_deranDerangement
@@ -94,7 +98,6 @@ main = do
 -- isEqual :: (Num a, Enum a) => (a -> Bool) -> (a -> Bool) -> Bool
 -- isEqual leftProp rightProp = (stronger JO [(-10) .. 10] leftProp rightProp) && (stronger [(-10) .. 10] rightProp leftProp)
 
--- my prop return bool but you use Int -> Bool for your algorithm. I don't know whether to change your algorithm or you put the integer
 
 infix 1 -->
 
@@ -118,4 +121,4 @@ weaker xs p q = stronger xs q p
 -- Possible tests for isDerangement:
 -- 1: Both lists are the same length
 -- 2: Both lists have the same numbers
--- 3: If they are symmetrical (This test does not work in the hs file tho. Maybe its not a good test?)
+-- 3: If they are symmetrical 
