@@ -1,64 +1,62 @@
 module Exercise4 where
-import Data.List
-import Data.Char
--- import System.Random
-import Test.QuickCheck
+import Data.List ( permutations, sort, sortBy )
+import Test.QuickCheck ( quickCheck )
 import System.Random ( getStdRandom, Random(randomR) )
 import qualified Control.Monad.IO.Class
 import Data.Function ( on )
 
-
+-- Explanation and thought process
+--     
 isPermutation :: Ord a => [a] -> [a] -> Bool
 isPermutation  = isPermSort
 
--- Assuming that the list can have duplicates, this would probably work best
+-- To check is two lists are permutations of each other they can be sorted and compared
+--  this makes sure that the length of the lists are equal and the content within is the same 
 isPermSort :: Ord a => [a] -> [a] -> Bool
 isPermSort [] [] = True
-isPermSort xs xsPerm = length xs == length xsPerm && sort xs == sort xsPerm
-
--- If the list does not have duplicates: (This fails with duplicates)
-isPermElems :: Eq a => [a] -> [a] -> Bool
-isPermElems [] [] = False
-isPermElems x [] = True
-isPermElems xs (x: xsPerm)
-    | x `elem` xs = isPermElems xs xsPerm
-    | otherwise = False
+isPermSort xs xsPerm = sort xs == sort xsPerm
 
 -- =============== PROPS ============
--- Probably the best prop would be to comapes [1..] to [1..] but thats impossible lols
--- Testing the same list input as a base case
 
+-- Testing that the same arrays is a permutation of itself
+-- This is the base case
 prop_baseCaseTrue :: Int -> Bool
 prop_baseCaseTrue start  =  isPermutation x x where
     x = [start..end]
     end = start+10
 
--- Testing differnet lists 
+-- Testing that two separate arrays with the same length and different
+--  content are not permutations of each other
 prop_baseCaseDifferent :: Int -> Bool
 prop_baseCaseDifferent start =  not (isPermutation l1 l2) where
     l1 = [start..end]
     l2 = [(start+10)..(end+10)]
     end = start+10
 
+-- Testing that a permutation of a generated array is indeed a permutation of itself
+--  IMPROVEMENTS: It would be prefereable that a random permutation is selected, but 
+--                I coudnt get that to work because of typing
 prop_validPerm :: Int -> Bool
 prop_validPerm start = isPermutation [start..end] headOfPerms where
     (headOfPerms:_) = permutations [start..end]
     end = start+10
 
--- Generate 2 lists with different lengths and make sure they are not equal
+-- Testing that two arrays of similiar content but -1 length to each other are not infact
+--  permutations of each other
 prop_testDiffGeneratedLists :: Int -> Bool
 prop_testDiffGeneratedLists start = not (isPermutation l1 l2) where
     l1 = [start..end]
     l2 = [start..end-1]
     end = start+10
 
--- Generates n tests that randomly generates 2 lists of ints to test isPermutation
+-- Automatically generating two random Int Lists and checking that the two arrays 
+--  are not permutations of each other (not perfect)
 prop_testRandomGeneratedPerms :: Int -> IO ()
 prop_testRandomGeneratedPerms n = testRandomGenList 1 n isPermutation False
 -- =============== END OF PROPS  ================
 
 -- =============== CREATING  AUTOMATED TESTING =================
--- BIG KAVIAT WITH THIS FUNCTION
+-- FLAW WITH THIS FUNCTION
 -- The code is assuming that the two generated random lists are not permutations of each other
 --  This is not a valid assumption so sometimes the tests will fail because the random arrays are permutations of each other
 -- Ways around this are to find a way to tell genTwoIntList to filter , but that would need to call the isPermutation function... which is what we are testing
@@ -75,7 +73,6 @@ testRandomGenList counter fCounter func expectedOut = if counter == fCounter the
                     do print ("pass on: " ++ show l1 ++ " and " ++ show l2)
                        testRandomGenList (counter+1) fCounter func expectedOut
                   else error ("failed test on: " ++ show l1 ++ " and " ++ show l2)
-
 
 -- This function creates two random lists that are not the same
 --      This should be improved by adding some filtering maybe
@@ -121,8 +118,7 @@ stronger xs p q = forall xs (\ x -> p x --> q x)
 weaker   xs p q = stronger xs q p
 -- ========== END OF LECTURE USED FUNCTIONS ============
 
-
-
+-- ============ Code from the previous Exercise ========= --
 arrOfProps :: [([Char], Int -> Bool)]
 arrOfProps = [("Prop Same Arrs", prop_baseCaseTrue),
               ("Prop Differnet Arrs", prop_baseCaseDifferent),
@@ -144,8 +140,7 @@ getFunctionStrength (functionName, leftProp) = (functionName, trueVals) where
 
 showResults :: [Char]
 showResults  = concatMap (\(left, right) -> left ++ " (" ++ show right ++ ") ,\n") mapFunctions
-
--- ========== TESTING STRENGTH OF PROPS ============
+-- ============ End of Code from the previous Exercise ========= --
 
 main :: IO ()
 main = do 
@@ -157,8 +152,24 @@ main = do
       quickCheck prop_validPerm
       putStrLn "\n=== Testing 2 lists of different lengths ===\n"
       quickCheck prop_testDiffGeneratedLists
-    --   putStrLn "\n=== Autogenerated Tests===\n"
-    --   testRandomGenList
+      putStrLn "\n=== Autogenerated Tests ===\n"
+      prop_testRandomGeneratedPerms 100
       putStrLn "\n=== Showing the rankings of the props ===\n"
       putStrLn  showResults
 
+-- Automated Testing
+--  To automatically test the 'isPermutation' function we created a function which randomly 
+--  generates two lists that are not the exact same. This is not a perfect implementaion as 
+--  there is a chance that the two generated lists are a permuation of each other
+--  to improve this function a filter mechanism would be needed
+
+--  Additional automated testing:
+--      We wanted to create a function that automatically generates a list and a permutation of
+--      that list is created within the generator, this would test the function with many different 
+--      permutations. However this did not work at the permutations function does not accept IO [Int]
+--      types, or we lack the knowledge to implement it currently
+
+-- Additional props to check
+--      The sum of the lists could have been calcualted and compared, however this is not full proof
+--      as you can have two seperate arrays of the same length and different content with the sum 
+-- Time Spent: 4 hours
