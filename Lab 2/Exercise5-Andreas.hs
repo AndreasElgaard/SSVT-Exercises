@@ -32,7 +32,7 @@ goOver n (x : xs)
 -- ########## Tests ##########
 -- Checks to see if the relation is symmetric
 prop_isSymmetrical :: Eq a => [a] -> [a] -> Bool
-prop_isSymmetrical l1 l2 = isDerangement l1 l2 --> isDerangement l2 l1 -- Cant get this one to work in the hs file
+prop_isSymmetrical l1 l2 = isDerangement l1 l2 == isDerangement l2 l1 -- Cant get this one to work in the hs file
 
 -- This checks that every derangement of [0..3] (deran 4) is actually a derangement.
 prop_deranDerangement :: Bool
