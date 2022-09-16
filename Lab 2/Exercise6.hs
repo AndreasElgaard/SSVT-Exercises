@@ -63,8 +63,8 @@ isInverseInList [] _ = False
 isInverseInList list first = rot13OnChar first `elem` list
 
 -- Apply rot13 twice to have the original value
-prop_applyRot13Twice :: Bool
-prop_applyRot13Twice = rot13 (rot13 ['A', 'n', 'q', 'Z']) == "AnqZ"
+prop_applyRot13Twice :: [Char] -> Bool
+prop_applyRot13Twice str = rot13 (rot13 str) == str
 
 -- Test Report
 main :: IO Result
