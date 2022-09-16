@@ -10,7 +10,6 @@ import Test.QuickCheck
 -- #### DESCRIPTION OF SOLUTION ####
 -- First of all should we define a function that replaces each letter with the letter 13 places further along in the (english) alphabet.
 -- This function should be applied on all letters in the list and return a new list. To the this we should use map
---
 
 -- Iterates over all characters in the list of characters to find the inverse.
 -- Returns a list consisting of the inverse characters
