@@ -18,4 +18,7 @@ entails p q
 
     -- | logical equivalence
 equiv :: Form -> Form -> Bool
-equiv = undefined
+equiv p q 
+    | p == True && q == True = True
+    | p == False && q == False = True
+    | otherwise False
