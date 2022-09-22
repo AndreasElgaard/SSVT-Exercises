@@ -24,10 +24,10 @@ deMorgansHandler (Neg a             ) = Neg (deMorgansHandler a)
 
 
 cnf :: Form -> Form
-cnf f1 = deMorgened  where
+cnf f1 = deMorganed  where
     -- formula =  Dsj createCnj
     -- createCnj = map Cnj (createFormForProp mapOfListOfProps)
-    deMorgened        = deMorgansHandler negatedDisjuncted
+    deMorganed        = deMorgansHandler negatedDisjuncted
     negatedDisjuncted = Neg (Dsj conjuncted)
     conjuncted        = map Cnj propsMap
     propsMap          = map createFormForProp mapOfListOfProps
