@@ -1,0 +1,39 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
+module Exercise5 where
+import           Data.Char
+import           Data.List
+import           Lecture3
+import           SetOrd
+import           Test.QuickCheck
+
+sub :: Form -> Set Form
+sub (  Prop x       ) = Set [Prop x]
+sub (  Neg  f       ) = unionSet (Set [Neg f]) (sub f)
+sub f@(Cnj  [f1, f2]) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
+sub f@(Dsj  [f1, f2]) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
+sub f@(Impl  f1 f2  ) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
+sub f@(Equiv f1 f2  ) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
+
+prop_checkSubContainsCorrectBaseProps :: Form -> Bool
+prop_checkSubContainsCorrectBaseProps f1= all
+    (== True)
+    [ inSet baseProp subF1 | baseProp <- baseProps ]  where
+    subF1     = sub f1
+    baseProps = map Prop (propNames f1)
+
+prop_checkSubContainsIncorrectBaseProps :: Form -> Bool
+prop_checkSubContainsIncorrectBaseProps f1= all
+    (== True)
+    [ inSet baseProp subF1 | baseProp <- baseProps ]  where
+    subF1     = sub f1
+    baseProps = map Prop (propNames f1)
+
+prop_checkSubContainsFullFormula :: Form -> Bool
+prop_checkSubContainsFullFormula f1 = inSet f1 subF1  where
+    subF1 = sub f1
+
+prop_checkSubContainsIncorrectFullFormula :: Form -> Bool
+prop_checkSubContainsIncorrectFullFormula f1 = inSet (Neg f1) subF1  where
+    subF1 = sub f1
+
+
