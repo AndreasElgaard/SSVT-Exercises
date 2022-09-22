@@ -10,23 +10,13 @@ contradiction :: Form -> Bool
 contradiction = not . satisfiable
 
 tautology :: Form -> Bool
-tautology f = all (\v -> evl v f) (allVals f)
+tautology f = all (`evl` f) (allVals f)
 
 -- | logical entailment
 entails :: Form -> Form -> Bool
-entails f1 f2 = all checkBools zipped  where
-    zipped = zip list1 list2
-    list2  = map (\v -> (evl v f2)) (allVals f2)
-    list1  = map (\v -> (evl v f1)) (allVals f1)
--- Use Impl for the solution for entails
+entails f1 f2 = all (\v -> evl v (Impl f1 f2)) (allVals f1)
 
-
-checkBools :: (Bool, Bool) -> Bool
-checkBools (True , True ) = True
-checkBools (False, _    ) = True
-checkBools (True , False) = False
 
 -- | logical equivalence
 equiv :: Form -> Form -> Bool
-equiv f1 f2 =
-    map (\v -> (evl v f1)) (allVals f1) == map (\v -> (evl v f2)) (allVals f2)
+equiv f1 f2 = map (`evl` f1) (allVals f1) == map (`evl` f2) (allVals f2)
