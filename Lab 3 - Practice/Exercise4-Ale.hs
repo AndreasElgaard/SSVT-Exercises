@@ -6,24 +6,47 @@ import           Lecture3
 import           SetOrd
 import           Test.QuickCheck
 
-
-
 instance Arbitrary Form where
-    arbitrary = frequency [arbProp, arbNeg, arbCnj, arbDsj aImpl, arbEquiv]
+    arbitrary = frequency listOfArbs
       where
         arbProp = do
-            p <- arbitrary
-            return $ Prop $ abs p
+            Prop . abs <$> arbitrary
         arbNeg = do
-            x <- frequency [arbProp, arbNeg, arbCnj, arbDsj aImpl, arbEquiv]
+            x <- frequency listOfArbs
             return $ Neg x
-        arbitraryCharachter = do
-            c <- arbitrary
-            return $ Character c
+        arbCnj = do
+            x <- frequency listOfArbs
+            y <- frequency listOfArbs
+            return $ Cnj [x, y]
+        arbDsj = do
+            x <- frequency listOfArbs
+            y <- frequency listOfArbs
+            -- vectorOf
+            return $ Dsj [x, y]
+        arbImpl = do
+            x <- frequency listOfArbs
+            y <- frequency listOfArbs
+            return $ Impl x y
+        arbEquiv = do
+            x <- frequency listOfArbs
+            y <- frequency listOfArbs
+            return $ Equiv x y
+        listOfArbs =
+            [ (10, arbProp)
+            , (2 , arbNeg)
+            , (1 , arbCnj)
+            , (3 , arbDsj)
+            , (4 , arbImpl)
+            , (1 , arbEquiv)
+            ]
 
 
+-- genForm :: Gen Form
+-- genForm = arbitrary :: Gen Form
 
 
+prop_isSat :: Form -> Bool
+prop_isSat = satisfiable
 
 
 
