@@ -19,9 +19,10 @@ getRandomNum :: IO Int
 getRandomNum = randomRIO (1, 10)
 
 --Logic generator
-logicGenerator = getRandomNum
 
 -- Create structure of formula with recursion
+
+-- Function that checks if formula is valied
 
 -- =================================== Props ===================================
 -- Testing if parse and form are equal to each other. Form1 is being tested.
