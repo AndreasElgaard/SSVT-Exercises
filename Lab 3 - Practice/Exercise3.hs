@@ -23,7 +23,7 @@ deMorgansHandler (Neg a             ) = Neg (deMorgansHandler a)
 
 
 
-cnf :: p -> Form
+cnf :: Form -> Form
 cnf f1 = deMorgened  where
     -- formula =  Dsj createCnj
     -- createCnj = map Cnj (createFormForProp mapOfListOfProps)
@@ -32,8 +32,8 @@ cnf f1 = deMorgened  where
     conjuncted        = map Cnj propsMap
     propsMap          = map createFormForProp mapOfListOfProps
     mapOfListOfProps  = map fst filteredFalseMap
-    filteredFalseMap  = filter (\(val, bool) -> not bool) $ mapOfEval
-    mapOfEval         = map (\n -> (n, evl n form2)) (allVals form2)
+    filteredFalseMap  = filter (\(_, bool) -> not bool) mapOfEval
+    mapOfEval         = map (\n -> (n, evl n f1)) (allVals f1)
 
 createFormForProp ((prop, True) : xs) = Prop prop : createFormForProp (xs)
 createFormForProp ((prop, False) : xs) =

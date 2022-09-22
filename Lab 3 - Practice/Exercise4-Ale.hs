@@ -15,14 +15,11 @@ instance Arbitrary Form where
             x <- frequency listOfArbs
             return $ Neg x
         arbCnj = do
-            x <- frequency listOfArbs
-            y <- frequency listOfArbs
-            return $ Cnj [x, y]
+            x <- vectorOf 4 (frequency listOfArbs)
+            return $ Cnj x
         arbDsj = do
-            x <- frequency listOfArbs
-            y <- frequency listOfArbs
-            -- vectorOf
-            return $ Dsj [x, y]
+            x <- vectorOf 4 (frequency listOfArbs)
+            return $ Dsj x
         arbImpl = do
             x <- frequency listOfArbs
             y <- frequency listOfArbs
@@ -32,19 +29,20 @@ instance Arbitrary Form where
             y <- frequency listOfArbs
             return $ Equiv x y
         listOfArbs =
-            [ (10, arbProp)
+            [ (13, arbProp)
             , (2 , arbNeg)
-            , (1 , arbCnj)
-            , (3 , arbDsj)
-            , (4 , arbImpl)
-            , (1 , arbEquiv)
+            , (2 , arbCnj)
+            , (2 , arbDsj)
+            , (2 , arbImpl)
+            , (2 , arbEquiv)
             ]
 
 
--- genForm :: Gen Form
--- genForm = arbitrary :: Gen Form
 
+genForm :: IO Form
+genForm = generate (arbitrary :: Gen Form)
 
+-- generate (arbitrary :: Gen Form)
 prop_isSat :: Form -> Bool
 prop_isSat = satisfiable
 
