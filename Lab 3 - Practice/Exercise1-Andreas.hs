@@ -1,9 +1,9 @@
 module Exercise1 where
 
-import           Data.Char
-import           Data.List
-import           Lecture3
-import           Test.QuickCheck
+import Data.Char
+import Data.List
+import Lecture3
+import Test.QuickCheck
 
 
 contradiction :: Form -> Bool
