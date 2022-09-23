@@ -80,11 +80,14 @@ prop_checkSubContainsIncorrectFullFormula f1 = inSet (Neg f1) subF1
 -- It would be a valid test since we know the minimum of each sub-formula (prop = 1, Neg = 2, Cnj = 1, Dsj = 1, Impl = 2, Equiv = 2)
 -- I'm not sure how to test this though. But if we find out we can use the generator from Exercise4 to automate the test.
 
+-- we have more sets in nsub than props there are in the form
+prop_nsub :: Form -> Bool
+prop_nsub f1 = nsub f1 >= length (map Prop (propNames f1))
 
 -- =================================== Test Report ===================================
 --
-main :: IO Result
-main = do
+mainEx5 :: IO Result
+mainEx5 = do
   putStrLn "\n=== Testing if sub contains correct base props (Exercise 5.1) ===\n"
   quickCheckResult prop_checkSubContainsCorrectBaseProps
 
