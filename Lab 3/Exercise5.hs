@@ -4,7 +4,7 @@ import           Lecture3
 import           SetOrd
 import           Test.QuickCheck
 
--- Time spend: x minutes --
+-- Time spend: 120 minutes --
 
 instance Arbitrary Form where
   arbitrary = frequency listOfArbs
