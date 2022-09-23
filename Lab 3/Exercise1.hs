@@ -21,6 +21,8 @@ tautology f = all (`evl` f) (allVals f)
 -- Function that checks if a formula f1 entails formula f2 if and only if
 -- every True, False combination evaluation as TRUE for f1 also evaluates
 -- TRUE for f2.
+-- Oversight: If this function is based two totally different forms such as (Prop 1) and (Prop 2) it will
+--  fail because the values from Prop 1 are not included in Prop 2.
 entails :: Form -> Form -> Bool
 entails f1 f2 = all (\v -> evl v (Impl f1 f2)) (allVals f1)
 
