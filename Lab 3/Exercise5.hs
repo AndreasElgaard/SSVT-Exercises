@@ -57,7 +57,7 @@ nsub :: Form -> Int
 nsub f1 = recursion (sub f1)
 
 recursion :: Set Form -> Int
-recursion (Set []      ) = 1
+recursion (Set []      ) = 0
 recursion (Set (x : xs)) = 1 + recursion (Set xs)
 
 -- =================================== Props for Exercise 5.1 ===================================

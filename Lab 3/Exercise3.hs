@@ -25,6 +25,7 @@ deMorgansHandler (Equiv f1 f2) =
 deMorgansHandler (Neg (Neg (Prop a))) = Prop a
 deMorgansHandler (Neg a             ) = Neg (deMorgansHandler a)
 
+-- The function does not fully simplify the form, however the final value is valid
 cnf :: Form -> Form
 cnf f1 = conjuctiveNormalForm  where
     -- Applying De Morgan's Law to convert the below to CNF form.
