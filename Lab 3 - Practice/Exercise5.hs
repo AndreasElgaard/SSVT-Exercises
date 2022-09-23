@@ -4,10 +4,43 @@ import Data.Char
 import Data.List
 -- import Exercise4 -- Wanted to import Exercise4 so we can use the method to generate formulaes to test on nsub
 import Lecture3
+import Exercise4
 import SetOrd
 import Test.QuickCheck
 
 -- Time spend: x minutes --
+
+-- i copied this from exercise 4, the import did not work, so I just copied it. 
+instance Arbitrary Form where
+  arbitrary = frequency listOfArbs
+    where
+      arbProp = do
+        Prop . abs <$> arbitrary
+      arbNeg = do
+        x <- frequency listOfArbs
+        return $ Neg x
+      arbCnj = do
+        x <- vectorOf 4 (frequency listOfArbs)
+        return $ Cnj x
+      arbDsj = do
+        x <- vectorOf 4 (frequency listOfArbs)
+        return $ Dsj x
+      arbImpl = do
+        x <- frequency listOfArbs
+        y <- frequency listOfArbs
+        return $ Impl x y
+      arbEquiv = do
+        x <- frequency listOfArbs
+        y <- frequency listOfArbs
+        return $ Equiv x y
+      listOfArbs =
+        [ (13, arbProp),
+          (2, arbNeg),
+          (2, arbCnj),
+          (2, arbDsj),
+          (2, arbImpl),
+          (2, arbEquiv)
+        ]
 
 -- =================================== Functions from Lecture ===================================
 sub :: Form -> Set Form
@@ -34,40 +67,38 @@ nsub (Equiv form1 form2) = (nsub form1) + (nsub form2) + 1
 -- Description of test method here!!
 
 -- Testing if sub contains correct base props
-prop_checkSubContainsCorrectBaseProps :: Bool
-prop_checkSubContainsCorrectBaseProps =
+prop_checkSubContainsCorrectBaseProps :: Form -> Bool
+prop_checkSubContainsCorrectBaseProps f1 =
   all
     (== True)
     [inSet baseProp subF1 | baseProp <- baseProps]
   where
-    subF1 = sub f1
-    baseProps = [Prop 1, Prop 2]
-    f1 = Neg (Cnj [Prop 1, Prop 2])
+    subF1     = sub f1
+    baseProps = map Prop (propNames f1)
 
 -- Testing if sub contains incorrect base props
-prop_checkSubContainsIncorrectBaseProps :: Bool
-prop_checkSubContainsIncorrectBaseProps =
+prop_checkSubContainsIncorrectBaseProps :: Form -> Bool
+prop_checkSubContainsIncorrectBaseProps f1 =
   all
     (== True)
     [inSet baseProp subF1 | baseProp <- baseProps]
   where
-    subF1 = sub f1
-    baseProps = [Prop 1, Prop 3]
-    f1 = Neg (Cnj [Prop 1, Prop 2])
+    subF1     = sub f1
+    baseProps = map Prop (propNames f1)
 
 -- Testing if sub contains full formula
-prop_checkSubContainsFullFormula :: Bool
-prop_checkSubContainsFullFormula = inSet f1 subF1
+prop_checkSubContainsFullFormula :: Form -> Bool
+prop_checkSubContainsFullFormula f1 = inSet f1 subF1
   where
-    subF1 = sub f1
-    f1 = Neg (Cnj [Prop 1, Prop 2])
+    subF1     = sub f1
+    baseProps = map Prop (propNames f1)
 
 -- Testing if sub contains incorrect full formula
-prop_checkSubContainsIncorrectFullFormula :: Bool
-prop_checkSubContainsIncorrectFullFormula = inSet (Neg f1) subF1
+prop_checkSubContainsIncorrectFullFormula :: Form -> Bool
+prop_checkSubContainsIncorrectFullFormula f1 = inSet (Neg f1) subF1
   where
-    subF1 = sub f1
-    f1 = Neg (Cnj [Prop 1, Prop 2])
+    subF1     = sub f1
+    baseProps = map Prop (propNames f1)
 
 -- =================================== Props for Exercise 5.2 ===================================
 -- Properties for nsub
@@ -83,16 +114,16 @@ prop_nsub = undefined
 main :: IO Result
 main = do
   putStrLn "\n=== Testing if sub contains correct base props (Exercise 5.1) ===\n"
-  quickCheckResult prop_checkSubContainsCorrectBaseProps
+  quickCheck prop_checkSubContainsCorrectBaseProps
 
   putStrLn "\n=== Testing if sub contains incorrect base props (Exercise 5.1) ===\n" -- FAILS
-  quickCheckResult prop_checkSubContainsIncorrectBaseProps
+  quickCheck prop_checkSubContainsIncorrectBaseProps
 
   putStrLn "\n=== Testing if sub contains full formula (Exercise 5.1) ===\n"
-  quickCheckResult prop_checkSubContainsFullFormula
+  quickCheck prop_checkSubContainsFullFormula
 
   putStrLn "\n=== Testing if sub contains incorrect full formula (Exercise 5.1) ===\n" -- FAILS
-  quickCheckResult prop_checkSubContainsIncorrectFullFormula
+  quickCheck prop_checkSubContainsIncorrectFullFormula
 
 -- putStrLn "\n=== Testing if  (Exercise 5.2) ===\n"
 -- quickCheck prop_nsub
