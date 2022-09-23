@@ -29,6 +29,9 @@ import           Test.QuickCheck
 --  3.  The lenght of the list of forms used in vectorOf is currently hard coded to 3, this was done in hopes of
 --        not creating never ending forms, however the length should be dynamically generated to have a better solution
 
+-- Reference for this code:
+-- https://stackoverflow.com/questions/35726256/quickcheck-on-custom-datatype
+-- And our fellow class mate Martin for point us to this source, thank you Martin!
 instance Arbitrary Form where
   arbitrary = frequency listOfArbs
    where
@@ -151,3 +154,5 @@ main = do
 
 -- Test the generator with:
 -- generate (arbitrary :: Gen Form)
+
+-- Time spent: Approx 240 minutes, most of the time was spent understanding the QuickCheck generator
