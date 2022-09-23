@@ -1,7 +1,5 @@
 module Exercise5 where
-import           Lecture3                       ( Form(..)
-                                                , propNames
-                                                )
+import           Lecture3
 
 import           SetOrd
 import           Test.QuickCheck
@@ -59,9 +57,8 @@ nsub :: Form -> Int
 nsub f1 = recursion (sub f1)
 
 recursion :: Set Form -> Int
-recursion (Set (x : xs)) | isEmpty (Set xs) = 1
-                         | otherwise        = 1 + recursion (Set xs)
-
+recursion (Set []      ) = 1
+recursion (Set (x : xs)) = 1 + recursion (Set xs)
 
 -- =================================== Props for Exercise 5.1 ===================================
 -- Description of test method here!!
@@ -93,7 +90,7 @@ prop_checkSubContainsFullFormula f1 = inSet f1 subF1
 
 -- Testing if sub contains incorrect full formula
 prop_checkSubContainsIncorrectFullFormula :: Form -> Bool
-prop_checkSubContainsIncorrectFullFormula f1 = inSet (Neg f1) subF1
+prop_checkSubContainsIncorrectFullFormula f1 = not (inSet (Neg f1) subF1)
  where
   subF1     = sub f1
   baseProps = map Prop (propNames f1)
@@ -110,8 +107,8 @@ prop_nsub f1 = nsub f1 >= length (map Prop (propNames f1))
 
 -- =================================== Test Report ===================================
 --
-mainEx5 :: IO Result
-mainEx5 = do
+main :: IO Result
+main = do
   putStrLn
     "\n=== Testing if sub contains correct base props (Exercise 5.1) ===\n"
   quickCheckResult prop_checkSubContainsCorrectBaseProps
