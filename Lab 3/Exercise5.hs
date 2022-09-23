@@ -54,11 +54,11 @@ sub f@(Equiv f1 f2  ) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
 -- well to count the last subset.
 
 nsub :: Form -> Int
-nsub f1 = recursion (sub f1)
+nsub f1 = countSubs (sub f1)
 
-recursion :: Set Form -> Int
-recursion (Set []      ) = 0
-recursion (Set (x : xs)) = 1 + recursion (Set xs)
+countSubs :: Set Form -> Int
+countSubs (Set []      ) = 0
+countSubs (Set (x : xs)) = 1 + countSubs (Set xs)
 
 -- =================================== Props for Exercise 5.1 ===================================
 -- Description of test method here!!
