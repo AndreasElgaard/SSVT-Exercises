@@ -1,15 +1,45 @@
 module Exercise5 where
-
--- import Exercise4 -- Wanted to import Exercise4 so we can use the method to generate formulaes to test on nsub
 import           Lecture3                       ( Form(..)
                                                 , propNames
                                                 )
+
 import           SetOrd
 import           Test.QuickCheck
 
 -- Time spend: x minutes --
 
-
+instance Arbitrary Form where
+  arbitrary = frequency listOfArbs
+   where
+    arbProp = do
+      Prop . abs <$> arbitrary
+    arbNeg = do
+      x <- frequency listOfArbs
+      return $ Neg x
+    arbCnj = do
+      x <- frequency listOfArbs
+      y <- frequency listOfArbs
+      return $ Cnj [x, y]
+    arbDsj = do
+      x <- frequency listOfArbs
+      y <- frequency listOfArbs
+      return $ Dsj [x, y]
+    arbImpl = do
+      x <- frequency listOfArbs
+      y <- frequency listOfArbs
+      return $ Impl x y
+    arbEquiv = do
+      x <- frequency listOfArbs
+      y <- frequency listOfArbs
+      return $ Equiv x y
+    listOfArbs =
+      [ (20, arbProp)
+      , (2 , arbNeg)
+      , (1 , arbCnj)
+      , (1 , arbDsj)
+      , (2 , arbImpl)
+      , (2 , arbEquiv)
+      ]
 
 -- =================================== Functions from Lecture ===================================
 sub :: Form -> Set Form
