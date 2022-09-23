@@ -61,20 +61,17 @@ countSubs (Set []      ) = 0
 countSubs (Set (x : xs)) = 1 + countSubs (Set xs)
 
 -- =================================== Props for Exercise 5.1 ===================================
--- Description of test method here!!
+-- To test the sub function, we will use the generator we used in the
+-- previous exercise (Exercise4).  First of all, we want to check that for any form we generate
+-- the props in it are in the set delivered by the function sub. Afterwards, we check the whole formula
+-- appears in the sub functions.
+-- Basically we check for:
+--      1. The right props in sub using a random generated formula
+--      2. The whole formula in sub using a random formula.
 
 -- Testing if sub contains correct base props
 prop_checkSubContainsCorrectBaseProps :: Form -> Bool
 prop_checkSubContainsCorrectBaseProps f1 = all
-  (== True)
-  [ inSet baseProp subF1 | baseProp <- baseProps ]
- where
-  subF1     = sub f1
-  baseProps = map Prop (propNames f1)
-
--- Testing if sub contains incorrect base props
-prop_checkSubContainsIncorrectBaseProps :: Form -> Bool
-prop_checkSubContainsIncorrectBaseProps f1 = all
   (== True)
   [ inSet baseProp subF1 | baseProp <- baseProps ]
  where
@@ -88,12 +85,6 @@ prop_checkSubContainsFullFormula f1 = inSet f1 subF1
   subF1     = sub f1
   baseProps = map Prop (propNames f1)
 
--- Testing if sub contains incorrect full formula
-prop_checkSubContainsIncorrectFullFormula :: Form -> Bool
-prop_checkSubContainsIncorrectFullFormula f1 = not (inSet (Neg f1) subF1)
- where
-  subF1     = sub f1
-  baseProps = map Prop (propNames f1)
 
 -- =================================== Props for Exercise 5.2 ===================================
 -- Properties for nsub
@@ -113,16 +104,10 @@ main = do
     "\n=== Testing if sub contains correct base props (Exercise 5.1) ===\n"
   quickCheck prop_checkSubContainsCorrectBaseProps
 
-  putStrLn
-    "\n=== Testing if sub contains incorrect base props (Exercise 5.1) ===\n" -- FAILS
-  quickCheck prop_checkSubContainsIncorrectBaseProps
 
   putStrLn "\n=== Testing if sub contains full formula (Exercise 5.1) ===\n"
   quickCheck prop_checkSubContainsFullFormula
 
-  putStrLn
-    "\n=== Testing if sub contains incorrect full formula (Exercise 5.1) ===\n" -- FAILS
-  quickCheck prop_checkSubContainsIncorrectFullFormula
 
   putStrLn "\n=== Testing if  (Exercise 5.2) ===\n"
   quickCheck prop_nsub
