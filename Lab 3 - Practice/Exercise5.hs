@@ -23,17 +23,18 @@ sub f@(Impl f1 f2) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
 sub f@(Equiv f1 f2) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
 
 -- =================================== Implementation of Exercise 5.2 ===================================
--- You get the list from sub function, and go over it recursivle by deleting one set a time. Once you delete it
--- you add 1 to the counter.
-  
+-- You get the list from sub function, and go over it recursively by using a smaller set every iteration. Every
+-- iteration increments the value of sets. The recursion stops at set xs which means we are in the last iteration, we output 1 as
+-- well to count the last subset. 
 
 nsub :: Form -> Int
-nsub f1 = recursion (sub f1) 0
+nsub f1 = recursion (sub f1)
 
-recursion :: Set Form -> Int -> Int
-recursion formSet i
-  | isEmpty formSet = 0 
-  | otherwise = 1 +  (deleteSet formSet!!i formSet) + (recursion formSet i+1)
+recursion :: Set Form -> Int
+recursion (Set (x:xs))
+  | isEmpty (Set xs) = 1 
+  | otherwise = 1 +  recursion (Set xs)
+  
 
 
 -- =================================== Props for Exercise 5.1 ===================================
