@@ -1,14 +1,43 @@
 module Exercise6 where
 
-import           Data.Char
-import           Data.List
-import           Exercise3
-import           Exercise4
+import           Exercise3                      ( cnf )
 import           GhcPlugins                     ( classDataCon
                                                 , xFlags
                                                 )
-import           Lecture3
+import           Lecture3                       ( Form(..) )
 import           Test.QuickCheck
+
+-- Generator from Ex4
+instance Arbitrary Form where
+    arbitrary = frequency listOfArbs
+      where
+        arbProp = do
+            Prop . abs <$> arbitrary
+        arbNeg = do
+            x <- frequency listOfArbs
+            return $ Neg x
+        arbCnj = do
+            x <- vectorOf 3 (frequency listOfArbs)
+            return $ Cnj x
+        arbDsj = do
+            x <- vectorOf 3 (frequency listOfArbs)
+            return $ Dsj x
+        arbImpl = do
+            x <- frequency listOfArbs
+            y <- frequency listOfArbs
+            return $ Impl x y
+        arbEquiv = do
+            x <- frequency listOfArbs
+            y <- frequency listOfArbs
+            return $ Equiv x y
+        listOfArbs =
+            [ (20, arbProp)
+            , (2 , arbNeg)
+            , (1 , arbCnj)
+            , (1 , arbDsj)
+            , (2 , arbImpl)
+            , (2 , arbEquiv)
+            ]
 
 type Clause = [Int]
 type Clauses = [Clause]
@@ -35,8 +64,6 @@ clauseHandler []                             = []
 --    inner scope, length of Clauses should be == 0, no clauses should be present.
 -- 3. If form submitted does not have CNJ within outer scope, length of Clauses should be <= 1,
 --    due to having, at max, only one instance of a Clause.
-
-
 prop_checkClausesLength :: Form -> Bool
 prop_checkClausesLength f = lengthCheck  where
     lengthCheck = checkClausesLength cnfd
@@ -50,7 +77,6 @@ checkClausesLength a        = length (cnf2cls a) <= 1
 -- Properties:
 -- prop_checkInnerClauseLength:
 -- 4. If form submitted contains a DSJ, at least one Clause should have length > 1
-
 prop_checkInnerClauseLength :: Form -> Bool
 prop_checkInnerClauseLength f = innerLengthCheck  where
     innerLengthCheck = checkInnerClauseLength cnfd
@@ -68,5 +94,13 @@ checkInnerClauseLength (Cnj [a, Dsj b]) = length clauseList
     where clauseList = cnf2cls (Cnj [a, Dsj b])
 -- this test's purpose is not to check patterns' (other than mentioned above) size of lists of list
 checkInnerClauseLength a = True
+
+
+main :: IO ()
+main = do
+    putStrLn "\n=== Testing the length of the inner clause list ===\n"
+    quickCheck prop_checkInnerClauseLength
+    putStrLn "\n=== Testing the length of the clause list ===\n"
+    quickCheck prop_checkClausesLength
 
 -- Time spend: 240 minutes --

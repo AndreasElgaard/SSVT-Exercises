@@ -107,22 +107,22 @@ prop_nsub f1 = nsub f1 >= length (map Prop (propNames f1))
 
 -- =================================== Test Report ===================================
 --
-main :: IO Result
+main :: IO ()
 main = do
   putStrLn
     "\n=== Testing if sub contains correct base props (Exercise 5.1) ===\n"
-  quickCheckResult prop_checkSubContainsCorrectBaseProps
+  quickCheck prop_checkSubContainsCorrectBaseProps
 
   putStrLn
     "\n=== Testing if sub contains incorrect base props (Exercise 5.1) ===\n" -- FAILS
-  quickCheckResult prop_checkSubContainsIncorrectBaseProps
+  quickCheck prop_checkSubContainsIncorrectBaseProps
 
   putStrLn "\n=== Testing if sub contains full formula (Exercise 5.1) ===\n"
-  quickCheckResult prop_checkSubContainsFullFormula
+  quickCheck prop_checkSubContainsFullFormula
 
   putStrLn
     "\n=== Testing if sub contains incorrect full formula (Exercise 5.1) ===\n" -- FAILS
-  quickCheckResult prop_checkSubContainsIncorrectFullFormula
+  quickCheck prop_checkSubContainsIncorrectFullFormula
 
--- putStrLn "\n=== Testing if  (Exercise 5.2) ===\n"
--- quickCheck prop_nsub
+  putStrLn "\n=== Testing if  (Exercise 5.2) ===\n"
+  quickCheck prop_nsub

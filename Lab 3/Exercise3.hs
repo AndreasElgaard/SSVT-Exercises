@@ -4,7 +4,6 @@ import           Lecture3                       ( Form(..)
                                                 , allVals
                                                 , evl
                                                 )
-import           Test.QuickCheck
 
 -- Applying De Morgan's Law such that all negations apply at atomic level (Prop level).
 -- Refer to https://stackoverflow.com/questions/655261/how-to-convert-a-propositional-formula-to-conjunctive-normal-form-cnf

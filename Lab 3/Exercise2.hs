@@ -7,7 +7,7 @@ import           Lecture3                       ( Form(..)
                                                 )
 import           Test.QuickCheck
 
--- Time spend: x minutes --
+-- Time spend: 100 minutes --
 
 -- There is a few ways to test the parse-function (see Lecture3.hs). The first approch would be to create manual tests
 -- where the input and the output would be compared and return True if equal.
