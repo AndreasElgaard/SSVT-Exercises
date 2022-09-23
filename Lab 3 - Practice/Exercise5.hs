@@ -23,9 +23,8 @@ sub f@(Impl f1 f2) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
 sub f@(Equiv f1 f2) = unionSet (unionSet (Set [f]) (sub f1)) (sub f2)
 
 -- =================================== Implementation of Exercise 5.2 ===================================
--- This function computes the exact number of sub-formulae of the formula f
--- OPS, I think this calculates the exact number of formulaes, but im not 100 % sure it is what they want,
--- since they say they want a recursive implementation.
+-- You get the list from sub function, and go over it recursivle by deleting one set a time. Once you delete it
+-- you add 1 to the counter.
   
 
 nsub :: Form -> Int
