@@ -49,11 +49,17 @@ cnf f1 = conjuctiveNormalForm  where
     -- Getting evaluations of form for all possible True, False combinations for props
     truthTableEvaluations   = map (\n -> (n, evl n f1)) (allVals f1)
 
+-- If Props to be conjuncted are greater than 1 (i.e. multiple props to be conjuncted)
+-- we conjuct in the Otherwise clause. One prop by itself, however, cannot be conjucted to anything
+-- hence returning head of propsMap.
 checkCnjProps :: [Form] -> Form
 checkCnjProps propsMap | numberOfProps == 1 = head propsMap
                        | otherwise          = Cnj propsMap
     where numberOfProps = length propsMap
 
+-- If (Conjuncted) Props to be disjuncted are greater than 1 (i.e. multiple props to be conjuncted)
+-- we disjunct in the Otherwise clause. One prop by itself, however, cannot be disjuncted to anything
+-- hence returning head of conjuctedProps.
 checkDsjForms :: [Form] -> Form
 checkDsjForms conjunctedProps | numberOfProps == 1 = head conjunctedProps
                               | otherwise          = Dsj conjunctedProps
