@@ -1,8 +1,9 @@
 module Exercise3 where
-
-import           Data.Char
-import           Data.List
-import           Lecture3
+import           Lecture3                       ( Form(..)
+                                                , Name
+                                                , allVals
+                                                , evl
+                                                )
 import           Test.QuickCheck
 
 -- Applying De Morgan's Law such that all negations apply at atomic level (Prop level).

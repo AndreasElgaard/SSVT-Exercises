@@ -1,11 +1,9 @@
-{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Exercise5 where
 
-import           Data.Char
-import           Data.List
-import           Exercise4
 -- import Exercise4 -- Wanted to import Exercise4 so we can use the method to generate formulaes to test on nsub
-import           Lecture3
+import           Lecture3                       ( Form(..)
+                                                , propNames
+                                                )
 import           SetOrd
 import           Test.QuickCheck
 

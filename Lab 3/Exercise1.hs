@@ -1,8 +1,11 @@
 module Exercise1 where
 
-import           Data.Char
-import           Data.List
-import           Lecture3
+import           Lecture3                       ( Form(Impl, Neg, Prop)
+                                                , allVals
+                                                , evl
+                                                , parse
+                                                , satisfiable
+                                                )
 import           Test.QuickCheck
 
 -- =================================== Implementation ===================================
@@ -63,21 +66,21 @@ prop_invalidEntailment = not (entails (Prop 1) (Neg (Prop 1)))
 main :: IO ()
 main = do
     putStrLn "\n=== Testing Valid Contradiction  ===\n"
-    print prop_validContradiction
+    quickCheck prop_validContradiction
     putStrLn "\n=== Testing Invalid Contradiction  ===\n"
-    print prop_invalidContradiction
+    quickCheck prop_invalidContradiction
     putStrLn "\n=== Test Valid Equivalence ===\n"
-    print prop_validEquiv
+    quickCheck prop_validEquiv
     putStrLn "\n=== Test Invalid Equivalence ===\n"
-    print prop_invalidEquiv
+    quickCheck prop_invalidEquiv
     putStrLn "\n=== Test Valid Tautology ===\n"
-    print prop_validTautology
+    quickCheck prop_validTautology
     putStrLn "\n=== Test Invalid Tautology ===\n"
-    print prop_invalidTautology
+    quickCheck prop_invalidTautology
     putStrLn "\n=== Test Valid Entails ===\n"
-    print prop_validEntailment
+    quickCheck prop_validEntailment
     putStrLn "\n=== Test Invalid Entails ===\n"
-    print prop_validEntailment
+    quickCheck prop_validEntailment
 
 -- approximation
 -- Time spent: 90 minutes --

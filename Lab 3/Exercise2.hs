@@ -1,6 +1,10 @@
 module Exercise2 where
-import           Exercise1
-import           Lecture3
+import           Lecture3                       ( Form(..)
+                                                , form1
+                                                , form2
+                                                , form3
+                                                , parse
+                                                )
 import           Test.QuickCheck
 
 -- Time spend: x minutes --
