@@ -57,7 +57,7 @@ nsub :: Form -> Int
 nsub f1 = countSubs (sub f1)
 
 countSubs :: Set Form -> Int
-countSubs (Set []      ) = 0
+countSubs (Set []      ) = 0 -- This is set to 0 as [] is not a sub formala, therefor it shoudnt be counted
 countSubs (Set (x : xs)) = 1 + countSubs (Set xs)
 
 -- =================================== Props for Exercise 5.1 ===================================
@@ -111,3 +111,8 @@ main = do
 
   putStrLn "\n=== Testing if  (Exercise 5.2) ===\n"
   quickCheck prop_nsub
+
+
+  -- We wanted to add more props for 5.2 but coudnt come up with anything good
+  --    There might be a correlation between the values of the form and the final count of the sub formula which can be tested
+
