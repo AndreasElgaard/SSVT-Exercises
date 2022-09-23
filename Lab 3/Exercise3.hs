@@ -25,7 +25,7 @@ deMorgansHandler (Equiv f1 f2) =
 deMorgansHandler (Neg (Neg (Prop a))) = Prop a
 deMorgansHandler (Neg a             ) = Neg (deMorgansHandler a)
 
-
+cnf :: Form -> Form
 cnf f1 = conjuctiveNormalForm  where
     -- Applying De Morgan's Law to convert the below to CNF form.
     -- Ref. to Q13, SSVT workshop 3
@@ -33,10 +33,10 @@ cnf f1 = conjuctiveNormalForm  where
     conjuctiveNormalForm    = deMorgansHandler negatedDisjunctedProps
     -- Disjuncting each combination of props, then applying an outer Negator
     -- Ref. to Q13, SSVT workshop 3
-    negatedDisjunctedProps  = Neg (Dsj conjunctedProps)
+    negatedDisjunctedProps  = Neg (checkDsjForms conjunctedProps)
     -- Conjucting props within each combination
     -- Ref. to Q13, SSVT workshop 3
-    conjunctedProps         = map Cnj propsMap
+    conjunctedProps         = map checkCnjProps propsMap
     -- mapping true, false for each prop to have each atomic value as x (true) or -x (false)
     propsMap                = map createFormForProp propsOfFalseEvaluations
     -- Only considering the True, False combinations. Not considering output since we
@@ -47,6 +47,17 @@ cnf f1 = conjuctiveNormalForm  where
     falseEvaluations = filter (\(_, bool) -> not bool) truthTableEvaluations
     -- Getting evaluations of form for all possible True, False combinations for props
     truthTableEvaluations   = map (\n -> (n, evl n f1)) (allVals f1)
+
+checkCnjProps :: [Form] -> Form
+checkCnjProps propsMap | numberOfProps == 1 = head propsMap
+                       | otherwise          = Cnj propsMap
+    where numberOfProps = length propsMap
+
+checkDsjForms :: [Form] -> Form
+checkDsjForms conjunctedProps | numberOfProps == 1 = head conjunctedProps
+                              | otherwise          = Dsj conjunctedProps
+    where numberOfProps = length conjunctedProps
+
 
 -- each prop to have each atomic value as x (true) or -x (false)
 createFormForProp :: [(Name, Bool)] -> [Form]

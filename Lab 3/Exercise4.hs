@@ -57,7 +57,7 @@ instance Arbitrary Form where
       y <- frequency listOfArbs
       return $ Equiv x y
     listOfArbs =
-      [ (18, arbProp)
+      [ (20, arbProp)
       , (2 , arbNeg)
       , (1 , arbCnj)
       , (1 , arbDsj)
