@@ -10,4 +10,9 @@
 --  Def 2. A with a set size. Any subsets of A, if we compose them, they are a concatenation
 --  
 
---  Def 3. For any two states in [State], in [LabelledTransitions] there should be both these states with their own trace.
+--  Def 3. For any two states in [State], in [LabelledTransitions]:
+--      -  there should be both these states, and their trace in [LabelTrans]
+--  Def 3. For several states in [State], in [LabelledTransitions]:
+--      - Exist all the states and they have traces between them
+--      - If we have only the first state and go through all the traces, we should reach the final state
+--      - If we start on first state, but miss any trace, we should not reach final state q'
