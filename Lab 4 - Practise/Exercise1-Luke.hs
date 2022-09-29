@@ -88,13 +88,72 @@ prop_checkInitStateIsSubsetOfStates (states, labelsI, labelsO, transitions, init
   | otherwise = False
 
 
+-- Testing if parse and form are NOT equal to each other. Here the Impl-Form is being tested
+prop_Validate :: Bool
+prop_Validate = validateLTS coffeeImpl1
 
 
 -- =================================== Test Report ===================================
---
+-- The test report tests if all the IOLTS's from LTS.hs (provided by the lecturer) are valid.  
 main :: IO ()
 main = do
-  putStrLn
-    "\n=== Testing if list of states is non empty  ===\n"
-  validateLTS
+  putStrLn "\n=== Testing if coffeeImpl1 is correct ===\n"
+  quickCheck (validateLTS coffeeImpl1)
+
+  putStrLn "\n=== Testing if coffeeModel2 is correct ===\n"
+  quickCheck (validateLTS coffeeModel2)
+
+  putStrLn "\n=== Testing if coffeeModel3 is correct ===\n"
+  quickCheck (validateLTS coffeeModel3)
+
+  putStrLn "\n=== Testing if coffeeModel4 is correct ===\n"
+  quickCheck (validateLTS coffeeModel4)
+
+  putStrLn "\n=== Testing if coffeeModel5 is correct ===\n"
+  quickCheck (validateLTS coffeeModel5)
+
+  putStrLn "\n=== Testing if coffeeModel6 is correct ===\n"
+  quickCheck (validateLTS coffeeModel6)
+
+  putStrLn "\n=== Testing if tretmanK1 is correct ===\n"
+  quickCheck (validateLTS tretmanK1)
+
+  putStrLn "\n=== Testing if tretmanK2 is correct ===\n"
+  quickCheck (validateLTS tretmanK2)
+
+  putStrLn "\n=== Testing if tretmanK3 is correct ===\n"
+  quickCheck (validateLTS tretmanK3)
+
+  putStrLn "\n=== Testing if tretmanI1 is correct ===\n"
+  quickCheck (validateLTS tretmanI1)
+
+  putStrLn "\n=== Testing if tretmanI2 is correct ===\n"
+  quickCheck (validateLTS tretmanI2)
+
+  putStrLn "\n=== Testing if tretmanI3 is correct ===\n"
+  quickCheck (validateLTS tretmanI3)
+
+  putStrLn "\n=== Testing if tretmanI4 is correct ===\n"
+  quickCheck (validateLTS tretmanI4)
+
+  putStrLn "\n=== Testing if tretmanS1 is correct ===\n"
+  quickCheck (validateLTS tretmanS1)
+
+  putStrLn "\n=== Testing if tretmanS2 is correct ===\n"
+  quickCheck (validateLTS tretmanS2)
+
+  putStrLn "\n=== Testing if tretmanS3 is correct ===\n"
+  quickCheck (validateLTS tretmanS3)
+
+  putStrLn "\n=== Testing if tretmanS4 is correct ===\n"
+  quickCheck (validateLTS tretmanS4)
+
+  putStrLn "\n=== Testing if tretmanR1 is correct ===\n"
+  quickCheck (validateLTS tretmanR1)
+
+  putStrLn "\n=== Testing if tretmanR2 is correct ===\n"
+  quickCheck (validateLTS tretmanR2)
+
+  putStrLn "\n=== Testing if IOLTS is incorrect ===\n"
+  quickCheck (not(validateLTS ([0,1,2,3,4,5],["but"],["choc","liq"],[(0,"but",1),(0,"but",2),(1,"liq",3),(1,"but",1),(2,"but",4),(4,"choc",5),(4,"but",4),(5,"but",5)],9)))
   
