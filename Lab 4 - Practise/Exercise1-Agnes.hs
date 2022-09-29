@@ -9,3 +9,5 @@
 
 --  Def 2. A with a set size. Any subsets of A, if we compose them, they are a concatenation
 --  
+
+--  Def 3. For any two states in [State], in [LabelledTransitions] there should be both these states with their own trace.
