@@ -96,5 +96,5 @@ main :: IO ()
 main = do
   putStrLn
     "\n=== Testing if list of states is non empty  ===\n"
-  validateLTS
+  validateLTS coffeeImpl1
   
