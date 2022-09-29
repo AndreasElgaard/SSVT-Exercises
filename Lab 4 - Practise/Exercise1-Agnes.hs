@@ -16,3 +16,6 @@
 --      - Exist all the states and they have traces between them
 --      - If we have only the first state and go through all the traces, we should reach the final state
 --      - If we start on first state, but miss any trace, we should not reach final state q'
+
+
+--  Def 4. 
