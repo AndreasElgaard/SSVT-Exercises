@@ -66,7 +66,20 @@ findFinalStateFromLabel l1 ((s1, label, s2) : transitions)
 
 -- =================================== Tests ===================================
 
+
 -- 1: All states that after returns exists in IOLTS list of states
+prop_statesExist:: IOLTS -> [Label] -> Bool
+prop_statesExist (states, labelsI, labelsO, transitions, init) labels = goThrough resultAfter states
+    where iolts = (states, labelsI, labelsO, transitions, init) 
+          resultAfter = after iolts labels
+
+goThrough:: [State] -> [State]-> Bool
+goThrough [] _ = True
+goThrough (s1:afterList) ioltsList 
+    | s1 `elem` ioltsList = goThrough afterList ioltsList 
+    | otherwise = False
+
+
 -- 2: If we start by init state and go through all the list of labels we are given, we finish
 --  in the last state of the list of states "after" returns.
 -- 3: All the lists we are given in "after", should be in the list of labels in IOLTS.
