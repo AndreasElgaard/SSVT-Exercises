@@ -9,8 +9,8 @@ genIOLTS :: Gen IOLTS
 genIOLTS = do
     states      <- genAllStates 5
     labels      <- genAllLabels 5
-    transitiosn <- genTransitions labels states
-    return (states, labels, labels, transitiosn, head states)
+    transitions <- genTrans labels states
+    return (states, labels, labels, transitions, head states)
 
 
 -- instance Arbitrary  where
@@ -36,12 +36,24 @@ getInitState :: [State] -> State
 getInitState states = do
     head states
 
-genTransitions :: [Label] -> [State] -> Gen [LabeledTransition]
-genTransitions labels states =
-    Gen [LabeledTransition (head states, head labels, last . states)]
+-- genTransitions :: [Label] -> [State] -> Gen [LabeledTransition]
+-- genTransitions labels states =
+--     [LabeledTransition (head states, head labels, last . states)]
 
 
 
+-- createTransition start end labels states c stopLoop
+--     | c == stopLoop = []
+--     | start == end = createTransition start end label states c stopLoop
+--     |  otherwise = (start, (elements labels), end) : createTransition end (elements states) labels states (c+1) stopLoop
+
+
+genTrans :: [State] -> [Label] -> Gen LabeledTransition
+genTrans states labels = do
+    start <- elements states
+    label <- elements labels
+    end   <- elements states
+    return (start, label, end)
 
 
 
