@@ -3,7 +3,7 @@ module Exercise1 where
 import           LTS
 import           Test.QuickCheck
 
--- Time spend: X minutes --
+-- Time spend: 140 minutes --
 
 --TO DO LIST:
 --    - Revise the countable part of the descriptions (two first properties)
@@ -30,7 +30,7 @@ import           Test.QuickCheck
 -- =================================== Implementation ===================================
 
 --
--- Function that validates LTS. Basicalle we added all the proeprties that should be true to validate
+-- Function that validates LTS. Basicalle we added all the properties that should be true to validate
 -- the correctnes of the LTS (IOLTS follow the same rules as LTS).
 validateLTS :: IOLTS -> Bool
 validateLTS iolts =
@@ -61,7 +61,7 @@ prop_checkLabelsAreCountable (states, labelsI, labelsO, transitions, init)
 -- Definition 1 states "T ⊆ Q". Q being the set of states, and T being the set of Labeled Transitions
 -- (fourth value of the tuple). We grabbed the set of Labeled Transitions and, one by one, we grabbed
 -- the first and last element of the tuple and check if they were an element of the set of states. Since we
--- went through a list of tuples [LaveledTransition], we use recursion for that (this is the function "checkLabelTransitionStates")
+-- went through a list of tuples [LabeledTransition], we use recursion for that (this is the function "checkLabelTransitionStates")
 prop_checkLabelTransitionStatesAreWithinStatesList :: IOLTS -> Bool
 prop_checkLabelTransitionStatesAreWithinStatesList (states, labelsI, labelsO, transitions, init)
   = checkLabelTransitionStates (states, transitions)
