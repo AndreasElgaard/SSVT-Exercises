@@ -20,6 +20,7 @@ import           Test.QuickCheck
 -- list of factors, implementation, short test report, indication of time spent.
 
 -- =================================== List of factors ===================================
+-- To define validation of IOLTS we took into consideration Definition 1 of Tretamans paper
 
 --  Def 1. The list of states and list of labels should be countable
 --  Def 1. List of states is non empty
@@ -52,7 +53,10 @@ prop_checkStatesAreNonEmpty (states, labelsI, labelsO, transitions, init)
   | otherwise   = True
 
 -- Definition 1 states "L is a countable set of labels;". L is the set of labels within IOLTS
--- (second and third value of the tuple), IF ITS NON EMPTY IT'S STILL COUNTABLE RIGHT?
+-- (second and third value of the tuple),
+-- This proved to be difficult for us to implement directly within Haskell since there is no explicit
+-- Typeclass to confirm that list is countable (since a list in haskell can be infinite)
+-- Hence we are simply checking that input and output labels are non empty
 prop_checkLabelsAreCountable :: IOLTS -> Bool
 prop_checkLabelsAreCountable (states, labelsI, labelsO, transitions, init)
   | null labelsI || null labelsO = False

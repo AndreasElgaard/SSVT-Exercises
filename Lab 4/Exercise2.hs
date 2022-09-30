@@ -167,12 +167,18 @@ genTrans states labels = do
 
 main :: IO ()
 main = do
+    putStrLn "\n=== Testing Check Label are countable  ===\n"
     quickCheck $ forAll genIOLTS prop_checkLabelsAreCountable
+    putStrLn "\n=== Testing Check States None Empty  ===\n"
     quickCheck $ forAll genIOLTS prop_checkStatesAreNonEmpty
+    putStrLn "\n=== Testing Check Label Transition States Are Within State Lists  ===\n"
     quickCheck
         $ forAll genIOLTS prop_checkLabelTransitionStatesAreWithinStatesList
+    putStrLn "\n=== Testing Check Tau Is Not In Labels  ===\n"
     quickCheck $ forAll genIOLTS prop_checkTauIsNotInLabels
+    putStrLn "\n=== Testing Check Init State Is Subset of States  ===\n"
     quickCheck $ forAll genIOLTS prop_checkInitStateIsSubsetOfStates
+    putStrLn "\n=== Testing Check Full Validations  ===\n"
     quickCheck $ forAll genIOLTS validateLTS
 
 
