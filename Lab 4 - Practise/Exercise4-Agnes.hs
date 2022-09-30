@@ -22,19 +22,27 @@ import           Test.QuickCheck
 -- =================================== Implementation ===================================
 
 --
-after :: IOLTS -> [Label] -> [State]
-after (states, labelsI, labelsO, transitions, init) myTrace 
-    | null afterImplementation = []
-    | otherwise = last afterImplementation
- where 
-    afterImplementation = findAfter [init] myTrace transitions
 
--- doesnot finish
+after :: IOLTS -> [Label] -> [State]
+after (states, labelsI, labelsO, transitions, init) sigma 
+    | null sigma = [init]
+    | null final = []
+    | otherwise = final
+ where 
+    final = tausFinalState ++ last afterImplementation
+    tausFinalState = findTaus transitions (last afterImplementation)
+    afterImplementation = findAfter [init] sigma transitions
+    
+
+-- findTranisitonsTauSet = findTransitionsWithInitState findingFirstSet trans
+-- tauSet = findTaus findTransitionsTauSet 
+
 findAfter :: [State] -> [Label] -> [LabeledTransition] -> [[State]]
 findAfter _ [] _ = []
+
 findAfter s (l1 : otherLabels) trans
     | null findingFirstTransitionsSet = []
-    |   not (null  findingFirstSet)  = findingFirstSet : findAfter newState otherLabels trans
+    | not (null  findingFirstSet)  = findingFirstSet : findAfter newState otherLabels trans
     | otherwise = []
   where
     findingFirstTransitionsSet = findTransitionsWithInitState (head s) trans
@@ -54,9 +62,15 @@ findTransitionsWithInitState init ((s1, label, s2) : transitions)
 findFinalStateFromLabel :: Label -> [LabeledTransition] -> [State]
 findFinalStateFromLabel _ [] = []
 findFinalStateFromLabel l1 ((s1, label, s2) : transitions)
-    | l1 == label || (label == "tau") = s2 : findFinalStateFromLabel l1 transitions
-    -- | l1 /= label && null transitions = []
+    | l1 == label = s2 : findFinalStateFromLabel l1 transitions
     | otherwise                       = [] 
+
+    -- finding taus
+findTaus :: [LabeledTransition] -> [State]-> [State]
+findTaus [] _ = []
+findTaus  ((s1, label, s2) : transitions) stat
+    | label == "tau" && s1 `elem` stat = s2 : findTaus transitions stat
+    | otherwise                       = findTaus transitions stat
 
 
 
