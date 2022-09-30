@@ -1,12 +1,8 @@
 module Exercise2 where
 
 import           Data.List
-import           Exercise1                      ( validateLTS )
-import           LTS                            ( IOLTS
-                                                , Label
-                                                , LabeledTransition
-                                                , State
-                                                )
+import           Exercise1
+import           LTS
 import           Test.QuickCheck
 
 -- This function generates an IOLTS
@@ -28,7 +24,7 @@ import           Test.QuickCheck
 --      10. Combines the states, in labels, out labels transitions and an initial state into a four tuple and returns
 genIOLTS :: Gen IOLTS
 genIOLTS = do
-    rNoOfStates    <- chooseInt (1, 20)
+    rNoOfStates    <- chooseInt (1, 10)
     rNoOfInLabels  <- chooseInt (1, 13)
     rNoOfOutLabels <- chooseInt (1, 13)
     states         <- genStates rNoOfStates
@@ -149,6 +145,12 @@ genTrans states labels = do
 prop_checkIsValid :: IOLTS -> Bool
 prop_checkIsValid = validateLTS
 
-main :: IO ()
-main = do
-    quickCheck $ forAll genIOLTS prop_checkIsValid
+main2 :: IO ()
+main2 = do
+    quickCheck $ forAll genIOLTS prop_checkLabelsAreCountable
+    quickCheck $ forAll genIOLTS prop_checkStatesAreNonEmpty
+    quickCheck
+        $ forAll genIOLTS prop_checkLabelTransitionStatesAreWithinStatesList
+    quickCheck $ forAll genIOLTS prop_checkTauIsNotInLabels
+    quickCheck $ forAll genIOLTS prop_checkInitStateIsSubsetOfStates
+
