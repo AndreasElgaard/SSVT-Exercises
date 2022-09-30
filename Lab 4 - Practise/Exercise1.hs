@@ -1,7 +1,5 @@
 module Exercise1 where
 
-import           CFG                            ( EdgeInfo(transitionSource) )
-import           GhcPlugins                     ( trueDataCon )
 import           LTS
 import           Test.QuickCheck
 
@@ -40,7 +38,7 @@ validateLTS iolts =
     && prop_checkLabelsAreCountable iolts
     && prop_checkLabelTransitionStatesAreWithinStatesList iolts
     && prop_checkInitStateIsSubsetOfStates iolts
-    && prop_checkTauIsNotInLables iolts
+    && prop_checkTauIsNotInLabels iolts
 
 
 -- =================================== Properties ===================================
@@ -79,8 +77,8 @@ checkLabelTransitionStates (states, []) = True
 -- Definition 1 states "τ/∈ L", which means the label tau is not part of the list of labels since
 -- tau is just an internal action that is not supposed to be in the system's environment, thus,
 -- should not appear as a label in the list of labels.
-prop_checkTauIsNotInLables :: IOLTS -> Bool
-prop_checkTauIsNotInLables (states, labelsI, labelsO, transitions, init)
+prop_checkTauIsNotInLabels :: IOLTS -> Bool
+prop_checkTauIsNotInLabels (states, labelsI, labelsO, transitions, init)
   | notElem tau labelsI && notElem tau labelsO = True
   | otherwise = False
 

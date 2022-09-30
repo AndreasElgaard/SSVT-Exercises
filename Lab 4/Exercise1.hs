@@ -51,12 +51,6 @@ prop_checkStatesAreNonEmpty (states, labelsI, labelsO, transitions, init)
   | null states = False
   | otherwise   = True
 
-prop_isNumber :: Int -> Bool
-prop_isNumber x = x < 0
-
-prop_simple :: IOLTS -> Bool
-prop_simple (s, s1, s2, s3, i) = null s2
-
 -- Definition 1 states "L is a countable set of labels;". L is the set of labels within IOLTS
 -- (second and third value of the tuple), IF ITS NON EMPTY IT'S STILL COUNTABLE RIGHT?
 prop_checkLabelsAreCountable :: IOLTS -> Bool

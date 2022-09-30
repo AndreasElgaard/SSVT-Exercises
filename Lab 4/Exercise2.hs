@@ -1,9 +1,24 @@
 module Exercise2 where
 
-import           Data.List
-import           Exercise1
-import           LTS
-import           Test.QuickCheck
+import           Exercise1                      ( prop_checkInitStateIsSubsetOfStates
+                                                , prop_checkLabelTransitionStatesAreWithinStatesList
+                                                , prop_checkLabelsAreCountable
+                                                , prop_checkStatesAreNonEmpty
+                                                , prop_checkTauIsNotInLabels
+                                                , validateLTS
+                                                )
+import           LTS                            ( IOLTS
+                                                , Label
+                                                , LabeledTransition
+                                                , State
+                                                )
+import           Test.QuickCheck                ( Gen
+                                                , chooseInt
+                                                , elements
+                                                , forAll
+                                                , quickCheck
+                                                , vectorOf
+                                                )
 
 -- This function generates an IOLTS
 -- Step by step:
@@ -24,30 +39,36 @@ import           Test.QuickCheck
 --      10. Combines the states, in labels, out labels transitions and an initial state into a four tuple and returns
 genIOLTS :: Gen IOLTS
 genIOLTS = do
-    rNoOfStates    <- chooseInt (1, 10)
+    rNoOfStates    <- chooseInt (1, 6)
     rNoOfInLabels  <- chooseInt (1, 13)
     rNoOfOutLabels <- chooseInt (1, 13)
     states         <- genStates rNoOfStates
-    inLabels       <- genLabels rNoOfInLabels '?' 'A' 'M'
-    outLabels      <- genLabels rNoOfOutLabels '!' 'N' 'Z'
+    inLabels       <- genLabels 2 '?' 'A' 'M'
+    outLabels      <- genLabels 2 '!' 'N' 'Z'
     let allLabels = inLabels ++ outLabels
     initTransition     <- genTrans states allLabels
     checkedTransitions <- makeAllTransPerms states allLabels [initTransition]
     return (states, inLabels, outLabels, checkedTransitions, head states)
 
--- Generates a list of unique integers to be used for state generation
+-- Simple way to get a set of unique Integers, replaced the complicated function below
 genStates :: Int -> Gen [State]
-genStates vector = do
-    listOfStates <- vectorOf vector (abs <$> (arbitrary :: Gen Integer))
-    if checkDupStates listOfStates
-        then return listOfStates
-        else genStates vector
+genStates lengthOf = return [1 .. (toInteger lengthOf)]
 
--- Checks if the list of states is unique, if its not a not, a new list is generated
-checkDupStates :: [State] -> Bool
-checkDupStates [] = True
-checkDupStates (x : xs) | x `elem` xs = False
-                        | otherwise   = checkDupStates xs
+-- THE BELOW HAS A TENDENCY TO HANG FORVER BECAUSE OF THE CREATION OF UNQIUE INTEGERS
+-- Generates a list of unique integers to be used for state generation
+-- genStates :: Int -> Gen [State]
+-- genStates vector = do
+--     listOfStates <- vectorOf vector
+--                              ((arbitrary :: Gen Integer) `suchThat` (> 0))
+--     if checkDupStates listOfStates
+--         then return listOfStates
+--         else genStates vector
+
+-- -- Checks if the list of states is unique, if its not a not, a new list is generated
+-- checkDupStates :: [State] -> Bool
+-- checkDupStates [] = True
+-- checkDupStates (x : xs) | x `elem` xs = False
+--                         | otherwise   = checkDupStates xs
 -- Generates Labels
 -- Explanation of label name generation:
 --      Rather then creating large random strings that are not readable, I decided to generate random letter
@@ -124,8 +145,8 @@ makeAllTransPerms states labels transitions = do
         then do
             return transitions
         else do
-            newTrans <- vectorOf 1 (genTrans states labels)
-            makeAllTransPerms states labels (newTrans ++ transitions)
+            newTrans <- genTrans states labels
+            makeAllTransPerms states labels (newTrans : transitions)
 
 -- Helper function that checks if a State is in a list of Transitions
 isStateInTrans :: State -> [LabeledTransition] -> Bool
@@ -142,15 +163,15 @@ genTrans states labels = do
     end   <- elements states
     return (start, label, end)
 
-prop_checkIsValid :: IOLTS -> Bool
-prop_checkIsValid = validateLTS
 
-main2 :: IO ()
-main2 = do
+main :: IO ()
+main = do
     quickCheck $ forAll genIOLTS prop_checkLabelsAreCountable
     quickCheck $ forAll genIOLTS prop_checkStatesAreNonEmpty
     quickCheck
         $ forAll genIOLTS prop_checkLabelTransitionStatesAreWithinStatesList
     quickCheck $ forAll genIOLTS prop_checkTauIsNotInLabels
     quickCheck $ forAll genIOLTS prop_checkInitStateIsSubsetOfStates
+    quickCheck $ forAll genIOLTS validateLTS
+
 
