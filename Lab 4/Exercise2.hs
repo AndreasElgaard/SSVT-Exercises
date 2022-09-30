@@ -19,6 +19,7 @@ import           Test.QuickCheck                ( Gen
                                                 , quickCheck
                                                 , vectorOf
                                                 )
+-- Time Spent: 8+ hours
 
 -- This function generates an IOLTS
 -- Step by step:

@@ -8,8 +8,7 @@ import           Test.QuickCheck
 
 -- Time spend: X minutes --
 
---TO DO LIST:
---    -
+-- THIS DOES NOT CONSIDER DELTA! 
 
 -- TASK AT HAND:
 -- 
@@ -34,6 +33,8 @@ findLabelsForState listStates ((s1, label, s2) : transitions)
     | s1 `elem` listStates = label : findLabelsForState listStates transitions
     | otherwise                       = findLabelsForState listStates transitions
 
+--removes the labels that were in the sigma list (list of labels we want to check) and also 
+-- all the tau labels.
 removeDuplicateLabelsTau::[Label] -> [Label]-> [Label]
 removeDuplicateLabelsTau [] _ = []
 removeDuplicateLabelsTau (l1:other) sigma
@@ -42,5 +43,3 @@ removeDuplicateLabelsTau (l1:other) sigma
 
 
 -- =================================== Tests ===================================
-
-
