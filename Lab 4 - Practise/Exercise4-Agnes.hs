@@ -64,16 +64,16 @@ findFinalStateFromLabel l1 ((s1, label, s2) : transitions)
 
 
 -- 1: All states that after returns exists in IOLTS list of states
---prop_statesExist:: IOLTS -> [Label] -> Bool
---prop_statesExist (states, labelsI, labelsO, transitions, init) labels = goThrough resultAfter states
-  --  where iolts = (states, labelsI, labelsO, transitions, init) 
-    --      resultAfter = after iolts labels
+prop_statesExist:: IOLTS -> [Label] -> Bool
+prop_statesExist (states, labelsI, labelsO, transitions, init) labels = goThrough resultAfter states
+    where iolts = (states, labelsI, labelsO, transitions, init) 
+          resultAfter = after iolts labels
 
 -- recursive function to help previous property. 
---goThrough:: [State] -> [State]-> Bool
---goThrough [] _ = True
---goThrough (s1:afterList) ioltsList 
-  --  | s1 `elem` ioltsList = goThrough afterList ioltsList 
--- | otherwise = False
+goThrough:: [State] -> [State]-> Bool
+goThrough [] _ = True
+goThrough (s1:afterList) ioltsList 
+    | s1 `elem` ioltsList = goThrough afterList ioltsList 
+    | otherwise = False
 
 -- 2: If the list of labels is not found, it should return empty set
