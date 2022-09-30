@@ -23,8 +23,11 @@ import           Test.QuickCheck
 
 --
 after :: IOLTS -> [Label] -> [State]
-after (states, labelsI, labelsO, transitions, init) myTrace =
-   last (findAfter [init] myTrace transitions)
+after (states, labelsI, labelsO, transitions, init) myTrace 
+    | null afterImplementation = []
+    | otherwise = last afterImplementation
+ where 
+    afterImplementation = findAfter [init] myTrace transitions
 
 -- doesnot finish
 findAfter :: [State] -> [Label] -> [LabeledTransition] -> [[State]]
@@ -51,7 +54,7 @@ findTransitionsWithInitState init ((s1, label, s2) : transitions)
 findFinalStateFromLabel :: Label -> [LabeledTransition] -> [State]
 findFinalStateFromLabel _ [] = []
 findFinalStateFromLabel l1 ((s1, label, s2) : transitions)
-    | l1 == label                     = s2 : findFinalStateFromLabel l1 transitions
+    | l1 == label || (label == "tau") = s2 : findFinalStateFromLabel l1 transitions
     -- | l1 /= label && null transitions = []
     | otherwise                       = [] 
 
@@ -73,9 +76,4 @@ findFinalStateFromLabel l1 ((s1, label, s2) : transitions)
   --  | s1 `elem` ioltsList = goThrough afterList ioltsList 
 -- | otherwise = False
 
--- 2: If there is not list of Label, "after" should return an empty set
-
-
--- 2: If we start by init state and go through all the list of labels we are given, we finish
---  in the last state of the list of states "after" returns.
-
+-- 2: If the list of labels is not found, it should return empty set
