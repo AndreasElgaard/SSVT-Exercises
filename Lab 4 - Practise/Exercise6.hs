@@ -21,7 +21,6 @@ doorIOLTS = createIOLTS [(0, "?close", 1), (1, "!closed", 2), (1, "?open", 0), (
 -- A way to check if the SUT is correctly implemented is to use the straces function from exercise3.
 -- By using this function we could compare the two [Traces] to see if they are equal. 
 
-
 -- =================================== Description of Each Bug ===================================
 -- doorImpl1
 -- Correct. No bugs.
@@ -41,10 +40,10 @@ doorIOLTS = createIOLTS [(0, "?close", 1), (1, "!closed", 2), (1, "?open", 0), (
 -- When opening the door it transitions to the wrong label. It transitions to open.
 
 -- doorImpl6
--- Eyes are burning
+-- Few things wrong with this one. For example when the door tries to open it says it is stuck.
 
 -- doorImpl7
--- Eyes are burning
+-- Few things wrong with this one. For example when the door is unlocked it says it is the wrong keycode.
 
 -- doorImpl8
 -- Eyes are burning
