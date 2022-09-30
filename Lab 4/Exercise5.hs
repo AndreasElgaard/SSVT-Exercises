@@ -56,10 +56,11 @@ removeDuplicateLabelsTau (l1 : other) sigma
 
 -- How we were initially planning to handle quiescent transitions:
 
--- -- delta should be in the list of labels
--- -- i would remove deltas from sigma before after function
+-- -- Basically is like the previous functions, but I try that for each state after gets
+-- we see if the following label is delta, and only then use a special case where we check
+-- if it has other outputs labels. If yes, we do not pass a result that state.
 -- --
--- --
+-- --The recursion does not stop right now, didnt have time to find the bug
 -- --
 -- findLabelsForState :: [State] -> [LabeledTransition] -> [Label] -> [LabeledTransition]-> [Label]
 -- findLabelsForState _ [] _ _= []
