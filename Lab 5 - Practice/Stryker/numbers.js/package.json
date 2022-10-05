@@ -1,0 +1,63 @@
+{
+  "author": "Steve Kaliski <sjkaliski@gmail.com> (https://github.com/sjkaliski)",
+  "name": "numbers",
+  "description": "Advanced Mathematics Library for JavaScript",
+  "version": "0.7.0",
+  "homepage": "https://github.com/numbers/numbers.js",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/numbers/numbers.js"
+  },
+  "contributors": [
+    "David Byrd (https://github.com/davidbyrd11)",
+    "Ethan Resnick (https://github.comc/ethanresnick)",
+    "Dakota St. Laurent (https://github.com/StDako)",
+    "Kartik Talwar (https://github.com/KartikTalwar)",
+    "Larry Battle (https://github.com/LarryBattle)"
+  ],
+  "engines": {
+    "node": ">= v0.6.0"
+  },
+  "main": "index",
+  "keywords": [
+    "math",
+    "mathematics",
+    "numbers",
+    "statistics"
+  ],
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-jsbeautifier": "^1.0.1",
+    "gulp-jshint": "^2.1.0",
+    "gulp-mocha": "^6.0.0",
+    "gulp-rename": "~1.2.0",
+    "gulp-uglify": "^3.0.0",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.0.1",
+    "mocha": "^5.2.0",
+    "seedrandom": "~2.3.10",
+    "uglify-js": "^3.4.4",
+    "vinyl-buffer": "~1.0.0",
+    "vinyl-source-stream": "~1.0.0"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run concat && npm run minimize",
+    "clean": "rm -r src/*",
+    "concat": "browserify -s numbers index.js -o ./src/numbers.js",
+    "format:lib": "js-beautify -r -n -a -s 2 ./lib/**/*.js",
+    "format:test": "js-beautify -r -n -a -s 2 ./test/*.js",
+    "format": "npm run format:lib && npm run format:test",
+    "lint:lib": "jshint --reporter=node_modules/jshint-stylish ./lib/**/*.js",
+    "lint:test": "jshint --reporter=node_modules/jshint-stylish ./test/*.js",
+    "lint": "npm run lint:lib && npm run lint:test",
+    "minimize": "uglify -s ./src/numbers.js -o ./src/numbers.min.js",
+    "test": "mocha -u tdd",
+    "g-build": "gulp build",
+    "g-format": "gulp format",
+    "g-lint": "gulp lint",
+    "g-test": "gulp test"
+  }
+}

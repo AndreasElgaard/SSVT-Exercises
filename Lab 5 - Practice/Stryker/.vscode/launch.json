@@ -1,0 +1,38 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "👽 Run Stryker",
+      "skipFiles": ["<node_internals>/**"],
+      "args": ["run", "-m", "lib/numbers/basic.js:1-500"],
+      "cwd": "${workspaceFolder}/numbers.js",
+      "program": "${workspaceFolder}/stryker-js/packages/core/bin/stryker.js",
+      "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "☕ Run Unit tests",
+      "skipFiles": ["<node_internals>/**"],
+      "args": ["--ui", "tdd", "test/basic.test.js"],
+      "cwd": "${workspaceFolder}/numbers.js",
+      "program": "${workspaceFolder}/numbers.js/node_modules/mocha/bin/_mocha"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "🎻 Run Unit tests in the instrumenter",
+      "skipFiles": ["<node_internals>/**"],
+      "cwd": "${workspaceFolder}/stryker-js/packages/instrumenter",
+      "program": "${workspaceFolder}/stryker-js/node_modules/mocha/bin/_mocha",
+      "env": {
+        "CHAI_JEST_SNAPSHOT_UPDATE_ALL": "true"
+      }
+    }
+  ]
+}
