@@ -1,7 +1,0 @@
-{
-  "spec_files": [
-    "*.spec.js"
-  ],
-  "spec_dir": "spec",
-  "jsLoader": "import"
-}
