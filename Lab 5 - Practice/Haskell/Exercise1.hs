@@ -1,4 +1,4 @@
-module Exercice1 where
+module Exercise1 where
 import           Data.List
 import           MultiplicationTable
 import           Mutation
