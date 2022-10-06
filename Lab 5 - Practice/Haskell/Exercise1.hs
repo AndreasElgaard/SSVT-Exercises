@@ -73,7 +73,7 @@ customTail []       = []
 customTail (x : xs) = xs
 
 
-
+-- Helper funcition to get tail
 checkMonad :: Maybe Bool -> Maybe Bool -> Bool
 checkMonad (Just True) (Just True) = True
 checkMonad x y = False
