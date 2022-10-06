@@ -14,16 +14,15 @@ import Exercise1
 -- =================================== IMPLEMENTATION ===================================
 mutatorsTemp = [addElements, removeElements, multiplyByAListOfInts , multiplyElements , changeOrder , addForModulus , totallyRandom , changeRandomElement ]
 props = [prop_firstElementIsInput ]
-temp = generate $ minimalSubsets 10 mutatorsTemp props multiplicationTable
+temp = generate $ minimalSubsets 10000 mutatorsTemp props multiplicationTable
 
 
-porcentageOfKills:: Gen [[Integer]] -> Gen [Integer]
-porcentageOfKills survivors = do 
+porcentageOfKills:: Integer -> Gen [[Integer]] -> Gen [Integer]
+porcentageOfKills numMutants survivors = do 
      listOfSurvivors <- survivors
      let sumOfSurvivors = map sum listOfSurvivors 
-     let lengthMutators = length sumOfSurvivors
-     let finalNumber =  finalNumber * toInteger lengthMutators
-     return (map (div 100) sumOfSurvivors)
+     let finalNumber =  map (*100) sumOfSurvivors
+     return (map (div numMutants) finalNumber)
 
 
 
