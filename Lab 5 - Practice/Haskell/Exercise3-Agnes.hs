@@ -30,7 +30,7 @@ import Exercise1
 -- minimalSubsets = propertyAxis
 
 -- numMutants listMutators listproperties function
-minimalSubsets:: Integer -> [[Integer] -> Gen [Integer]]  -> [[Integer] -> Integer -> Bool] -> (Integer -> [Integer]) -> Gen [[Integer]]
+minimalSubsets:: Integer -> [[Integer] -> Gen [Integer]]  -> [[Integer] -> Integer -> Bool] -> (Integer -> [Integer]) -> Gen [[Bool]]
 minimalSubsets _ _ [] _ = return []
 minimalSubsets numMutants listMutants (p:props) f = do
     mutants <- mutantsPropertyAxis numMutants listMutants p f
@@ -38,14 +38,40 @@ minimalSubsets numMutants listMutants (p:props) f = do
     return(mutants : propAxis)
 
 
-mutantsPropertyAxis:: Integer -> [[Integer] -> Gen [Integer]] -> ([Integer] -> Integer -> Bool) -> (Integer -> [Integer]) -> Gen [Integer]
+mutantsPropertyAxis:: Integer -> [[Integer] -> Gen [Integer]] -> ([Integer] -> Integer -> Bool) -> (Integer -> [Integer]) -> Gen [Bool]
 mutantsPropertyAxis _ [] _ _ = return []
 
 mutantsPropertyAxis numMutants (x:xs) property f = do
     survivorsCount <- countSurvivors numMutants x [property] f
-    let boolCountCheck = (if survivorsCount > 0 then 1 else 0)
+    let boolCountCheck = (if survivorsCount > 0 then True else False)
     tailListOfInt <- mutantsPropertyAxis numMutants xs property f
     return (boolCountCheck : tailListOfInt)
+
+zipResult= do
+   minList <- minimalSubsets 1 [addElements, removeElements, multiplyByAListOfInts , multiplyElements , changeOrder , addForModulus , totallyRandom , changeRandomElement ] [prop_firstElementIsInput , prop_linear , prop_moduloIsZero , prop_sumIsTriangleNumberTimesInput , prop_tenElements ] multiplicationTable
+   let lengthP = length minList
+   let (firstP:secondP:thirdP:fourthP:fifthP:[]) =  minList
+--    let x =
+--    let zipped = map (\n -> all (== True) n) (subsequences minList)
+   let subseqs = subsequences minList
+   let ssss = map () subseqs
+   return ssss
+
+checker1 :: [[Bool]] -> Bool
+checker1 [] = False
+checker1 (x:y:xs)
+    | length x == 1 = all (== False) x
+    | otherwise =  all (== False) processed && (checker1 processed:xs) ---- Check here for fuck up
+        where processed = (map (\(left,right) -> left || right) zipped)
+              zipped = zip x y
+checker1 (x:y) = all (== False) processed
+        where processed = map (\(left,right) -> left || right) zipped
+              zipped = zip x y
+--    return (length firstP, length secondP, length thirdP, length fourthP, length fifthP)
+-- combinationCheck (x:xs) index = do
+
+-- check (x:xs) counter =
+--     !!
 
 -- minimalSubsets:: Integer -> [([Integer] -> Integer -> Bool)] -> (Integer -> [Integer]) -> Integer
 -- minimalSubsets numMutants props = goThroughAllPermutations 0 combinationOfProperties numMutants
