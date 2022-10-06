@@ -1,6 +1,7 @@
 module MultiplicationTable where
 import Test.QuickCheck
 import Data.List
+import Mutation
 
 multiplicationTable :: Integer -> [Integer]
 multiplicationTable x = map (*x) [1..10]
@@ -29,6 +30,7 @@ prop_moduloIsZero o i = i /= 0 --> all (\v -> v `mod` i == 0) o
 infix 1 -->
 (-->) :: Bool -> Bool -> Bool
 p --> q = not p || q
+
 
 multiplicationTableProps :: [[Integer] -> Integer -> Bool]
 multiplicationTableProps = [prop_tenElements, prop_firstElementIsInput, prop_sumIsTriangleNumberTimesInput, prop_linear, prop_moduloIsZero]
