@@ -13,10 +13,17 @@ import Exercise1
 
 -- =================================== IMPLEMENTATION ===================================
 mutatorsTemp = [addElements, removeElements, multiplyByAListOfInts , multiplyElements , changeOrder , addForModulus , totallyRandom , changeRandomElement ]
-props = [prop_firstElementIsInput ]
-temp = generate $ minimalSubsets 10 mutatorsTemp props multiplicationTable
+props = [prop_firstElementIsInput , prop_linear , prop_moduloIsZero , prop_sumIsTriangleNumberTimesInput , prop_tenElements ]
+-- temp = minimalSubsets 10 mutatorsTemp props multiplicationTable
 
-addNumbers = do  
+porcentageOfKills:: Integer -> Gen [[Integer]] -> Gen [Integer]
+porcentageOfKills mutations survivors = do 
+     listOfSurvivors <- survivors
+     let sumOfSurvivors = map sum listOfSurvivors 
+     let lengthMutators = length sumOfSurvivors
+     let finalNumber =  100 * toInteger lengthMutators
+     return (map (div finalNumber) sumOfSurvivors)
+
 
 -- =================================== HELPERS ===================================
   -- numMutants listMutators listproperties function
