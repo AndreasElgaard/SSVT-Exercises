@@ -22,8 +22,8 @@ porcentageOfKills survivors = do
      listOfSurvivors <- survivors
      let sumOfSurvivors = map sum listOfSurvivors 
      let lengthMutators = length sumOfSurvivors
-     let finalNumber =  100 * toInteger lengthMutators
-     return (map (div finalNumber) sumOfSurvivors)
+     let finalNumber =  finalNumber * toInteger lengthMutators
+     return (map (div 100) sumOfSurvivors)
 
 
 
