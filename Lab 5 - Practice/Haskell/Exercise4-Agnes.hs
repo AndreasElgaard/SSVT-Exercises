@@ -21,11 +21,14 @@ porcentageOfKills:: Integer -> Gen [[Integer]] -> Gen [Integer]
 porcentageOfKills numMutants survivors = do 
      listOfSurvivors <- survivors
      let sumOfSurvivors = map sum listOfSurvivors 
-     let finalNumber =  map (*100) sumOfSurvivors
-     return (map (div numMutants) finalNumber)
+     let lengthMutators = toInteger (length sumOfSurvivors)
+     let total = lengthMutators * numMutants
+     let multiply = map (*100) sumOfSurvivors
+     let finalNumber =  map (`div` total) multiply
+     return finalNumber
 
 
-
+-- CHANGE CODE FROM EXERCISE 3!!!! IT RETURNS ONE MORE MUTANT PROCESS!!!
 -- =================================== HELPERS ===================================
   -- numMutants listMutators listproperties function
 minimalSubsets:: Integer -> [[Integer] -> Gen [Integer]] -> [[Integer] -> Integer -> Bool] -> (Integer -> [Integer]) -> Gen [[Integer]]
