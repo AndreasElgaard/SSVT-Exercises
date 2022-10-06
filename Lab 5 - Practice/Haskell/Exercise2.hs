@@ -1,10 +1,10 @@
 module Exercise2 where
 
-import Exercise1
-import GhcPlugins
-import MultiplicationTable
-import Mutation
-import Test.QuickCheck
+import           Exercise1
+import           GhcPlugins
+import           MultiplicationTable
+import           Mutation
+import           Test.QuickCheck
 
 -- Time spend: x minutes --
 
@@ -24,11 +24,7 @@ createMutatedSurvivorsList
     -> [[Integer] -> Integer -> Bool]
     -> (Integer -> [Integer])
     -> [Gen Bool]
-createMutatedSurvivorsList 0 mutator properties fut = [mutationResult]
-  where
-    mutationResult = evaluateMutations mutator properties fut inputNumber
-    inputNumber    = 20
-
+createMutatedSurvivorsList 0        mutator properties fut = []
 createMutatedSurvivorsList mutantNo mutator properties fut = do
     evaluateMutations mutator properties fut inputNumber
         : createMutatedSurvivorsList (mutantNo - 1) mutator properties fut
@@ -53,8 +49,8 @@ evaluateMutations
     -> Integer
     -> Gen Bool
 evaluateMutations mutator props fut inputNumber = do
-    mutatedValue           <- mutate' mutator props fut inputNumber
-    return(all (== True) mutatedValue)
+    mutatedValue <- mutate' mutator props fut inputNumber
+    return (all (== True) mutatedValue)
 
 -- evaluateMutations
 --     :: Eq a
@@ -79,26 +75,42 @@ checkMonadComp x           y           = Just False
 
 -- Function that returns a list of properties
 properties :: [[Integer] -> Integer -> Bool]
-properties = [prop_firstElementIsInput, prop_tenElements, prop_sumIsTriangleNumberTimesInput, prop_linear , prop_moduloIsZero]
+properties =
+    [ prop_firstElementIsInput
+    , prop_tenElements
+    , prop_sumIsTriangleNumberTimesInput
+    , prop_linear
+    , prop_moduloIsZero
+    ]
 
 -- =================================== TEST ===================================
 -- Counting survivors in addElements mutator
-countSurviviorsInAddElements = generate $ countSurvivors 4000 addElements properties multiplicationTable
+countSurviviorsInAddElements =
+    generate $ countSurvivors 4000 addElements properties multiplicationTable
 
 -- Counting survivors in removeElements mutator
-countSurviviorsInRemoveElements = generate $ countSurvivors 4000 removeElements properties multiplicationTable
+countSurviviorsInRemoveElements =
+    generate $ countSurvivors 4000 removeElements properties multiplicationTable
 
 -- Counting survivors in changeOrder mutator
-countSurviviorsInChangeOrder = generate $ countSurvivors 4000 changeOrder properties multiplicationTable
+countSurviviorsInChangeOrder =
+    generate $ countSurvivors 4000 changeOrder properties multiplicationTable
 
 -- Counting survivors in multiplyElements mutator
-countSurviviorsInMultiplyElements = generate $ countSurvivors 4000 multiplyElements properties multiplicationTable
+countSurviviorsInMultiplyElements = generate
+    $ countSurvivors 4000 multiplyElements properties multiplicationTable
 
 -- Counting survivors in multiplyByAListOfInts mutator
-countSurviviorsInMultiplyByAListOfInts = generate $ countSurvivors 4000 multiplyByAListOfInts properties multiplicationTable
+countSurviviorsInMultiplyByAListOfInts = generate $ countSurvivors
+    4000
+    multiplyByAListOfInts
+    properties
+    multiplicationTable
 
 -- Counting survivors in addForModulus mutator
-countSurviviorsInAddForModulus = generate $ countSurvivors 4000 addForModulus properties multiplicationTable
+countSurviviorsInAddForModulus =
+    generate $ countSurvivors 4000 addForModulus properties multiplicationTable
 
 -- Counting survivors in changeRandomElement mutator
-countSurviviorsInChangeRandomElement = generate $ countSurvivors 4000 changeRandomElement properties multiplicationTable
+countSurviviorsInChangeRandomElement = generate
+    $ countSurvivors 4000 changeRandomElement properties multiplicationTable
