@@ -4,10 +4,9 @@ import           MultiplicationTable
 import           Mutation
 import           Test.QuickCheck
 
-test = generate $ sequence $ take 20 $ repeat $ mutate removeElements
-                                                       prop_tenElements
-                                                       multiplicationTable
-                                                       1
+test = generate $ sequence $ replicate
+    20
+    (mutate removeElements prop_tenElements multiplicationTable 1)
 
 
 multiplyElements :: [Integer] -> Gen [Integer]
@@ -38,10 +37,12 @@ changeRandomElement xs = do
     let tailOf          = customTail second
     return (first ++ [num] ++ tailOf)
 
--- totallyRandom xs = do
---     endOfList <- (abs <$> arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 100))
---     takeAmount <- (abs <$> arbitrary :: Gen Integer) `suchThat` (\x -> (x<= 20))
---     test <- choose (takeAmount,  [1..endOfList])
+-- Generates a completely random list of integers
+-- This mutator is very weak because it caters for a very large set of
+totallyRandom :: [Integer] -> Gen [Integer]
+totallyRandom xs = do
+    arbitrary :: Gen [Integer]
+
 customTail :: [a] -> [a]
 customTail []       = []
 customTail (x : xs) = xs
