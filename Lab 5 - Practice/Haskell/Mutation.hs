@@ -2,7 +2,6 @@ module Mutation where
 import           Data.List
 import           Data.Maybe
 import           Debug.Trace
-import           MultiplicationTable
 import           Test.QuickCheck
 
 -- Applies a mutator to a property and function under test, then returns whether the mutant is killed (Just False), whether it lives (Just True), or that the mutant did not change the output (Nothing)
