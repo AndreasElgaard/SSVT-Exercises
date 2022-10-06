@@ -53,9 +53,12 @@ addForModulus xs = do
 -- 5. Randomly Generated Integer List
 -- This is the weakest mutator as it generates a totally random list that may cater for a large set of outputs.
 -- The rationale of this mutator relates to checking if tests can pass with an compeltely random set
+-- NOTE: Since the 'prop_firstElementIsInput' property uses the head function, a complete random list cannot be generated
+--  since head does not support blank lists (runtime error) such a finding reveals the property is not fully type safe beecause
+--  a blank list could not be handled by such a property
 totallyRandom :: [Integer] -> Gen [Integer]
 totallyRandom xs = do
-    arbitrary :: Gen [Integer]
+    (arbitrary :: Gen [Integer]) `suchThat` (not . null)
 
 -- Extra mutator
 -- Replaces one element random element in the list with a random nunmber

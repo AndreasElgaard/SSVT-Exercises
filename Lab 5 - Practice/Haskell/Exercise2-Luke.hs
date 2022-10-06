@@ -1,7 +1,6 @@
 module Exercise2 where
 
 import           Exercise1
-import           GhcPlugins                     ( trueDataCon )
 import           MultiplicationTable
 import           Mutation
 import           Test.QuickCheck
