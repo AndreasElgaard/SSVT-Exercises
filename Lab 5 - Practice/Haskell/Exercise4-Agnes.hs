@@ -17,6 +17,7 @@ props = [prop_firstElementIsInput ]
 temp = generate $ minimalSubsets 10000 mutatorsTemp props multiplicationTable
 
 
+-- returns a list of the porcentages per property [%prop1,%prop2,...]
 porcentageOfKills:: Integer -> Gen [[Integer]] -> Gen [Integer]
 porcentageOfKills numMutants survivors = do 
      listOfSurvivors <- survivors
@@ -26,6 +27,9 @@ porcentageOfKills numMutants survivors = do
      let multiply = map (*100) sumOfSurvivors
      let finalNumber =  map (`div` total) multiply
      return finalNumber
+
+
+
 
 
 -- CHANGE CODE FROM EXERCISE 3!!!! IT RETURNS ONE MORE MUTANT PROCESS!!!
