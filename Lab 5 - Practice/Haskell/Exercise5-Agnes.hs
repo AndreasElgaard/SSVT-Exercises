@@ -21,11 +21,13 @@ porcentageOfKills numMutants survivors = do
      let implication = implication listOfSurvivors
      return finalNumber
 
+
+
 -- right now it-s just comparing if the lists are the same, but i should do two recursions.
 implication::[[Integer]] -> [[Integer]]
 implication  _ _ [] = []
 implication (s:s2:survivors) 
-    | s == s2 = [s1:s2]: implication (s2:survivors)
+    | zip s s2 = [s1:s2]: implication (s2:survivors)
     | otherwise implication (s2:survivors)
 
 checkConj [] = []
