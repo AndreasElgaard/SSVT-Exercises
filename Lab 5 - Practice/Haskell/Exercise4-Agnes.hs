@@ -56,9 +56,10 @@ porcentageOfKills numMutants survivors = do
      return finalNumber
 
 
---
+-- If you want to exectue this:
 
-
+-- exercise3function = minimalSubsets 10 [addElements, removeElements, multiplyByAListOfInts , multiplyElements , changeOrder , addForModulus , totallyRandom , changeRandomElement ] [prop_firstElementIsInput , prop_linear , prop_moduloIsZero , prop_sumIsTriangleNumberTimesInput , prop_tenElements ] multiplicationTable
+-- generate $ porcentageOfKills 10 exercise3function
 
 
 

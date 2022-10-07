@@ -15,14 +15,18 @@ conjectures numMutants listMutants (p:props) f = do
     return(mutants : propAxis)
 
 
-mutantsPropertyAxis:: Integer -> [[Integer] -> Gen [Integer]] -> ([Integer] -> Integer -> Bool) -> (Integer -> [Integer]) -> Gen [Bool]
-mutantsPropertyAxis _ [] _ _ = return []
+porcentageOfKills:: Integer -> Gen [[Integer]] -> Gen [Integer]
+porcentageOfKills numMutants survivors = do 
+     listOfSurvivors <- survivors
+     let implication = implication listOfSurvivors
+     return finalNumber
 
-mutantsPropertyAxis numMutants (x:xs) property f = do
-    survivorsCount <- countSurvivors numMutants x [property] f
-    let boolCountCheck = survivorsCount > 0
-    tailListOfInt <- mutantsPropertyAxis numMutants xs property f
-    return (boolCountCheck : tailListOfInt)
+-- right now it-s just comparing if the lists are the same, but i should do two recursions.
+implication::[[Integer]] -> [[Integer]]
+implication  _ _ [] = []
+implication (s:s2:survivors) 
+    | s == s2 = [s1:s2]: implication (s2:survivors)
+    | otherwise implication (s2:survivors)
 
 checkConj [] = []
 checkConj (x:xs) = do
