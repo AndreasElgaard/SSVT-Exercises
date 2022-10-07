@@ -6,6 +6,7 @@ import           Mutation
 import           Test.QuickCheck
 import Exercise2
 import Exercise1
+import Data.Bool (bool)
 
 
 
@@ -30,7 +31,7 @@ import Exercise1
 -- minimalSubsets = propertyAxis
 
 -- numMutants listMutators listproperties function
-minimalSubsets:: Integer -> [[Integer] -> Gen [Integer]]  -> [[Integer] -> Integer -> Bool] -> (Integer -> [Integer]) -> Gen [[Bool]]
+minimalSubsets:: Integer -> [[Integer] -> Gen [Integer]]  -> [(String, [Integer] -> Integer -> Bool)] -> (Integer -> [Integer]) -> Gen [(String, [Bool])]
 minimalSubsets _ _ [] _ = return []
 minimalSubsets numMutants listMutants (p:props) f = do
     mutants <- mutantsPropertyAxis numMutants listMutants p f
@@ -38,38 +39,39 @@ minimalSubsets numMutants listMutants (p:props) f = do
     return(mutants : propAxis)
 
 
-mutantsPropertyAxis:: Integer -> [[Integer] -> Gen [Integer]] -> ([Integer] -> Integer -> Bool) -> (Integer -> [Integer]) -> Gen [Bool]
-mutantsPropertyAxis _ [] _ _ = return []
-mutantsPropertyAxis numMutants (x:xs) property f = do
+mutantsPropertyAxis:: Integer -> [[Integer] -> Gen [Integer]] -> (String, ([Integer] -> Integer -> Bool)) -> (Integer -> [Integer]) -> Gen (String, [Bool])
+mutantsPropertyAxis _ [] (name, property) _ = return (name, [])
+mutantsPropertyAxis numMutants (x:xs) (name, property) f = do
     survivorsCount <- countSurvivors numMutants x [property] f
     let boolCountCheck = survivorsCount > 0
-    tailListOfInt <- mutantsPropertyAxis numMutants xs property f
-    return (boolCountCheck : tailListOfInt)
+    (name, tailListOfInt) <- mutantsPropertyAxis numMutants xs (name, property) f
+    return (name, (boolCountCheck : tailListOfInt))
 
-zipResult :: Gen [Bool]
-zipResult= do
-   minList <- minimalSubsets 1 [addElements, removeElements, multiplyByAListOfInts , multiplyElements , changeOrder , addForModulus , totallyRandom , changeRandomElement ] [prop_firstElementIsInput , prop_linear , prop_moduloIsZero , prop_sumIsTriangleNumberTimesInput , prop_tenElements ] multiplicationTable
-   let lengthP = length minList
-   let (firstP:secondP:thirdP:fourthP:fifthP:[]) =  minList
-   let subseqs = subsequences minList
-   let ssss = map checker subseqs
-   return ssss
-
-checker :: [[Bool]] -> Bool
-checker [] = False
-checker (x:y:xs)
-    | length x == 1 = all (== False) x
-    | otherwise =  all (== False) processed && checker (processed:xs)
-        where processed = map (\(left,right) -> left || right) zipped
+checker :: [(String, [Bool])] -> (String, Bool)
+checker [] = ("", True)
+checker ((nameX, x):(nameY, y):xs)
+    | length x == 1 = (nameX, all (== False) x)
+    | otherwise =  (setOfPropName, all (== False) processed && boolVal)
+        where (_, boolVal) = checker ((setOfPropName,processed):xs)
+              setOfPropName = nameX ++ ", " ++ nameY
+              processed = map (\(left,right) -> left && right) zipped
               zipped = zip x y
-checker (x:y)
-    | null y = False
-    | otherwise =  all (== False) processed
-        where processed = map (\(left,right) -> left || right) zipped
+checker ((nameX, x):y)
+    | null y = ("", True)
+    | otherwise =  (setOfPropName, all (== False) processed)
+        where setOfPropName = nameX ++ ", " ++ nameY
+              processed = map (\(left,right) -> left && right) zipped
               zipped = zip x headOfY
-              headOfY = head y
+              (nameY, headOfY) = head y
 
-
+zipResult= do
+   let propsList = [("prop_firstElementIsInput", prop_firstElementIsInput) , ("prop_linear", prop_linear) , ("prop_moduloIsZero", prop_moduloIsZero) , ("prop_sumIsTriangleNumberTimesInput", prop_sumIsTriangleNumberTimesInput) , ("prop_tenElements", prop_tenElements) ]
+   let mutatorList = [addElements, removeElements, multiplyByAListOfInts , multiplyElements , changeOrder , addForModulus , totallyRandom , changeRandomElement ]
+   minList <- minimalSubsets 1 mutatorList propsList multiplicationTable
+   let lengthP = length minList
+   let subseqs = subsequences minList
+   let ssss = filter (\(name,boolRes) -> boolRes && name /= "") (map checker subseqs)
+   return ssss
 
 --    return (length firstP, length secondP, length thirdP, length fourthP, length fifthP)
 -- combinationCheck (x:xs) index = do
