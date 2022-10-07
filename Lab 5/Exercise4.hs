@@ -71,8 +71,6 @@ porcentageOfKills numMutants survivors = do
 
 -- =================================== PREVIOUS CODE ===================================
 
-  -- CHANGE CODE FROM EXERCISE 3!!!! IT RETURNS ONE MORE MUTANT PROCESS!!!
-
 
   -- numMutants listMutators listproperties function
 minimalSubsets:: Integer -> [[Integer] -> Gen [Integer]] -> [[Integer] -> Integer -> Bool] -> (Integer -> [Integer]) -> Gen [[Integer]]
