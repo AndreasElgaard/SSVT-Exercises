@@ -40,33 +40,37 @@ minimalSubsets numMutants listMutants (p:props) f = do
 
 mutantsPropertyAxis:: Integer -> [[Integer] -> Gen [Integer]] -> ([Integer] -> Integer -> Bool) -> (Integer -> [Integer]) -> Gen [Bool]
 mutantsPropertyAxis _ [] _ _ = return []
-
 mutantsPropertyAxis numMutants (x:xs) property f = do
     survivorsCount <- countSurvivors numMutants x [property] f
-    let boolCountCheck = (if survivorsCount > 0 then True else False)
+    let boolCountCheck = survivorsCount > 0
     tailListOfInt <- mutantsPropertyAxis numMutants xs property f
     return (boolCountCheck : tailListOfInt)
 
+zipResult :: Gen [Bool]
 zipResult= do
    minList <- minimalSubsets 1 [addElements, removeElements, multiplyByAListOfInts , multiplyElements , changeOrder , addForModulus , totallyRandom , changeRandomElement ] [prop_firstElementIsInput , prop_linear , prop_moduloIsZero , prop_sumIsTriangleNumberTimesInput , prop_tenElements ] multiplicationTable
    let lengthP = length minList
    let (firstP:secondP:thirdP:fourthP:fifthP:[]) =  minList
---    let x =
---    let zipped = map (\n -> all (== True) n) (subsequences minList)
    let subseqs = subsequences minList
-   let ssss = map () subseqs
+   let ssss = map checker subseqs
    return ssss
 
-checker1 :: [[Bool]] -> Bool
-checker1 [] = False
-checker1 (x:y:xs)
+checker :: [[Bool]] -> Bool
+checker [] = False
+checker (x:y:xs)
     | length x == 1 = all (== False) x
-    | otherwise =  all (== False) processed && (checker1 processed:xs) ---- Check here for fuck up
-        where processed = (map (\(left,right) -> left || right) zipped)
-              zipped = zip x y
-checker1 (x:y) = all (== False) processed
+    | otherwise =  all (== False) processed && checker (processed:xs)
         where processed = map (\(left,right) -> left || right) zipped
               zipped = zip x y
+checker (x:y)
+    | null y = False
+    | otherwise =  all (== False) processed
+        where processed = map (\(left,right) -> left || right) zipped
+              zipped = zip x headOfY
+              headOfY = head y
+
+
+
 --    return (length firstP, length secondP, length thirdP, length fourthP, length fifthP)
 -- combinationCheck (x:xs) index = do
 
