@@ -9,7 +9,6 @@ import           Test.QuickCheck
 
 -- Time spend: 300 minutes --
 
-
 -- Documentation of the approach:
 --  Integer -> [([Integer] -> Integer -> Bool)] -> (Integer -> [Integer])
     -- num mutants - list of properties - function under test (multiplication)

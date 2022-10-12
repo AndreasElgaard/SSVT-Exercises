@@ -96,22 +96,27 @@ properties =
 
 -- =================================== TEST ===================================
 -- Counting survivors in addElements mutator
+countSurviviorsInAddElements :: IO Integer
 countSurviviorsInAddElements =
     generate $ countSurvivors 4000 addElements properties multiplicationTable
 
 -- Counting survivors in removeElements mutator
+countSurviviorsInRemoveElements :: IO Integer
 countSurviviorsInRemoveElements =
     generate $ countSurvivors 4000 removeElements properties multiplicationTable
 
 -- Counting survivors in changeOrder mutator
+countSurviviorsInChangeOrder :: IO Integer
 countSurviviorsInChangeOrder =
     generate $ countSurvivors 4000 changeOrder properties multiplicationTable
 
 -- Counting survivors in multiplyElements mutator
+countSurviviorsInMultiplyElements :: IO Integer
 countSurviviorsInMultiplyElements = generate
     $ countSurvivors 4000 multiplyElements properties multiplicationTable
 
 -- Counting survivors in multiplyByAListOfInts mutator
+countSurviviorsInMultiplyByAListOfInts :: IO Integer
 countSurviviorsInMultiplyByAListOfInts = generate $ countSurvivors
     4000
     multiplyByAListOfInts
@@ -119,9 +124,11 @@ countSurviviorsInMultiplyByAListOfInts = generate $ countSurvivors
     multiplicationTable
 
 -- Counting survivors in addForModulus mutator
+countSurviviorsInAddForModulus :: IO Integer
 countSurviviorsInAddForModulus =
     generate $ countSurvivors 4000 addForModulus properties multiplicationTable
 
 -- Counting survivors in changeRandomElement mutator
+countSurviviorsInChangeRandomElement :: IO Integer
 countSurviviorsInChangeRandomElement = generate
     $ countSurvivors 4000 changeRandomElement properties multiplicationTable

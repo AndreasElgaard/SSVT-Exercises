@@ -5,9 +5,9 @@ import           MultiplicationTable
 import           Mutation
 import           Test.QuickCheck
 
-test = generate $ sequence $ replicate
-    20
-    (mutate removeElements prop_tenElements multiplicationTable 1)
+-- test = generate $ sequence $ replicate
+--     20
+--     (mutate removeElements prop_tenElements multiplicationTable 1)
 
 -- Time spend: 150 minutes --
 
