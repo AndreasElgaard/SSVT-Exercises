@@ -1,8 +1,8 @@
 module Exercise1 where
 import System.Random ( randomRIO )
 import SetOrd ( Set(..) )
-import Test.QuickCheck ( Arbitrary(arbitrary), Gen )
-import Data.List(nub)
+import Test.QuickCheck ( Arbitrary(arbitrary), Gen, generate )
+import Data.List(nub, sort)
 
 -- Time Spents: 120 mins.... longer then I would like to admit lol
 -- ================== Generator From Scratch ================= --
@@ -10,13 +10,14 @@ import Data.List(nub)
 -- 1. This generator uses randomRIO to generate the length of the list, the maximum lenght of the list is 20 in this case
 -- 2. A random number is generated in each iteration, if the number already exists in the list a new number is generated.
 -- 3. The number is added to the output list
+-- 4. The list is also sorted to comply with sets
 -- To test the generator call 'generateRandomList'
 -- Note: The random numbers are generated from the range of -200 to 200, this range is arbitrary and can be changed as needed
 generateRandomList :: IO (Set Int)
 generateRandomList = do
     length <- randomRIO (0,20) -- Length of the output array
     newSet <- generateWCounter length []
-    return (Set newSet)
+    return (Set (sort newSet))
 
 -- Generates a unique number and appends it to the list, pattern matched for all different possiblities of the counter and the output list
 generateWCounter :: Int -> [Int] ->  IO [Int]
@@ -47,4 +48,7 @@ isInElem False inNum outList = do return inNum
 -- ================ QUICKCHECK Generator ==================--
 -- Generates a list of number using QuickCheck generators and applies it to the Set datatype, using nub to only accept unique numbers
 generateSets :: Gen (Set Int)
-generateSets = (arbitrary :: Gen [Int]) >>= \x -> return $ Set (nub x)
+generateSets = (arbitrary :: Gen [Int]) >>= \x -> return $ Set (sort(nub x))
+
+
+
