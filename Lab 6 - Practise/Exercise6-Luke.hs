@@ -9,6 +9,7 @@ import Test.QuickCheck
 
 -- Time Spent: 60 mins
 
+-- =================================== TEST SYMMETRIC CLOSURE ===================================
 -- Ref to https://www.geeksforgeeks.org/mathematics-closure-relations-equivalence-relations
 -- Closure of Relations section
 -- We want to test that our symmetric closure implementatio  in ex 3 works by the following test:
