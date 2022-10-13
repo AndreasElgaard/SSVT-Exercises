@@ -35,11 +35,21 @@ prop_checkLength (Set domain) relation = lengthDomain >= lengthRelationSet
 findLengthSet []       = 0
 findLengthSet (x : xs) = 1 + findLengthSet xs
 
+generateRel :: Gen [(Int, Int)]
+generateRel = (arbitrary :: Gen [(Int, Int)]) >>= \x -> return $  sort(nub x)
+
+createSetFromRel :: Gen ([(Int, Int)], Set Int)
+createSetFromRel = do
+   rels <- generateRel
+   let setsFromRel = Set (sort (nub (concatMap (\(x,y) -> [x,y]) rels)))
+   return (rels, setsFromRel)
+
+-- genSetAndRels =
 
 -- ======================= Test Report ============================
 
 main :: IO ()
 main = do
   putStrLn "\n=== Testing Union w the generator ===\n"
-
+  quickCheck $ forAll createSetFromRel $ \(rels, sets) -> prop_checkRelationValuesSubsetsDomainSet sets rels
     -- C
