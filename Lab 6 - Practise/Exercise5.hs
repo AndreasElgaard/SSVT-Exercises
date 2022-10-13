@@ -1,18 +1,26 @@
 module Exercise5 where
 
-import Exercise3 ( Rel )
+import Exercise3
 import Data.List(nub, elemIndex)
+import Test.QuickCheck
 
 infixr 5 @@
 (@@) :: Eq a => Rel a -> Rel a -> Rel a
 r @@ s =
   nub [ (x,z) | (x,y) <- r, (w,z) <- s, y == w ]
 
-
 trClos :: Eq a => Rel a -> Rel a
-trClos = iterateWIndex 0
+trClos rels = nub (iterateWIndex 0 rels)
 
--- findAndReplaceInList inTuple fullList =
+
+-- fix :: (a -> a) -> a
+-- fix f = f (fix f)
+-- infixl 1 $$
+
+-- ($$) :: a -> (a -> b) -> b
+-- ($$) = flip ($)
+-- test :: Rel a -> Rel a
+-- test rels = (0, rels, []) $$ fix (\ f (counter, relList,outPut) -> if (counter+1) == length then outPut else f (counter+1, tail relList, (relList !! counter) @@ relList))
 
 iterateWIndex :: Eq a => Int -> Rel a -> Rel a
 iterateWIndex counter [] = []
@@ -20,15 +28,15 @@ iterateWIndex counter xy@(x:xs)
   | (counter + 1) == length xy = checkTuple' xy
   | otherwise =  checkTuple' xy ++ iterateWIndex (counter+1) (move (counter+1) xy)
 
-
 checkTuple' :: Eq a => Rel a -> Rel a
 checkTuple' [] = []
 checkTuple' ((x1,x2):(y1,y2):xs)
-  | x2 == y1 = (x1,y2) : checkTuple' ((x1,x2):xs)
+  | x2 == y1 = (x1,x2): (x1,y2) : checkTuple' ((x1,x2):xs) ++ checkTuple' ((x1,y2):xs)
+  | not (any (\(a,b) -> a == x2) xs) =  [(x1,x2)]
   | otherwise = checkTuple' ((x1,x2):xs)
 checkTuple' ((x1,x2):xs)
   | null xs = []
-  | x2 == y1 = (x1,y2) : checkTuple' ((x1,x2):[])
+  | x2 == y1 = (x1,x2): (x1,y2) : checkTuple' ((x1,x2):[])
   | otherwise = checkTuple' ((x1,x2):[])
       where (y1,y2) = head xs
 
@@ -36,3 +44,4 @@ checkTuple' ((x1,x2):xs)
 move :: Int -> [a] -> [a]
 move n as = head ts : (hs ++ tail ts)
    where (hs, ts) = splitAt n as
+
