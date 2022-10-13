@@ -10,7 +10,7 @@ r @@ s =
 
 
 trClos :: Eq a => Rel a -> Rel a
-trClos = iterateWIndex 0
+trClos rels = nub (iterateWIndex 0 rels)
 
 -- findAndReplaceInList inTuple fullList =
 
@@ -20,15 +20,15 @@ iterateWIndex counter xy@(x:xs)
   | (counter + 1) == length xy = checkTuple' xy
   | otherwise =  checkTuple' xy ++ iterateWIndex (counter+1) (move (counter+1) xy)
 
-
 checkTuple' :: Eq a => Rel a -> Rel a
 checkTuple' [] = []
 checkTuple' ((x1,x2):(y1,y2):xs)
-  | x2 == y1 = (x1,y2) : checkTuple' ((x1,x2):xs)
+  | x2 == y1 = (x1,x2): (x1,y2) : checkTuple' ((x1,x2):xs) ++ checkTuple' ((x1,y2):xs)
+  | not (any (\(a,b) -> a == x2) xs) =  [(x1,x2)]
   | otherwise = checkTuple' ((x1,x2):xs)
 checkTuple' ((x1,x2):xs)
   | null xs = []
-  | x2 == y1 = (x1,y2) : checkTuple' ((x1,x2):[])
+  | x2 == y1 = (x1,x2): (x1,y2) : checkTuple' ((x1,x2):[])
   | otherwise = checkTuple' ((x1,x2):[])
       where (y1,y2) = head xs
 
