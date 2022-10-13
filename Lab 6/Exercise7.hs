@@ -15,10 +15,16 @@ import Test.QuickCheck
 -- To do this we can define a function that checks if the output of symClos and trClos is the same.
 -- The property will only test one relation example: [(1,2),(2,3),(3,4),(4,5)]
 -- It would however be possible to auto generate relations using quickCheck, however this would not be very useful since only one counter example is needed to falsify the statement.
+
 relation = [(1, 2), (2, 3), (3, 4)]
 
 prop_checkTrClosEqualSymClos :: Bool
 prop_checkTrClosEqualSymClos = (trClos (symClos relation)) /= (symClos (trClos relation))
+
+-- If the relation [(1, 2), (2, 3), (3, 4)] is used symClos (trClos relation) is equalt to:
+-- [(1,2),(2,1),(1,3),(3,1),(1,4),(4,1),(2,3),(3,2),(2,4),(4,2),(3,4),(4,3)]
+-- and trClos (symClos relation) is equal to
+-- [(1,2),(1,1),(1,3),(1,4),(2,1),(2,2),(2,3),(2,4),(3,2),(3,3),(3,1),(3,4),(4,3),(4,4),(4,2),(4,1)]
 
 -- The property expects that the two operations does not return the same, and the quickCheck test passes.
 -- It can therefore be concluded that it is not true that
