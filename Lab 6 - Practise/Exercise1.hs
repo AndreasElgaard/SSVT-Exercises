@@ -49,6 +49,3 @@ isInElem False inNum outList = do return inNum
 -- Generates a list of number using QuickCheck generators and applies it to the Set datatype, using nub to only accept unique numbers
 generateSets :: Gen (Set Int)
 generateSets = (arbitrary :: Gen [Int]) >>= \x -> return $ Set (sort(nub x))
-
-
-

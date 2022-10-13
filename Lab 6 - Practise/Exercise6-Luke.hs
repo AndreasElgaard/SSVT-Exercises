@@ -36,3 +36,5 @@ prop_checkValiditySymClosure :: Ord a => Rel a -> Bool
 prop_checkValiditySymClosure r = symClos r == symCloseUnion r
 
 -- To do: Quickcheck implementation
+generateRels :: Gen [(Int, Int)]
+generateRels = (arbitrary :: Gen [(Int,Int)])
