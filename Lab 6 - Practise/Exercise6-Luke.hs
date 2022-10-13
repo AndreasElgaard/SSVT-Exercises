@@ -41,19 +41,33 @@ prop_checkValiditySymClosure r = symClos r == symCloseUnion r
 -- To do: Quickcheck implementation
 
 -- =================================== TEST TRANSITIVE CLOSURE ===================================
--- Property that checks that for every pair in relation R,
-prop_trClos :: Rel Int -> Bool
-prop_trClos = undefined
+-- Property that checks that for trClose takes fixed input and returns expected output
+prop_trClosReturnExpectedOutput :: Bool
+prop_trClosReturnExpectedOutput = trClos inputRelation == trOutput
+
+-- Property that checks if output have any duplicates
+prop_trClosHasNoDuplicates :: Bool
+prop_trClosHasNoDuplicates = trClos inputRelationDuplicate == nub (trClos inputRelationDuplicate)
 
 -- =================================== TEST REPORT ===================================
 main :: IO Result
 main = do
-  putStrLn "\n=== Testing property for transitive closure ===\n"
-  quickCheckResult (prop_trClos $ trClos relation)
+  putStrLn "\n=== Testing property for transitive closure returns expected output ===\n"
+  quickCheckResult prop_trClosReturnExpectedOutput
+
+  putStrLn "\n=== Testing that output of transtive closure does not have any duplicates ===\n"
+  quickCheckResult prop_trClosHasNoDuplicates
 
 -- =================================== HELPERS ===================================
 -- Generator that generates random relations
 generateRels :: Gen [(Int, Int)]
 generateRels = (arbitrary :: Gen [(Int, Int)])
 
-relation = [(1, 2), (2, 3), (3, 4)]
+inputRelation :: [(Integer, Integer)]
+inputRelation = [(1, 2), (2, 3), (3, 4)]
+
+inputRelationDuplicate :: [(Integer, Integer)]
+inputRelationDuplicate = [(1, 2), (1, 2), (2, 3), (3, 4)]
+
+trOutput :: [(Integer, Integer)]
+trOutput = [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
