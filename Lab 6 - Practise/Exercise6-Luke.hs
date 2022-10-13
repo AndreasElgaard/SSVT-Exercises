@@ -3,6 +3,7 @@ module Exercise6 where
 import Data.List
 import Data.Tuple
 import Exercise3
+import Exercise5
 import SetOrd
 import Test.QuickCheck
 
@@ -40,5 +41,19 @@ prop_checkValiditySymClosure r = symClos r == symCloseUnion r
 -- To do: Quickcheck implementation
 
 -- =================================== TEST TRANSITIVE CLOSURE ===================================
+-- Property that checks that for every pair in relation R,
+prop_trClos :: Rel Int -> Bool
+prop_trClos = undefined
+
+-- =================================== TEST REPORT ===================================
+main :: IO Result
+main = do
+  putStrLn "\n=== Testing property for transitive closure ===\n"
+  quickCheckResult (prop_trClos $ trClos relation)
+
+-- =================================== HELPERS ===================================
+-- Generator that generates random relations
 generateRels :: Gen [(Int, Int)]
 generateRels = (arbitrary :: Gen [(Int, Int)])
+
+relation = [(1, 2), (2, 3), (3, 4)]
