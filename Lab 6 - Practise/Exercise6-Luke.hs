@@ -1,9 +1,10 @@
 module Exercise6 where
-import           Data.List
-import           Data.Tuple
-import           Exercise3
-import           SetOrd
-import           Test.QuickCheck
+
+import Data.List
+import Data.Tuple
+import Exercise3
+import SetOrd
+import Test.QuickCheck
 
 -- Time Spent: 60 mins
 
@@ -17,14 +18,15 @@ import           Test.QuickCheck
 
 -- Implementation of a Union function on RELATIONS. Similar concept to unionSet provided.
 unionRel :: (Ord a) => Rel a -> Rel a -> Rel a
-unionRel []       rel2 = sort rel2
+unionRel [] rel2 = sort rel2
 unionRel (x : xs) rel2 = sort $ insertRel x (unionRel xs rel2)
 
 insertRel :: (Ord a) => (a, a) -> [(a, a)] -> [(a, a)]
 insertRel = insertList
 
-insertList x y | x `elem` y = y
-               | otherwise  = x : y
+insertList x y
+  | x `elem` y = y
+  | otherwise = x : y
 
 -- Union of R with R^{-1} -- def. of Symmetric Closure
 symCloseUnion :: Ord a => Rel a -> Rel a
@@ -36,5 +38,7 @@ prop_checkValiditySymClosure :: Ord a => Rel a -> Bool
 prop_checkValiditySymClosure r = symClos r == symCloseUnion r
 
 -- To do: Quickcheck implementation
+
+-- =================================== TEST TRANSITIVE CLOSURE ===================================
 generateRels :: Gen [(Int, Int)]
-generateRels = (arbitrary :: Gen [(Int,Int)])
+generateRels = (arbitrary :: Gen [(Int, Int)])
