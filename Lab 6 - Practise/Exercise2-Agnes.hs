@@ -9,6 +9,10 @@ import Exercise1
 
 -- Time Spents: 120 mins
 
+-- TO DO: 
+--      - Documentation
+--      - Some more proeprties maybe
+
 -- ======================= IMPLEMENTATION ============================
 
 setUnion ::  Ord a => Set a -> Set a -> Set a
