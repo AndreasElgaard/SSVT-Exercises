@@ -50,6 +50,14 @@ prop_trClosReturnExpectedOutput = trClos inputRelation == trOutput
 prop_trClosHasNoDuplicates :: Bool
 prop_trClosHasNoDuplicates = trClos inputRelationDuplicate == nub (trClos inputRelationDuplicate)
 
+-- working on it
+prop_unionTrans ::  Ord a => Rel a -> Bool
+prop_unionTrans relation =  relation == tripleR
+  where 
+    doubleR = unionRel relation relation
+    tripleR = unionRel doubleR relation
+  
+
 -- =================================== TEST REPORT ===================================
 main :: IO Result
 main = do
