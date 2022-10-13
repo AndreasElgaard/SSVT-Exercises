@@ -1,18 +1,23 @@
 module Exercise5 where
 
-import Exercise3 ( Rel )
+import Exercise3
 import Data.List(nub, elemIndex)
+import Test.QuickCheck
 
 infixr 5 @@
 (@@) :: Eq a => Rel a -> Rel a -> Rel a
 r @@ s =
   nub [ (x,z) | (x,y) <- r, (w,z) <- s, y == w ]
 
-
 trClos :: Eq a => Rel a -> Rel a
 trClos rels = nub (iterateWIndex 0 rels)
 
--- findAndReplaceInList inTuple fullList =
+
+fix :: (a -> a) -> a
+fix f = f (fix f)
+
+test :: (Integer, Integer, Integer) -> Integer
+test = fix (\ f (x,y,k) -> if k == 0 then x else f (y,x+y,k-1))
 
 iterateWIndex :: Eq a => Int -> Rel a -> Rel a
 iterateWIndex counter [] = []
@@ -36,3 +41,4 @@ checkTuple' ((x1,x2):xs)
 move :: Int -> [a] -> [a]
 move n as = head ts : (hs ++ tail ts)
    where (hs, ts) = splitAt n as
+
