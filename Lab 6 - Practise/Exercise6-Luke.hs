@@ -50,7 +50,7 @@ prop_trClosReturnExpectedOutput = trClos inputRelation == trOutput
 prop_trClosHasNoDuplicates :: Bool
 prop_trClosHasNoDuplicates = trClos inputRelationDuplicate == nub (trClos inputRelationDuplicate)
 
--- working on it
+-- this is wrong because unionRel is not compsing R to R. Not R2, just R
 prop_unionTrans ::  Ord a => Rel a -> Bool
 prop_unionTrans relation =  relation == tripleR
   where 
