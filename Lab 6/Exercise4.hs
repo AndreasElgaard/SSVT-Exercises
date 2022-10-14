@@ -7,6 +7,8 @@ import           Test.QuickCheck
 
 type Rel a = [(a, a)]
 
+-- Time Spent: 180 mins (total grp effort)
+
 -- Assumption: A relation R is serial on a domain A if for ALL x ∈ A there is an y ∈ A such that xRy.
 -- This differs from spec in Lab6 in the sense that serial rel implies for ALL x, not for any x.
 -- As per: https://en.wikipedia.org/wiki/Serial_relation
