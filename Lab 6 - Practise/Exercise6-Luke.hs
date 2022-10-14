@@ -50,12 +50,16 @@ prop_trClosReturnExpectedOutput = trClos inputRelation == trOutput
 prop_trClosHasNoDuplicates :: Bool
 prop_trClosHasNoDuplicates = trClos inputRelationDuplicate == nub (trClos inputRelationDuplicate)
 
--- this is wrong because unionRel is not compsing R to R. Not R2, just R
-prop_unionTrans ::  Ord a => Rel a -> Bool
-prop_unionTrans relation =  relation == tripleR
-  where
-    doubleR = unionRel relation relation
-    tripleR = unionRel doubleR relation
+-- Property that checks the definiton of transitive closure. The infinite n times of
+-- Union of R(i) with R^R(i), until R(n) = R(n-1)
+prop_trClosDefinition :: Bool
+prop_trClosDefinition = findEqual 0 inputRelation inputRelation
+
+findEqual:: Ord a => Rel a -> Rel a -> Rel a -> Bool
+findEqual previous present r
+  | previous == present = True
+  | otherwise = findEqual (composeR previous r) (composeR present r) r
+
 
 composeR :: (Num a1, Eq a1, Eq a2) => [(a2, a2)] -> [(a2, a2)] -> a1 -> a1
 composeR r1 r2 counter
