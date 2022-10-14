@@ -62,6 +62,7 @@ prop_trClosDefinition r = composeR r r 0
 
 
 composeR :: Eq a => Rel a -> Rel a -> Int -> Bool
+composeR [] [] counter = False
 composeR r1 [] counter = False
 composeR r1 r2 counter
   | counter == 0 = composeR r1 newr2 (counter+1)
