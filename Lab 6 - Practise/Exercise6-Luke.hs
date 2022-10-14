@@ -62,6 +62,7 @@ findEqual previous present r
 
 
 composeR :: Eq a => Rel a -> Rel a -> Int -> Rel a
+composeR r1 [] counter = r1
 composeR r1 r2 counter
   | counter == 0 = composeR r1 newr2 (counter+1)
   | r1 == r2 = r1
