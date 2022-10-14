@@ -50,6 +50,34 @@ prop_trClosReturnExpectedOutput = trClos inputRelation == trOutput
 prop_trClosHasNoDuplicates :: Bool
 prop_trClosHasNoDuplicates = trClos inputRelationDuplicate == nub (trClos inputRelationDuplicate)
 
+-- Property that checks the definiton of transitive closure. The infinite n times of
+-- Union of R(i) with R^R(i), until R(n) = R(n-1)
+-- Now, we will force a specific relation, so we will have one prop for true and for false.
+
+-- We use a relation which will have true
+prop_trClosTrue :: Bool
+prop_trClosTrue
+  | composeR r r 0 == 1000 = False
+  | otherwise = True
+  where
+    r = inputTrans
+
+-- We choose a relation which will have False.
+prop_trClosFalse :: Bool
+prop_trClosFalse
+  | composeR r r 0 == 1000 = True
+  | otherwise = False
+  where
+    r = inputRelation
+
+
+composeR :: Eq a => Rel a -> Rel a -> Int -> Int
+composeR r1 r2 counter
+  | counter == 1000 = 1000
+  | counter == 0 = composeR r1 newr2 (counter+1)
+  | r1 == r2 = counter
+  | otherwise = composeR r1 newr2 (counter+1)
+  where newr2 = concatMap (\(x,y) -> concatMap (\(x2, y2) -> [(x,y2) | y == x2]) r1) r2
 
 
 -- =================================== TEST REPORT ===================================
@@ -61,6 +89,12 @@ main = do
   putStrLn "\n=== Testing that output of transtive closure does not have any duplicates ===\n"
   quickCheckResult prop_trClosHasNoDuplicates
 
+  putStrLn "\n=== Testing that the transtive closure definition is true ===\n"
+  quickCheckResult prop_trClosTrue
+
+  putStrLn "\n=== Testing that the transtive closure definition is false ===\n"
+  quickCheckResult prop_trClosFalse
+
 -- =================================== HELPERS ===================================
 -- Generator that generates random relations
 generateRels :: Gen [(Int, Int)]
@@ -71,6 +105,9 @@ inputRelation = [(1, 2), (2, 3), (3, 4)]
 
 inputRelationDuplicate :: [(Integer, Integer)]
 inputRelationDuplicate = [(1, 2), (1, 2), (2, 3), (3, 4)]
+
+inputTrans:: [(Integer, Integer)]
+inputTrans = [(1,1),(1,4),(2,1),(2,4),(3,1),(3,4)]
 
 trOutput :: [(Integer, Integer)]
 trOutput = [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
