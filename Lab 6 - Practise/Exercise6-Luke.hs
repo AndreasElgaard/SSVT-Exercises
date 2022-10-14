@@ -58,7 +58,7 @@ prop_trClosDefinition = findEqual 0 inputRelation inputRelation
 findEqual:: Ord a => Rel a -> Rel a -> Rel a -> Bool
 findEqual previous present r
   | previous == present = True
-  | otherwise = findEqual (composeR previous r) (composeR present r) r
+  | otherwise = findEqual (composeR previous r 0) (composeR present r 0) r
 
 
 composeR :: (Num a1, Eq a1, Eq a2) => [(a2, a2)] -> [(a2, a2)] -> a1 -> a1
