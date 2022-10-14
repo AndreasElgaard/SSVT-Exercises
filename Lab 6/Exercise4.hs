@@ -7,6 +7,8 @@ import           Test.QuickCheck
 
 type Rel a = [(a, a)]
 
+-- Time Spent: 180 mins (total grp effort)
+
 -- Assumption: A relation R is serial on a domain A if for ALL x ∈ A there is an y ∈ A such that xRy.
 -- This differs from spec in Lab6 in the sense that serial rel implies for ALL x, not for any x.
 -- As per: https://en.wikipedia.org/wiki/Serial_relation
@@ -74,6 +76,9 @@ createSetFromRel = do
 
 -- We can test to verify whether R is serial by verifying both properties defined above hold for
 -- relation R on set A.
+
+-- This can be proved by verifying that, if for n = k, remainder could not be grater than n - 1,
+-- then for n+1, it should hold that remainder cannot be greater than n (i.e. k).
 
 
 -- ======================= Test Report ============================

@@ -53,11 +53,16 @@ prop_trClosHasNoDuplicates = trClos inputRelationDuplicate == nub (trClos inputR
 -- this is wrong because unionRel is not compsing R to R. Not R2, just R
 prop_unionTrans ::  Ord a => Rel a -> Bool
 prop_unionTrans relation =  relation == tripleR
-  where 
+  where
     doubleR = unionRel relation relation
     tripleR = unionRel doubleR relation
-  
 
+composeR :: (Num a1, Eq a1, Eq a2) => [(a2, a2)] -> [(a2, a2)] -> a1 -> a1
+composeR r1 r2 counter
+  | counter == 0 = composeR r1 newr2 (counter+1)
+  | r1 == r2 = counter
+  | otherwise = composeR r1 newr2 (counter+1)
+  where newr2 = concatMap (\(x,y) -> concatMap (\(x2, y2) -> [(x,y2) | y == x2]) r1) r2
 -- =================================== TEST REPORT ===================================
 main :: IO Result
 main = do
