@@ -75,6 +75,9 @@ createSetFromRel = do
 -- We can test to verify whether R is serial by verifying both properties defined above hold for
 -- relation R on set A.
 
+-- This can be proved by verifying that, if for n = k, remainder could not be grater than n - 1,
+-- then for n+1, it should hold that remainder cannot be greater than n (i.e. k).
+
 
 -- ======================= Test Report ============================
 
