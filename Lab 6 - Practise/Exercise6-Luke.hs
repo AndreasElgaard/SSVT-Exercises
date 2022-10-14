@@ -53,7 +53,7 @@ prop_trClosHasNoDuplicates = trClos inputRelationDuplicate == nub (trClos inputR
 -- Property that checks the definiton of transitive closure. The infinite n times of
 -- Union of R(i) with R^R(i), until R(n) = R(n-1)
 prop_trClosDefinition :: Ord a => Rel a -> Bool
-prop_trClosDefinition r = findEqual r r r
+prop_trClosDefinition r = findEqual r (composeR r r 0) r
 
 findEqual:: Ord a => Rel a -> Rel a -> Rel a -> Bool
 findEqual previous present r
@@ -61,10 +61,10 @@ findEqual previous present r
   | otherwise = findEqual (composeR previous r 0) (composeR present r 0) r
 
 
-composeR :: Eq a => Rel a -> Rel a -> Int -> Int
+composeR :: Eq a => Rel a -> Rel a -> Int -> Rel a
 composeR r1 r2 counter
   | counter == 0 = composeR r1 newr2 (counter+1)
-  | r1 == r2 = counter
+  | r1 == r2 = r1
   | otherwise = composeR r1 newr2 (counter+1)
   where newr2 = concatMap (\(x,y) -> concatMap (\(x2, y2) -> [(x,y2) | y == x2]) r1) r2
 -- =================================== TEST REPORT ===================================
