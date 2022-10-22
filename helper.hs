@@ -1,4 +1,5 @@
-
+import           Data.List
+import           Test.QuickCheck
 infix 1 -->
 
 (-->) :: Bool -> Bool -> Bool
@@ -23,6 +24,9 @@ isTransitive x = and [ (a, d) `elem` x | (a, b) <- x, (c, d) <- x, b == c ]
 
 isReflexive :: Eq a => Rel a -> [a] -> Bool
 isReflexive r = all (\x -> (x, x) `elem` r)
+
+isQuasiReflexive :: Eq a => Rel a -> Bool
+isQuasiReflexive r = and [ (x, x) `elem` r && (y, y) `elem` r | (x, y) <- r ]
 
 isIrreflexive :: Eq a => Rel a -> [a] -> Bool
 isIrreflexive r = not . any (\x -> (x, x) `elem` r)
@@ -55,3 +59,13 @@ inverseRel = map (\(x, y) -> (y, x))
 
 inverseCompose :: Eq a => Rel a -> Rel a
 inverseCompose r = compose r inv where inv = inverseRel r
+
+
+generateRel :: Gen (Rel Int)
+generateRel =
+  (arbitrary :: Gen (Rel Int))
+    `suchThat` (\x -> length x > 2 && isReflexive x [0 .. 10])
+    -- >>=        \x -> return $ sort (nub x)
+
+prop_isQuasi :: Rel Int -> Bool
+prop_isQuasi = isQuasiReflexive
