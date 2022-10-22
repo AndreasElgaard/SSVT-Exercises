@@ -42,7 +42,7 @@ isSymmetric = not . isAntisymmetric
 
 corona1 :: Num a => a -> a -> a -> Int -> a
 corona1 r s x0 t = iterate ((s +) . (r *)) x0 !! t
-corona2 :: (Fractional a, Integral b) => a -> a -> a -> b -> a
+-- corona2 :: (Fractional a, Integral b) => a -> a -> a -> b -> a
 corona2 r s x0 t = (r ^ t - 1) / (r - 1) * s + r ^ t * x0
 corona3 :: (Num a, Integral b) => a -> a -> a -> b -> a
 corona3 r s x0 t = foldr (-) x0 [ s + r ^ d * x0 | d <- [0 .. t] ]
