@@ -9,7 +9,7 @@ forall = flip all
 
 hoareTest :: (a -> Bool) -> (a -> a) -> (a -> Bool) -> [a] -> Bool
 hoareTest precondition f postcondition =
-    all (\x -> precondition x --> postcondition (f x))
+  all (\x -> precondition x --> postcondition (f x))
 
 
 stronger, weaker :: [a] -> (a -> Bool) -> (a -> Bool) -> Bool
@@ -25,7 +25,7 @@ isReflexive :: Eq a => Rel a -> [a] -> Bool
 isReflexive r = all (\x -> (x, x) `elem` r)
 
 isIrreflexive :: Eq a => Rel a -> [a] -> Bool
-isIrreflexive r = not . any  (\x -> (x, x) `elem` r)
+isIrreflexive r = not . any (\x -> (x, x) `elem` r)
 
 isAntisymmetric :: Eq a => Rel a -> Bool
 isAntisymmetric r = and [ (y, x) `notElem` r || x == y | (x, y) <- r ]
@@ -39,13 +39,19 @@ isAsymmetric r d = isIrreflexive r d && isAntisymmetric r
 isEquivalent :: Eq a => Rel a -> [a] -> Bool
 isEquivalent r d = isReflexive r d && isSymmetric r && isTransitive r
 
-isLinear :: Eq a =>  Rel a -> Bool
-isLinear r =  or [ (x, y) `elem` r || (y, x) `elem` r || x == y | (x, y) <- r ]
+isLinear :: Eq a => Rel a -> Bool
+isLinear r = or [ (x, y) `elem` r || (y, x) `elem` r || x == y | (x, y) <- r ]
 
-composeR :: Eq a => Rel a -> Rel a -> Int -> Int
-composeR r1 r2 counter
-  | counter == 1000 = 1000
-  | counter == 0 = composeR r1 newr2 (counter+1)
-  | r1 == r2 = counter
-  | otherwise = composeR r1 newr2 (counter+1)
-  where newr2 = concatMap (\(x,y) -> concatMap (\(x2, y2) -> [(x,y2) | y == x2]) r1) r2
+compose :: Eq a => Rel a -> Rel a -> Rel a
+compose r1 r2 =
+  concatMap (\(x, y) -> concatMap (\(x2, y2) -> [ (x, y2) | y == x2 ]) r2) r1
+
+squareCompose :: Eq a => Rel a -> Rel a
+squareCompose r =
+  concatMap (\(x, y) -> concatMap (\(x2, y2) -> [ (x, y2) | y == x2 ]) r) r
+
+inverseRel :: Rel a -> Rel a
+inverseRel = map (\(x, y) -> (y, x))
+
+inverseCompose :: Eq a => Rel a -> Rel a
+inverseCompose r = compose r inv where inv = inverseRel r
