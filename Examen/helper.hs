@@ -88,10 +88,42 @@ generateQReflexiveRel = do
   let newDomain = newAddition : domain
   return (reflexiveR, newDomain)
 
+-- quickCheck $ forAll generateEZTransitiveRel prop_isTransitive
+generateEZTransitiveRel :: Gen [(Int, Int)]
+generateEZTransitiveRel = do
+  x <- chooseInt (1, 10000)
+  y <- chooseInt (1, 10000)
+  z <- chooseInt (1, 10000)
+  let firstTuple  = (x, y)
+  let secondTuple = (y, z)
+  let thirdTuple  = (x, z)
+  return [firstTuple, secondTuple, thirdTuple]
+
+generateSymmetricRel :: Gen [(Int, Int)]
+generateSymmetricRel = do
+  length         <- chooseInt (1, 30)
+  randomRelation <- vectorOf length genRandomTuple
+  return (addSymmetric randomRelation randomRelation)
+
+addSymmetric :: [(Int, Int)] -> [(Int, Int)] -> [(Int, Int)]
+addSymmetric [] output = output
+addSymmetric ((x, y) : xs) output
+  | (y, x) `elem` output = addSymmetric xs output
+  | otherwise            = addSymmetric xs ((y, x) : output)
+
+prop_isTransitive :: Rel Int -> Bool
+prop_isTransitive = isTransitive
+
 genEqTuple :: Gen (Int, Int)
 genEqTuple = do
   i <- chooseInt (1, 20)
   return (i, i)
+
+genRandomTuple :: Gen (Int, Int)
+genRandomTuple = do
+  i <- chooseInt (1, 2000)
+  y <- chooseInt (1, 2000)
+  return (i, y)
 
 genEqTupleWI :: Rel Int -> Gen (Rel Int)
 genEqTupleWI randomRel = do
